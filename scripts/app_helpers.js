@@ -1,0 +1,117 @@
+// Coach Bertin V50.54 — Helpers applicatifs simples
+// Extraction prudente depuis app.js.
+// Ces fonctions ne portent pas la logique de charges, d'historique, de cycle ou de sync GitHub.
+
+function copy(o){return JSON.parse(JSON.stringify(o));}
+function $(id){return document.getElementById(id);}
+
+function findFirstStored(keys){
+  for(var i=0;i<keys.length;i++){
+    try{
+      var raw=localStorage.getItem(keys[i]);
+      if(raw)return {key:keys[i], raw:raw};
+    }catch(e){}
+  }
+  return null;
+}
+
+function nowIso(){try{return new Date().toISOString();}catch(e){return String(new Date());}}
+
+function round5(n){if(n===0)return 0;if(!n||isNaN(n))return null;return Math.round(n/5)*5;}
+function lb(n){var r=round5(n);return(r===0||r)?r+" lb":"—";}
+function parseLoad(v){if(v===0||v==="0")return 0;if(!v)return null;var m=String(v).replace(",",".").match(/[0-9]+(\.[0-9]+)?/);return m?Number(m[0]):null;}
+
+function normalizeChargeText(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function equipmentRuleForExercise(nameOrKey, loadText){
+  var rules=window.EQUIPMENT_LOAD_RULES||{};
+  var text=normalizeChargeText((nameOrKey||"")+" "+(loadText||""));
+  if(/\bkg\b/.test(text))return null;
+  function has(rule){return (rule&&rule.match||[]).some(function(x){return text.indexOf(normalizeChargeText(x))!==-1;});}
+  if(has(rules.cable))return rules.cable;
+  if(has(rules.band))return rules.band;
+  if(has(rules.dumbbell))return rules.dumbbell;
+  if(has(rules.barbell))return rules.barbell;
+  return null;
+}
+function roundToStep(n, step, mode){
+  n=Number(n)||0;step=Number(step)||5;if(n<=0)return 0;
+  if(mode==="down")return Math.floor(n/step)*step;
+  if(mode==="up")return Math.ceil(n/step)*step;
+  return Math.round(n/step)*step;
+}
+function roundToAvailableList(n, list, mode){
+  n=Number(n)||0;if(n<=0)return 0;if(!Array.isArray(list)||!list.length)return round5(n);
+  var sorted=list.map(Number).filter(function(x){return !isNaN(x);}).sort(function(a,b){return a-b;});
+  if(!sorted.length)return round5(n);
+  if(mode==="down"){
+    for(var d=sorted.length-1;d>=0;d--){if(sorted[d]<=n)return sorted[d];}
+    return sorted[0];
+  }
+  if(mode==="up"){
+    for(var u=0;u<sorted.length;u++){if(sorted[u]>=n)return sorted[u];}
+    return sorted[sorted.length-1];
+  }
+  var best=sorted[0], bestDiff=Math.abs(n-best);
+  sorted.forEach(function(v){var diff=Math.abs(n-v);if(diff<bestDiff||(diff===bestDiff&&v>best)){best=v;bestDiff=diff;}});
+  return best;
+}
+function roundLoadForExercise(nameOrKey, n, mode, loadText){
+  if(n===0)return 0;if(!n||isNaN(n))return null;
+  var rule=equipmentRuleForExercise(nameOrKey, loadText);
+  if(rule&&Array.isArray(rule.available)){
+    var numericList=rule.available.map(Number).filter(function(x){return !isNaN(x);});
+    if(numericList.length)return roundToAvailableList(n, numericList, mode||"nearest");
+    return n;
+  }
+  if(rule&&rule.step)return roundToStep(n, rule.step, mode||"nearest");
+  return round5(n);
+}
+function lbForExercise(nameOrKey, n, mode, loadText){
+  var r=roundLoadForExercise(nameOrKey,n,mode,loadText);return(r===0||r)?r+" lb":"—";
+}
+
+function displayLoadForEquipment(nameOrKey, loadText){
+  var raw=String(loadText||"").trim();
+  var n=parseLoad(raw);
+  if(n===null||n===undefined)return raw;
+  var rule=equipmentRuleForExercise(nameOrKey, raw);
+  if(!rule)return raw;
+  var rounded=roundLoadForExercise(nameOrKey, n, "nearest", raw);
+  if(rounded===null||rounded===undefined)return raw;
+  if(Number(rounded)!==Number(n))return rounded+" lb";
+  return raw;
+}
+function nextLoadForExercise(nameOrKey, current, direction, loadText){
+  var n=Number(current)||0;var dir=direction<0?-1:1;
+  var rule=equipmentRuleForExercise(nameOrKey, loadText);
+  if(rule&&Array.isArray(rule.available)){
+    var list=rule.available.map(Number).filter(function(x){return !isNaN(x);}).sort(function(a,b){return a-b;});
+    if(!list.length)return n;
+    if(dir>0){for(var i=0;i<list.length;i++){if(list[i]>n)return list[i];}return list[list.length-1];}
+    for(var j=list.length-1;j>=0;j--){if(list[j]<n)return list[j];}return 0;
+  }
+  var step=(rule&&rule.step)?Number(rule.step):5;
+  if(dir>0)return Math.max(0, (Math.floor(n/step)*step)+step);
+  return Math.max(0, (Math.ceil(n/step)*step)-step);
+}
+function equipmentStepLabelForExercise(nameOrKey, loadText){
+  var rule=equipmentRuleForExercise(nameOrKey, loadText);
+  if(!rule)return "arrondi 5 lb";
+  if(Array.isArray(rule.available)){
+    var hasNumeric=rule.available.some(function(x){return !isNaN(Number(x));});
+    if(hasNumeric)return "charges disponibles: "+rule.available.join(", ")+" lb";
+    return "tailles disponibles: "+rule.available.join(" → ");
+  }
+  return "incréments de "+rule.step+" lb";
+}
+
+function parseRestToSeconds(s){
+  var m=String(s||"").match(/(\d+):(\d+)/);if(!m)return 0;
+  return Number(m[1])*60+Number(m[2]);
+}
+function cleanLine(s){return String(s||"").replace(/\s+/g," ").trim();}
+
+function vibrate(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+
+function parseTimeToSeconds(t){var m=String(t||"").match(/(\d+)\s*min/);return m?Number(m[1])*60:0;}
+function formatClock(sec){sec=Math.max(0,Math.floor(sec||0));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
