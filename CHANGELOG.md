@@ -1,12 +1,20 @@
 # CHANGELOG — Coach Beurt
 
+## V51.19 — Timer WOD auto-fit strict
+
+- Correction du timer WOD en mode séance qui pouvait encore dépasser horizontalement sur iPhone.
+- Le calcul JS applique maintenant la taille avec priorité `!important`, car des règles CSS de versions précédentes pouvaient bloquer l'auto-fit.
+- La correction est ciblée sur le timer WOD de la vue séance seulement.
+- Aucun programme, aucune séance et aucune donnée durable modifiés.
+
+
 Toutes les modifications de version doivent être inscrites ici.
 
 Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUDIT_*`, `*_Vxx.xx.md/json/txt` ou autre document historique portant une version dans son nom. Les bilans de version vont dans ce fichier seulement.
 
 ---
 
-## V51.18 — Résultats For Time : choix complet 00:00–60:00
+## V51.19 — Résultats For Time : choix complet 00:00–60:00
 
 - Résultats For Time : remplacement de la plage courte par une liste complète de `00:00` à `60:00`.
 - Toutes les secondes sont disponibles dans la liste déroulante.

@@ -5541,3 +5541,34 @@ body.guided-session-active{
   .guided-card.kind-wod .guided-timer-display{ font-size:clamp(90px, 28vw, 156px) !important; }
   .guided-card.kind-wod .guided-timer-display.countdown{ font-size:clamp(104px, 34vw, 176px) !important; }
 }
+
+
+/* ═══════════════════════════════════════════
+   V51.19 — Vue séance WOD : timer auto-fit strict
+   - Le JS contrôle la taille réelle avec priorité !important.
+   - La boîte coupe tout débordement et réserve une marge droite iPhone.
+   - Ciblé uniquement sur le timer WOD de la vue séance.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-wod-timer{
+  overflow:hidden !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+  padding-left:7px !important;
+  padding-right:7px !important;
+}
+.guided-card.kind-wod .guided-timer-display{
+  box-sizing:border-box !important;
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+  letter-spacing:-.055em !important;
+  line-height:.82 !important;
+  font-size:clamp(86px, 26vw, 150px) !important;
+  margin:2px auto 8px !important;
+}
+.guided-card.kind-wod .guided-timer-display.countdown{
+  font-size:clamp(96px, 31vw, 168px) !important;
+}

@@ -1,6 +1,12 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.18
+## Dernière modification — V51.19
+### V51.19 — Correction ciblée
+
+- Timer WOD en mode séance : auto-fit strict pour empêcher le débordement horizontal sur iPhone.
+- Le JS applique `font-size` et `letter-spacing` avec priorité `!important` pour battre les anciennes règles CSS.
+- Aucun programme ni donnée durable modifié.
+
 
 - Résultats For Time : la liste déroulante couvre maintenant `00:00` à `60:00` avec toutes les secondes possibles.
 - L’objectif/cap détecté est présélectionné automatiquement.
@@ -16,7 +22,7 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.18
+- Version actuelle : V51.19
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -25,10 +31,10 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.18"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.18`.
-- `manifest.json` : `Coach Bertin V51.18`.
-- `service-worker.js` : `coach-bertin-v51-18-no-cache`.
+- `app.js` : `APP_VERSION = "V51.19"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.19`.
+- `manifest.json` : `Coach Bertin V51.19`.
+- `service-worker.js` : `coach-bertin-v51-19-no-cache`.
 
 ---
 
@@ -131,14 +137,14 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.18 sur DEV après import.
+1. Tester V51.19 sur DEV après import.
 2. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 3. Revalider la vue séance sur iPhone : WOD timer, boutons timer, boutons bas accessibles.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
 5. Garder un œil sur `app.js`, qui reste monolithique et sensible.
 6. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
 
-### V51.18 — Résultats For Time
+### V51.19 — Résultats For Time
 
 - Priorité : saisie des résultats For Time.
 - Liste déroulante complète de `00:00` à `60:00`, seconde par seconde.

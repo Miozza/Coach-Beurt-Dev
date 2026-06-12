@@ -4,7 +4,7 @@ Coach Beurt est une PWA personnelle d’entraînement en JavaScript vanilla, san
 
 ## État courant
 
-- Version : `V51.18`
+- Version : `V51.19`
 - Source courte de vérité : `ETAT_ACTUEL.md`
 - Historique des changements : `CHANGELOG.md`
 - Checklist de livraison : `RELEASE_CHECKLIST.md`
@@ -37,3 +37,6 @@ Ne jamais écraser sans demande explicite :
 - `tools/` : outils complémentaires hors UI.
 - `docs/` : documentation stable non versionnée.
 - `data/` : données/configuration. Les trois fichiers durables ne doivent pas être inclus dans les ZIP update.
+
+
+Note V51.19 : timer WOD auto-fit strict en vue séance iPhone.

@@ -409,9 +409,10 @@ function syncGuidedTimerButtons(){
   }
 }
 
-// V51.17 — WOD timer autofit.
-// But : garder le gros timer lisible, utiliser presque toute la largeur disponible,
-// sans déborder à droite sur iPhone. Ciblé seulement sur la carte WOD en mode séance.
+// V51.19 — WOD timer autofit strict.
+// But : prendre presque toute la largeur disponible sans jamais dépasser.
+// Important : les règles CSS précédentes utilisent !important, donc le JS doit
+// écrire font-size/letter-spacing avec la même priorité.
 function fitGuidedWodTimer(){
   var d=$("guidedTimerDisplay");
   if(!d) return;
@@ -423,23 +424,43 @@ function fitGuidedWodTimer(){
   // Ne pas reflow pendant un pinch zoom Safari : on garde le zoom natif.
   if(guidedViewportScale && guidedViewportScale()>1.02) return;
 
-  var available=Math.max(160, Math.floor(box.clientWidth - 18));
+  var cs=window.getComputedStyle ? window.getComputedStyle(box) : null;
+  var padLeft=cs ? parseFloat(cs.paddingLeft)||0 : 0;
+  var padRight=cs ? parseFloat(cs.paddingRight)||0 : 0;
+  // Marge de sécurité réelle : évite le clipping à droite sur iPhone/Safari.
+  var available=Math.max(120, Math.floor(box.clientWidth - padLeft - padRight - 16));
   var isCountdown=d.classList.contains("countdown");
-  var maxSize=isCountdown ? 188 : 168;
-  var minSize=isCountdown ? 92 : 82;
 
-  // Point de départ volontairement trop grand; on descend jusqu'à ce que ça rentre.
-  d.style.fontSize=maxSize+"px";
-  d.style.letterSpacing="-0.045em";
-
+  // Le timer part volontairement trop grand, puis descend jusqu'à rentrer.
+  var maxSize=isCountdown ? 196 : 178;
+  var minSize=isCountdown ? 82 : 72;
   var size=maxSize;
+
+  d.style.setProperty("box-sizing","border-box","important");
+  d.style.setProperty("display","block","important");
+  d.style.setProperty("width","100%","important");
+  d.style.setProperty("max-width","100%","important");
+  d.style.setProperty("overflow","hidden","important");
+  d.style.setProperty("white-space","nowrap","important");
+  d.style.setProperty("text-align","center","important");
+  d.style.setProperty("letter-spacing","-0.055em","important");
+  d.style.setProperty("font-size",size+"px","important");
+
+  // Force une mesure, puis réduit tant que le texte dépasse.
   while(size>minSize && d.scrollWidth>available){
     size-=2;
-    d.style.fontSize=size+"px";
+    d.style.setProperty("font-size",size+"px","important");
   }
 
-  // Si la largeur permet plus grand, le maxSize ci-dessus limite quand même la hauteur
-  // pour ne pas repousser les boutons du timer hors écran.
+  // Dernier garde-fou : si Safari mesure mal scrollWidth, on compare la boîte réelle.
+  var rect=d.getBoundingClientRect ? d.getBoundingClientRect() : null;
+  var guard=0;
+  while(rect && rect.width>available && size>minSize && guard<40){
+    size-=2;
+    d.style.setProperty("font-size",size+"px","important");
+    rect=d.getBoundingClientRect();
+    guard++;
+  }
 }
 function updateGuidedTimerDisplay(){
   var d=$("guidedTimerDisplay"); if(!d)return;
