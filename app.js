@@ -1,5 +1,5 @@
-// Coach Bertin V51.10
-var APP_VERSION = "V51.10";
+// Coach Bertin V51.11
+var APP_VERSION = "V51.11";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -1856,10 +1856,10 @@ function renderSyncStatusIndicator(){
   var st=readSyncStatus();
   var cls="sync-dot ";
   var text="sync";
-  if(st.state==="ok"){cls+="ok";text="● GitHub";}
-  else if(st.state==="error"){cls+="err";text="● GitHub";}
-  else if(st.state==="missing"){cls+="missing";text="○ GitHub";}
-  else{cls+="pending";text="◐ GitHub";}
+  if(st.state==="ok"){cls+="ok";text="●";}
+  else if(st.state==="error"){cls+="err";text="●";}
+  else if(st.state==="missing"){cls+="missing";text="○";}
+  else{cls+="pending";text="◐";}
   el.className=cls;
   el.textContent=text;
   var lastOk=syncDateLabel(st.lastOk);

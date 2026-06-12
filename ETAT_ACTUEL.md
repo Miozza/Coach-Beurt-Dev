@@ -10,8 +10,8 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle du ZIP : `V51.10`.
-- Date du document : 2026-06-11.
+- Version actuelle du ZIP : `V51.11`.
+- Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
 - Objectif macro déclaré : compétition CrossFit autour du `2027-01-15`.
@@ -19,10 +19,10 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.10"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.10`.
-- `manifest.json` : `Coach Bertin V51.10`.
-- `service-worker.js` : `coach-bertin-v51-10-no-cache`.
+- `app.js` : `APP_VERSION = "V51.11"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.11`.
+- `manifest.json` : `Coach Bertin V51.11`.
+- `service-worker.js` : `coach-bertin-v51-11-no-cache`.
 
 ---
 
@@ -115,7 +115,7 @@ Dossiers :
 - Résultats est séparé de PC.
 - PC reste une vue d’inspection/logistique, pas un Builder.
 - La section PC `Route` calcule la feuille de route vers janvier 2027.
-- L’indicateur sync GitHub doit rester discret mais visible.
+- L’indicateur sync GitHub est une pastille discrète, cliquable, sans gros badge texte.
 - Ne pas mélanger migration de données, refactor moteur et modification de programme dans la même release.
 - `app.js` reste le centre critique : charges, RPE, historique, sync, cycle, données.
 
@@ -125,10 +125,11 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.10 sur DEV après import.
-2. Valider que la sélection de cycle ne montre plus `Test`.
-3. Valider que Héritage 225 reste visible.
-4. Vérifier WOD+, Séance, Résultats, PC, Route, Export IA, sync GitHub.
-5. Garder un œil sur `app.js`, qui reste monolithique et sensible.
-6. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
-7. Améliorer plus tard l’export IA prévu/suggéré/réel/RPE/alertes/historique.
+1. Tester V51.11 sur DEV après import.
+2. Valider la vue séance sur iPhone : bloc 1 mouvement, bloc 3 mouvements, WOD timer, boutons bas accessibles.
+3. Valider que le résumé de séance est scrollable et que `Passer à Sx` / `Fermer` restent accessibles.
+4. Valider que la pastille GitHub est discrète et cliquable.
+5. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
+6. Garder un œil sur `app.js`, qui reste monolithique et sensible.
+7. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
+8. Améliorer plus tard l’export IA prévu/suggéré/réel/RPE/alertes/historique.

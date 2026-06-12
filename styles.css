@@ -5106,3 +5106,152 @@ body.guided-browser-zoom .guided-actions{
   .guided-ex-list:has(.guided-ex-card:nth-child(3)) .guided-step-row,
   .guided-ex-list:has(.guided-ex-card:nth-child(4)) .guided-step-row { grid-template-columns: 28px minmax(0, 1fr) 28px; }
 }
+
+
+/* ═══════════════════════════════════════════
+   V51.11 — Stabilisation ciblée séance iPhone + GitHub discret
+   - Vue séance seulement : meilleure hauteur utile, cartes scrollables, boutons accessibles.
+   - Résumé de séance : modale scrollable, bouton bas accessible.
+   - Topnav : témoin GitHub réduit à une pastille cliquable.
+   ═══════════════════════════════════════════ */
+:root{
+  --guided-action-h: 58px;
+}
+
+.sync-dot{
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  margin-left: 2px !important;
+  margin-right: 0 !important;
+  overflow: hidden !important;
+  color: transparent !important;
+  position: relative !important;
+  opacity: .86;
+}
+.sync-dot::before{
+  content: '◐';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: currentColor;
+}
+.sync-dot.ok::before{ content: '●'; color: #22c55e; }
+.sync-dot.err::before{ content: '●'; color: #ef4444; }
+.sync-dot.missing::before{ content: '○'; color: #f59e0b; }
+.sync-dot.pending::before{ content: '◐'; color: var(--cyan); }
+
+body.guided-session-active{
+  height: var(--guided-vh, 100dvh);
+  max-height: var(--guided-vh, 100dvh);
+  overflow: hidden !important;
+}
+.guided-session{
+  height: var(--guided-vh, 100dvh) !important;
+  min-height: var(--guided-vh, 100dvh) !important;
+  max-height: var(--guided-vh, 100dvh) !important;
+  padding-top: max(6px, env(safe-area-inset-top, 0px)) !important;
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
+  overflow: hidden !important;
+  overscroll-behavior: contain;
+}
+.guided-top,
+.guided-progress,
+.guided-actions{
+  flex: 0 0 auto;
+}
+.guided-card{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.guided-ex-list,
+.guided-step-list{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: 8px !important;
+  align-content: start;
+}
+.guided-ex-list:has(.guided-ex-card:nth-child(2)),
+.guided-ex-list:has(.guided-ex-card:nth-child(3)),
+.guided-ex-list:has(.guided-ex-card:nth-child(4)){
+  grid-template-rows: none !important;
+  grid-auto-rows: max-content !important;
+}
+.guided-ex-card,
+.guided-step-card{
+  overflow: visible !important;
+  min-height: auto !important;
+}
+.guided-ex-main{
+  min-height: 0 !important;
+}
+.guided-actions{
+  min-height: var(--guided-action-h);
+  padding: 4px 4px max(2px, env(safe-area-inset-bottom, 0px)) !important;
+  background: linear-gradient(180deg, rgba(4,6,15,0), rgba(4,6,15,.96) 28%);
+  z-index: 2;
+}
+.guided-btn{
+  min-height: 52px !important;
+}
+
+@media (max-width: 430px){
+  .guided-title{ font-size: clamp(24px, 6.8vw, 36px) !important; }
+  .guided-ex-title{ font-size: clamp(20px, 5.6vw, 30px) !important; }
+  .guided-ex-grid strong{ font-size: clamp(22px, 6.3vw, 36px) !important; }
+  .guided-ex-grid strong.accent{ font-size: clamp(24px, 6.9vw, 40px) !important; }
+  .guided-load-row{ grid-template-columns: 44px 1fr 44px; }
+  .guided-adj,
+  .guided-load-input{ min-height: 40px !important; }
+  .guided-step-btn,
+  .guided-mini-input{ min-height: 38px !important; }
+}
+
+@media (max-height: 760px){
+  .guided-session{ gap: 3px !important; }
+  .guided-title{ margin-bottom: 4px !important; }
+  .guided-tag{ margin-bottom: 3px !important; }
+  .guided-ex-card{ padding: 5px 6px !important; }
+  .guided-result-panel{ margin-top: 3px !important; }
+  .guided-actions{ min-height: 50px; }
+  .guided-btn{ min-height: 46px !important; }
+}
+
+.summary-modal{
+  align-items: flex-end;
+  padding-top: max(8px, env(safe-area-inset-top, 0px));
+}
+.summary-modal-inner{
+  max-height: calc(var(--guided-vh, 100dvh) - max(14px, env(safe-area-inset-top, 0px))) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.summary-lines{
+  padding-bottom: 4px;
+}
+#closeSummaryBtn,
+#advanceWeekBtn{
+  min-height: 52px;
+  scroll-margin-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+}

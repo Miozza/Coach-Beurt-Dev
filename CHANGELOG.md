@@ -6,6 +6,34 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
+## V51.11 — Stabilisation vue séance iPhone + témoin GitHub discret
+
+### Changements
+
+- Stabilisation ciblée de la vue séance guidée sur iPhone.
+- La vue séance utilise mieux la hauteur réelle disponible avec `--guided-vh` / `100dvh`.
+- Les cartes d’exercices deviennent scrollables à l’intérieur du bloc quand un giant set contient plusieurs mouvements.
+- Les boutons `Précédent` et `Bloc suivant` restent hors de la zone scrollable pour rester accessibles.
+- Le résumé de séance devient scrollable avec une hauteur maximale compatible iPhone et safe-area.
+- Le témoin GitHub de la topnav devient une petite pastille discrète au lieu d’un gros badge texte.
+- Mise à jour de version : `APP_VERSION`, `index.html`, cache-bust, `manifest.json`, `service-worker.js`, `ETAT_ACTUEL.md`.
+
+### Non modifié
+
+- Aucun programme d’entraînement protégé n’a été réécrit.
+- Aucune séance n’a été changée.
+- Aucun changement au moteur de charges.
+- Aucun changement à `data/charges.js`.
+- Aucune donnée durable modifiée.
+
+### Données durables exclues du ZIP update
+
+- `data/resultats.json`
+- `data/athlete_state.json`
+- `data/cycle_state.json`
+
+---
+
 ## V51.10 — Nettoyage documentaire et structure fixe
 
 ### Changements

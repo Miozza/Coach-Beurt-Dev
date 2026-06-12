@@ -4,7 +4,7 @@ Coach Beurt est une PWA personnelle d’entraînement en JavaScript vanilla, san
 
 ## État courant
 
-- Version : `V51.10`
+- Version : `V51.11`
 - Source courte de vérité : `ETAT_ACTUEL.md`
 - Historique des changements : `CHANGELOG.md`
 - Checklist de livraison : `RELEASE_CHECKLIST.md`
