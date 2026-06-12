@@ -1,5 +1,5 @@
-// Coach Bertin V51.13
-var APP_VERSION = "V51.13";
+// Coach Bertin V51.15
+var APP_VERSION = "V51.15";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -957,6 +957,14 @@ function parseWodStructure(text){
     var hadCal = !!isCal || /^cal\s+/i.test(n);
     n = n.replace(/^cal\s+/i,'').trim();
 
+    // En vue séance/résultats WOD, le nom du mouvement reste propre.
+    // La charge appartient aux consignes, pas au titre: "Wall Balls 14 lb" => "Wall Balls".
+    n = n
+      .replace(/\b(?:\d+(?:\.\d+)?\s*)?(?:lb|lbs|kg)\s*(?:\/\s*(?:main|hand|côté|side))?\b/ig,'')
+      .replace(/\b(?:light|léger|légers|légères|modéré|modérée|moderate|heavy|lourd|lourds|lourdes)\b/ig,'')
+      .replace(/\s+/g,' ')
+      .trim();
+
     if(hadCal){
       if(/^row\b/i.test(n)) return 'Cal Row';
       if(/^bike\b/i.test(n)) return 'Cal Bike';
@@ -1294,33 +1302,48 @@ function renderSessionEntry(){
         ? item.targetMin+" reps"
         : item.targetMin+"–"+item.targetMax+" reps";
 
+      var safeKey = escHtml(item.key);
+      var loadValue = escHtml(getGuidedResult(item.key,'load',suggestedDisplay));
+      var defaultReps = Math.round((item.targetMin + item.targetMax) / 2);
+      var currentReps = Number(getGuidedResult(item.key,'reps',defaultReps)) || defaultReps;
+      var currentRpe = Number(getGuidedResult(item.key,'rpe',8)) || 8;
+
       card.innerHTML=
         '<div class="sf-header">'+
           '<div class="sf-name">'+item.name+'</div>'+
           (suggestedNum?'<div class="sf-badge">'+suggestedNum+' lb · '+repLabel+'</div>':'')+
         '</div>'+
-        '<div class="sf-weight-row">'+
-          '<button type="button" class="sf-adj sf-adj-minus" data-key="'+item.key+'">−5</button>'+
-          '<div class="sf-weight-wrap">'+
-            '<span class="sf-weight-unit">lb</span>'+
-            '<input class="sf-input sf-weight-input" '+
-              'data-key="'+item.key+'" data-field="load" '+
-              'type="number" inputmode="decimal" '+
-              'value="'+escHtml(getGuidedResult(item.key,'load',suggestedDisplay))+'" '+
-              'placeholder="'+(suggestedNum||0)+'"/>'+
+        '<div class="results-step-control results-load-step">'+
+          '<span class="sf-label">POIDS</span>'+
+          '<div class="results-step-row results-load-row">'+
+            '<button type="button" class="results-step-btn minus" data-key="'+safeKey+'" data-exercise="'+escHtml(item.name||item.key)+'" data-results-step="load" data-step="-5">−</button>'+
+            '<div class="sf-weight-wrap">'+
+              '<span class="sf-weight-unit">lb</span>'+
+              '<input class="sf-input sf-weight-input" '+
+                'data-key="'+safeKey+'" data-field="load" '+
+                'type="number" inputmode="decimal" '+
+                'value="'+loadValue+'" '+
+                'placeholder="'+(suggestedNum||0)+'"/>'+
+            '</div>'+
+            '<button type="button" class="results-step-btn plus" data-key="'+safeKey+'" data-exercise="'+escHtml(item.name||item.key)+'" data-results-step="load" data-step="5">+</button>'+
           '</div>'+
-          '<button type="button" class="sf-adj sf-adj-plus" data-key="'+item.key+'">+5</button>'+
         '</div>'+
-        '<div class="sf-row-2col">'+
-          '<div class="sf-group">'+
+        '<div class="results-step-grid">'+
+          '<div class="results-step-control reps-step">'+
             '<span class="sf-label">REPS — cible '+repLabel+'</span>'+
-            '<div class="sf-chips" id="reps_'+item.key+'"></div>'+
-            '<input class="sf-input sf-reps-input" data-key="'+item.key+'" data-field="reps" type="number" inputmode="numeric" placeholder="reps" style="margin-top:6px"/>'+
+            '<div class="results-step-row">'+
+              '<button type="button" class="results-step-btn minus" data-key="'+safeKey+'" data-results-step="reps" data-step="-1" data-min="0">−</button>'+
+              '<input class="sf-input sf-reps-input results-mini-input" data-key="'+safeKey+'" data-field="reps" type="number" inputmode="numeric" min="0" step="1" value="'+escHtml(guidedNumberText(currentReps))+'"/>'+
+              '<button type="button" class="results-step-btn plus" data-key="'+safeKey+'" data-results-step="reps" data-step="1" data-min="0">+</button>'+
+            '</div>'+
           '</div>'+
-          '<div class="sf-group">'+
+          '<div class="results-step-control rpe-step">'+
             '<span class="sf-label">RPE</span>'+
-            '<div class="sf-chips" id="rpe_'+item.key+'"></div>'+
-            '<input class="sf-input sf-rpe-input" data-key="'+item.key+'" data-field="rpe" type="number" inputmode="decimal" min="1" max="10" step="0.5" placeholder="RPE" style="margin-top:6px"/>'+
+            '<div class="results-step-row">'+
+              '<button type="button" class="results-step-btn minus" data-key="'+safeKey+'" data-results-step="rpe" data-step="-0.5" data-min="1" data-max="10">−</button>'+
+              '<input class="sf-input sf-rpe-input results-mini-input" data-key="'+safeKey+'" data-field="rpe" type="number" inputmode="decimal" min="1" max="10" step="0.5" value="'+escHtml(guidedNumberText(currentRpe))+'"/>'+
+              '<button type="button" class="results-step-btn plus" data-key="'+safeKey+'" data-results-step="rpe" data-step="0.5" data-min="1" data-max="10">+</button>'+
+            '</div>'+
           '</div>'+
         '</div>';
     }
@@ -1328,79 +1351,40 @@ function renderSessionEntry(){
     container.appendChild(card);
 
     if(!item.isWod){
-      // ── Boutons -5 / +5 poids ──
-      var minus = card.querySelector('.sf-adj-minus');
-      var plus  = card.querySelector('.sf-adj-plus');
-      var loadInp = card.querySelector('.sf-weight-input');
-      if(minus&&plus&&loadInp){
-        minus.addEventListener('click',function(){
-          var v=parseLoad(loadInp.value)||parseLoad(item.suggested)||0;
-          loadInp.value=nextLoadForExercise(item.name||item.key, v, -1, item.suggested||item.load);
-          setGuidedResult(item.key,'load',loadInp.value);
-        });
-        plus.addEventListener('click',function(){
-          var v=parseLoad(loadInp.value)||parseLoad(item.suggested)||0;
-          loadInp.value=nextLoadForExercise(item.name||item.key, v, 1, item.suggested||item.load);
-          setGuidedResult(item.key,'load',loadInp.value);
-        });
-        loadInp.addEventListener('input',function(){ setGuidedResult(item.key,'load',loadInp.value); });
-        loadInp.addEventListener('change',function(){ setGuidedResult(item.key,'load',loadInp.value); });
+      // ── Résultats compacts : poids / reps / RPE en contrôles − valeur + ──
+      function syncResultField(field, value){
+        setGuidedResult(item.key, field, value);
       }
 
-      // ── Chips reps DYNAMIQUES selon la cible ──
-      var repsChips = buildRepsChips(item.targetMin, item.targetMax);
-      // Valeur par défaut = milieu de la plage cible
-      var defaultReps = Math.round((item.targetMin + item.targetMax) / 2);
-      var currentReps = Number(getGuidedResult(item.key,'reps',defaultReps)) || defaultReps;
-      var repsContainer = $('reps_'+item.key);
-      var repsInp = card.querySelector('.sf-reps-input');
-      if(repsContainer&&repsInp){
-        // Pré-remplir avec la valeur du mode séance si elle existe, sinon le milieu de la plage
-        repsInp.value = currentReps;
-        repsChips.forEach(function(n){
-          var btn = document.createElement('button');
-          btn.type = 'button';
-          // Mettre en surbrillance toute la plage cible
-          var inTarget = n >= item.targetMin && n <= item.targetMax;
-          // Sélectionner la valeur courante
-          var isDefault = n === currentReps;
-          btn.className = 'sf-chip' + (isDefault?' active':'') + (inTarget&&!isDefault?' target':'');
-          btn.textContent = n;
-          btn.addEventListener('click',function(){
-            repsInp.value = n;
-            setGuidedResult(item.key,'reps',n);
-            repsContainer.querySelectorAll('.sf-chip').forEach(function(b){b.classList.remove('active');});
-            btn.classList.add('active');
-          });
-          repsContainer.appendChild(btn);
-        });
-        repsInp.addEventListener('input',function(){ setGuidedResult(item.key,'reps',repsInp.value); });
-        repsInp.addEventListener('change',function(){ setGuidedResult(item.key,'reps',repsInp.value); });
-      }
+      card.querySelectorAll('[data-results-step]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          var field=btn.getAttribute('data-results-step');
+          var step=Number(btn.getAttribute('data-step'))||0;
+          var selector='.sf-input[data-field="'+field+'"]';
+          var inp=card.querySelector(selector);
+          if(!inp)return;
 
-      // ── Chips RPE V51.08 : 6, 7, 7.5, 8, 8.5, 9, 10 ──
-      var rpeChips = buildRpeChips();
-      var rpeContainer = $('rpe_'+item.key);
-      var rpeInp = card.querySelector('.sf-rpe-input');
-      if(rpeContainer&&rpeInp){
-        var currentRpe = Number(getGuidedResult(item.key,'rpe',8)) || 8;
-        rpeInp.value = currentRpe;
-        rpeChips.forEach(function(n){
-          var btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'sf-chip' + (n===currentRpe?' active':'');
-          btn.textContent = n;
-          btn.addEventListener('click',function(){
-            rpeInp.value = n;
-            setGuidedResult(item.key,'rpe',n);
-            rpeContainer.querySelectorAll('.sf-chip').forEach(function(b){b.classList.remove('active');});
-            btn.classList.add('active');
-          });
-          rpeContainer.appendChild(btn);
+          var current;
+          if(field==='load'){
+            current=parseLoad(inp.value)||parseLoad(item.suggested)||0;
+            inp.value=nextLoadForExercise(item.name||item.key, current, step<0?-1:1, item.suggested||item.load);
+          } else {
+            current=Number(inp.value)||0;
+            var min=btn.getAttribute('data-min');
+            var max=btn.getAttribute('data-max');
+            var next=current+step;
+            if(min!==null&&min!==''&&!isNaN(Number(min))) next=Math.max(Number(min),next);
+            if(max!==null&&max!==''&&!isNaN(Number(max))) next=Math.min(Number(max),next);
+            inp.value=guidedNumberText(next);
+          }
+          syncResultField(field, inp.value);
         });
-        rpeInp.addEventListener('input',function(){ setGuidedResult(item.key,'rpe',rpeInp.value); });
-        rpeInp.addEventListener('change',function(){ setGuidedResult(item.key,'rpe',rpeInp.value); });
-      }
+      });
+
+      card.querySelectorAll('.sf-input[data-key][data-field]').forEach(function(inp){
+        inp.addEventListener('input',function(){ syncResultField(inp.getAttribute('data-field'), inp.value); });
+        inp.addEventListener('change',function(){ syncResultField(inp.getAttribute('data-field'), inp.value); });
+      });
     }
   });
 }

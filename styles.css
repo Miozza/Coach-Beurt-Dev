@@ -5371,3 +5371,101 @@ body.guided-session-active{
   .guided-timer-display.countdown{ font-size:clamp(86px, 28vw, 146px) !important; }
   .guided-tbtn{ min-height:48px !important; font-size:21px !important; }
 }
+
+/* V51.15 — Résultats : même saisie compacte que la vue séance (− valeur +) */
+#resultsView .results-step-control{min-width:0;width:100%;}
+#resultsView .results-step-control > .sf-label{
+  display:block;
+  margin-bottom:6px;
+  font-size:11px;
+  font-weight:900;
+  color:var(--text2);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+#resultsView .results-step-row{
+  display:grid;
+  grid-template-columns:56px minmax(0,1fr) 56px;
+  gap:8px;
+  align-items:center;
+  width:100%;
+}
+#resultsView .results-step-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  align-items:end;
+  width:100%;
+  margin-top:10px;
+}
+#resultsView .results-step-btn{
+  min-height:52px;
+  border-radius:12px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  font-family:var(--font-hud);
+  font-size:22px;
+  font-weight:950;
+  line-height:1;
+}
+#resultsView .results-step-btn.minus{color:var(--red);border-color:rgba(255,34,68,.45);}
+#resultsView .results-step-btn.plus{color:var(--green);border-color:rgba(77,255,136,.45);}
+#resultsView .sf-weight-wrap{min-width:0;width:100%;}
+#resultsView .sf-weight-input,
+#resultsView .results-mini-input{
+  width:100%;
+  min-height:52px;
+  border-radius:12px;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  color:#fff;
+  font-family:var(--font-hud);
+  font-size:clamp(24px,7vw,38px);
+  font-weight:950;
+  text-align:center;
+  padding:4px 8px;
+}
+#resultsView .sf-weight-input{padding-right:38px;}
+#resultsView .sf-weight-unit{right:12px;font-size:12px;}
+#resultsView .sf-weight-input::-webkit-inner-spin-button,
+#resultsView .sf-weight-input::-webkit-outer-spin-button,
+#resultsView .results-mini-input::-webkit-inner-spin-button,
+#resultsView .results-mini-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+#resultsView .sf-weight-input[type=number],
+#resultsView .results-mini-input[type=number]{-moz-appearance:textfield;}
+@media (max-width:402px){
+  #resultsView .results-step-row{grid-template-columns:48px minmax(0,1fr) 48px;gap:6px;}
+  #resultsView .results-step-grid{gap:8px;}
+  #resultsView .results-step-btn{min-height:46px;font-size:20px;border-radius:10px;}
+  #resultsView .sf-weight-input,
+  #resultsView .results-mini-input{min-height:46px;font-size:clamp(22px,6.4vw,34px);}
+}
+
+
+/* ═══════════════════════════════════════════
+   V51.15 — Vue séance WOD : noms propres + timer prioritaire
+   - Le nom du mouvement ne porte plus la charge (ex.: Wall Balls, pas Wall Balls 14 lb).
+   - Les pastilles de charge sous le timer sont retirées en mode séance.
+   - Le timer WOD récupère l’espace libéré sans toucher aux autres timers.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-wod-charges,
+.guided-card.kind-wod .pcx-load-hints{
+  display:none !important;
+}
+.guided-card.kind-wod .guided-wod-timer{
+  margin-top:auto !important;
+  margin-bottom:2px !important;
+  padding:9px 7px !important;
+}
+.guided-card.kind-wod .guided-timer-display{
+  font-size:clamp(92px, 28vw, 152px) !important;
+  margin:2px 0 7px !important;
+}
+.guided-card.kind-wod .guided-timer-display.countdown{
+  font-size:clamp(104px, 32vw, 172px) !important;
+}
+@media (max-height:760px){
+  .guided-card.kind-wod .guided-wod-timer{ padding:8px 7px !important; }
+  .guided-card.kind-wod .guided-timer-display{ font-size:clamp(84px, 25vw, 136px) !important; }
+  .guided-card.kind-wod .guided-timer-display.countdown{ font-size:clamp(94px, 30vw, 158px) !important; }
+}

@@ -276,7 +276,9 @@ function buildGuidedSessionBlocks(){
     if(b.kind==="wod"){
       obj.timer = wodTimerConfig(b);
       obj.moves = parseWodStructure(b.text || "");
-      obj.loadHints = phoneWodLoadHints(b.text || "");
+      // V51.15: pas de pastilles de charge sous le timer en mode séance.
+      // Elles prennent l’espace du timer et du bas cliquable; la charge reste dans le texte/programme ailleurs.
+      obj.loadHints = "";
     }
 
     blocks.push(obj);
