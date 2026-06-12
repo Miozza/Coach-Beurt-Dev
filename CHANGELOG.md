@@ -1,12 +1,19 @@
 # CHANGELOG — Coach Beurt
 
+## V51.13 — Timer séance restauré
+
+- Restaure la taille lisible du timer en mode séance.
+- Conserve les protections V51.12 : carte WOD scrollable, boutons de navigation accessibles, bas d’écran moins gaspillé.
+- Ne modifie aucun programme, aucune séance et aucune donnée durable.
+
+
 Toutes les modifications de version doivent être inscrites ici.
 
 Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUDIT_*`, `*_Vxx.xx.md/json/txt` ou autre document historique portant une version dans son nom. Les bilans de version vont dans ce fichier seulement.
 
 ---
 
-## V51.12 — Ajustement bas de vue séance et boutons timer
+## V51.13 — Ajustement bas de vue séance et boutons timer
 
 - Réduit la réserve excessive en bas de la vue séance iPhone.
 - Corrige l’accessibilité des boutons des timers dans les blocs WOD/AMRAP/EMOM/For Time.

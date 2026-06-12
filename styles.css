@@ -5258,7 +5258,7 @@ body.guided-session-active{
 
 
 /* ═══════════════════════════════════════════
-   V51.12 — Vue séance : bas utile + timers accessibles
+   V51.13 — Vue séance : bas utile + timers accessibles
    - Retire la double réserve safe-area qui laissait une grande zone morte en bas.
    - WOD/timers : la carte devient scrollable si la hauteur réelle est trop courte.
    - Boutons du timer compactés pour rester cliquables avant les boutons Précédent/Suivant.
@@ -5330,4 +5330,44 @@ body.guided-session-active{
   .guided-tbtn{ min-height: 42px !important; }
   .guided-actions{ min-height: 48px !important; }
   .guided-btn{ min-height: 44px !important; }
+}
+
+
+/* ═══════════════════════════════════════════
+   V51.13 — Vue séance : timer pleine taille restauré
+   - Garde le correctif de bas d’écran V51.12.
+   - Annule seulement la réduction excessive du timer et des boutons du timer.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+.guided-wod-timer{
+  padding:8px 7px !important;
+  margin-top:auto !important;
+  margin-bottom:4px !important;
+}
+.guided-timer-display{
+  font-size:clamp(82px, 25vw, 136px) !important;
+  margin:2px 0 6px !important;
+}
+.guided-timer-display.countdown{
+  font-size:clamp(92px, 30vw, 160px) !important;
+}
+.guided-timer-buttons{
+  gap:7px !important;
+}
+.guided-tbtn{
+  min-height:52px !important;
+  font-size:22px !important;
+  border-radius:10px !important;
+}
+@media (max-height:760px){
+  .guided-card.kind-wod{ padding-bottom:3px !important; }
+  .guided-wod-move{ min-height:58px !important; }
+  .guided-timer-display{ font-size:clamp(76px, 23vw, 118px) !important; }
+  .guided-timer-display.countdown{ font-size:clamp(86px, 28vw, 146px) !important; }
+  .guided-tbtn{ min-height:48px !important; font-size:21px !important; }
 }
