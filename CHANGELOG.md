@@ -1,6 +1,13 @@
-# CHANGELOG Coach Beurt
+# CHANGELOG — Coach Beurt
 
-## V51.15 — Vue séance WOD : noms propres + timer prioritaire
+## V51.16 — Timer WOD sans débordement + résultats plus lisibles
+
+- Correction du timer WOD en mode séance : retour à un gabarit plus proche du format précédent, mais sans débordement horizontal.
+- Maintien de l’accessibilité des boutons du timer.
+- Agrandissement du texte des noms de mouvements dans la vue Résultats.
+- Aucun changement aux programmes, séances, données durables ou charges.
+
+## V51.16 — Vue séance WOD : noms propres + timer prioritaire
 
 - Nettoie les noms de mouvements WOD en mode séance/résultats : une charge comme `14 lb` n’est plus intégrée au titre du mouvement.
 - Retire les pastilles de charge sous le timer WOD en mode séance.
@@ -9,7 +16,7 @@
 
 # CHANGELOG — Coach Beurt
 
-## V51.15 — Résultats avec contrôles compacts
+## V51.16 — Résultats avec contrôles compacts
 
 - La vue Résultats adopte la même logique de saisie que la vue Séance : `− valeur +` pour poids, reps et RPE.
 - Les anciennes pastilles de reps/RPE sont retirées de la saisie standard des résultats pour éviter deux interfaces différentes.
