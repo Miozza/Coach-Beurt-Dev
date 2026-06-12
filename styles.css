@@ -5510,3 +5510,34 @@ body.guided-session-active{
 @media (max-width:402px){
   #resultsView .sf-name{ font-size:clamp(19px, 5.2vw, 27px) !important; }
 }
+
+/* ═══════════════════════════════════════════
+   V51.17 — Timer WOD auto-ajusté pleine largeur
+   - Le timer WOD utilise presque toute la largeur disponible.
+   - Le JS ajuste la taille réelle pour éviter tout débordement.
+   - Ciblé uniquement sur la vue séance WOD.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-wod-timer{
+  overflow:hidden !important;
+  max-width:100% !important;
+}
+.guided-card.kind-wod .guided-timer-display{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+  font-size:clamp(96px, 30vw, 168px) !important;
+  line-height:.82 !important;
+  letter-spacing:-.045em !important;
+  margin:2px auto 8px !important;
+  font-variant-numeric:tabular-nums;
+}
+.guided-card.kind-wod .guided-timer-display.countdown{
+  font-size:clamp(112px, 36vw, 188px) !important;
+}
+@media (max-height:760px){
+  .guided-card.kind-wod .guided-timer-display{ font-size:clamp(90px, 28vw, 156px) !important; }
+  .guided-card.kind-wod .guided-timer-display.countdown{ font-size:clamp(104px, 34vw, 176px) !important; }
+}

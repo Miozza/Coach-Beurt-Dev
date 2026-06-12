@@ -1,22 +1,40 @@
 # CHANGELOG — Coach Beurt
 
+Toutes les modifications de version doivent être inscrites ici.
+
+Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUDIT_*`, `*_Vxx.xx.md/json/txt` ou autre document historique portant une version dans son nom. Les bilans de version vont dans ce fichier seulement.
+
+---
+
+## V51.18 — Résultats For Time : choix complet 00:00–60:00
+
+- Résultats For Time : remplacement de la plage courte par une liste complète de `00:00` à `60:00`.
+- Toutes les secondes sont disponibles dans la liste déroulante.
+- L’objectif/cap détecté reste présélectionné automatiquement.
+- Aucun changement aux programmes, aux séances, au moteur de charges ou aux données durables.
+
+## V51.17 — Timer WOD auto-ajusté pleine largeur
+
+- Ajoute un ajustement automatique de la taille du timer WOD en mode séance.
+- Le timer essaie d'occuper presque toute la largeur disponible sans déborder.
+- Correction ciblée à la vue séance WOD; les autres timers ne sont pas modifiés.
+- Aucun programme, aucune séance et aucune donnée durable modifiés.
+
 ## V51.16 — Timer WOD sans débordement + résultats plus lisibles
 
-- Correction du timer WOD en mode séance : retour à un gabarit plus proche du format précédent, mais sans débordement horizontal.
+- Correction du timer WOD en mode séance : retour à un gabarit large, mais sans débordement horizontal.
 - Maintien de l’accessibilité des boutons du timer.
 - Agrandissement du texte des noms de mouvements dans la vue Résultats.
 - Aucun changement aux programmes, séances, données durables ou charges.
 
-## V51.16 — Vue séance WOD : noms propres + timer prioritaire
+## V51.15 — Vue séance WOD : noms propres + timer prioritaire
 
 - Nettoie les noms de mouvements WOD en mode séance/résultats : une charge comme `14 lb` n’est plus intégrée au titre du mouvement.
 - Retire les pastilles de charge sous le timer WOD en mode séance.
 - Redonne l’espace libéré au timer WOD sans modifier les autres timers de l’app.
 - Aucun changement aux programmes, aux séances, à `data/charges.js` ou aux données durables.
 
-# CHANGELOG — Coach Beurt
-
-## V51.16 — Résultats avec contrôles compacts
+## V51.14 — Résultats avec contrôles compacts
 
 - La vue Résultats adopte la même logique de saisie que la vue Séance : `− valeur +` pour poids, reps et RPE.
 - Les anciennes pastilles de reps/RPE sont retirées de la saisie standard des résultats pour éviter deux interfaces différentes.
@@ -29,14 +47,7 @@
 - Conserve les protections V51.12 : carte WOD scrollable, boutons de navigation accessibles, bas d’écran moins gaspillé.
 - Ne modifie aucun programme, aucune séance et aucune donnée durable.
 
-
-Toutes les modifications de version doivent être inscrites ici.
-
-Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUDIT_*`, `*_Vxx.xx.md/json/txt` ou autre document historique portant une version dans son nom. Les bilans de version vont dans ce fichier seulement.
-
----
-
-## V51.13 — Ajustement bas de vue séance et boutons timer
+## V51.12 — Ajustement bas de vue séance et boutons timer
 
 - Réduit la réserve excessive en bas de la vue séance iPhone.
 - Corrige l’accessibilité des boutons des timers dans les blocs WOD/AMRAP/EMOM/For Time.

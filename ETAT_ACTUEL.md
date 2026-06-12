@@ -1,12 +1,10 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.16
+## Dernière modification — V51.18
 
-- Vue séance WOD : titres de mouvements nettoyés, ex. `Wall Balls` au lieu de `Wall Balls 14 lb`.
-- Pastilles de charge sous le timer WOD retirées en mode séance pour libérer l’espace du timer.
-- Timer WOD agrandi uniquement dans la vue séance; autres timers non ciblés.
-- Programmes et données durables non modifiés.
-
+- Résultats For Time : la liste déroulante couvre maintenant `00:00` à `60:00` avec toutes les secondes possibles.
+- L’objectif/cap détecté est présélectionné automatiquement.
+- Aucun programme, aucune séance, aucun fichier durable et aucun réglage `data/charges.js` modifié.
 
 Ce document est la source courte de vérité du projet. Il doit être mis à jour à chaque release.
 
@@ -18,7 +16,7 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.16
+- Version actuelle : V51.18
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -27,10 +25,10 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.16"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.16`.
-- `manifest.json` : `Coach Bertin V51.16`.
-- `service-worker.js` : `coach-bertin-v51-16-no-cache`.
+- `app.js` : `APP_VERSION = "V51.18"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.18`.
+- `manifest.json` : `Coach Bertin V51.18`.
+- `service-worker.js` : `coach-bertin-v51-18-no-cache`.
 
 ---
 
@@ -133,32 +131,16 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.16 sur DEV après import.
-2. Valider la vue séance sur iPhone : bloc 1 mouvement, bloc 3 mouvements, WOD timer, boutons bas accessibles.
-3. Valider que le résumé de séance est scrollable et que `Passer à Sx` / `Fermer` restent accessibles.
-4. Valider que la pastille GitHub est discrète et cliquable.
-5. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
-6. Garder un œil sur `app.js`, qui reste monolithique et sensible.
-7. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
-8. Améliorer plus tard l’export IA prévu/suggéré/réel/RPE/alertes/historique.
+1. Tester V51.18 sur DEV après import.
+2. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
+3. Revalider la vue séance sur iPhone : WOD timer, boutons timer, boutons bas accessibles.
+4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
+5. Garder un œil sur `app.js`, qui reste monolithique et sensible.
+6. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
 
-### V51.16 — Correctif UI séance
+### V51.18 — Résultats For Time
 
-- La vue séance garde les boutons de navigation accessibles sans réserver une zone morte excessive au bas de l’écran.
-- Les boutons des timers WOD/AMRAP/EMOM/For Time sont compactés et restent accessibles; la carte WOD peut scroller si nécessaire.
-- Correction limitée à l’interface séance : aucun programme, aucune séance, aucun moteur de charges et aucune donnée durable modifiés.
-
-
-## V51.16 — Ajustement en cours
-
-- Timer de la vue séance restauré à une taille proche de V51.11.
-- Accessibilité V51.12 conservée pour le bas d’écran et les boutons.
-- Témoin GitHub discret conservé.
-- Aucun programme ni donnée durable modifié.
-
-## Note V51.16
-
-- Vue séance WOD : timer ajusté pour éviter le débordement horizontal tout en gardant un affichage large.
-- Résultats : noms de mouvements agrandis pour meilleure lisibilité.
-- Données durables et programmes protégés non modifiés.
-
+- Priorité : saisie des résultats For Time.
+- Liste déroulante complète de `00:00` à `60:00`, seconde par seconde.
+- Objectif/cap présélectionné automatiquement quand détecté.
+- Programmes, séances, données durables et `data/charges.js` protégés.

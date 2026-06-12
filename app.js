@@ -1,5 +1,5 @@
-// Coach Bertin V51.16
-var APP_VERSION = "V51.16";
+// Coach Bertin V51.18
+var APP_VERSION = "V51.18";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -1048,14 +1048,16 @@ function parseCapSeconds(text, fallbackMin){
   return Math.max(60, Math.round(min * 60));
 }
 function buildTimeOptions(expectedSec){
-  expectedSec = Math.max(60, Math.round(Number(expectedSec || 0) / 15) * 15);
-  var start = Math.max(60, expectedSec - 180);
-  var end   = expectedSec + 180;
+  // V51.18 : For Time = liste complète 00:00 → 60:00, à la seconde.
+  // L’objectif/cap détecté reste présélectionné, sans réduire la plage disponible.
   var arr = [];
-  for(var sec = start; sec <= end; sec += 15) arr.push(sec);
-  if(arr.indexOf(expectedSec) === -1) arr.push(expectedSec);
-  arr.sort(function(a,b){return a-b;});
+  for(var sec = 0; sec <= 3600; sec += 1) arr.push(sec);
   return arr;
+}
+function normalizeForTimeGoalSeconds(expectedSec){
+  expectedSec = Math.round(Number(expectedSec || 0));
+  if(!isFinite(expectedSec)) expectedSec = 0;
+  return Math.max(0, Math.min(3600, expectedSec));
 }
 
 // Collecte tous les exercices du WOD courant avec leur cible de reps
@@ -1118,7 +1120,8 @@ function renderSessionEntry(){
       } else if(item.isForTime){
         var expectedSec = parseCapSeconds(item.wodText,item.durationMin);
         if(!expectedSec || isNaN(expectedSec)) expectedSec = Math.max(60, Math.round((item.durationMin || 8) * 60));
-        wodInner += '<div class="wod-expected">For time — temps attendu : <strong>'+formatClock(expectedSec)+'</strong></div>';
+        expectedSec = normalizeForTimeGoalSeconds(expectedSec);
+        wodInner += '<div class="wod-expected">For time — objectif présélectionné : <strong>'+formatClock(expectedSec)+'</strong> · choix 00:00–60:00</div>';
         wodInner += '<span class="sf-label">TEMPS FINAL</span>';
         wodInner += '<select class="sf-input" id="wod_time_'+item.key+'" data-key="'+item.key+'" data-field="result">';
         buildTimeOptions(expectedSec).forEach(function(sec){

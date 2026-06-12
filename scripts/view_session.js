@@ -1,4 +1,4 @@
-// Coach Beurt V51.08 — guided session view + compact reps/RPE steppers
+// Coach Beurt V51.17 — guided session view + compact reps/RPE steppers + WOD timer autofit
 // Vue PC pleine largeur : 1 bloc = 1 page. Le WOD a son gros timer dédié.
 
 var guidedSessionState = { blocks: [], index: 0 };
@@ -60,6 +60,7 @@ function forceGuidedSessionReflow(){
   requestAnimationFrame(function(){
     updateGuidedViewportHeight();
     el.classList.remove('guided-reflow');
+    fitGuidedWodTimer();
   });
 }
 function bindGuidedViewportEvents(){
@@ -407,6 +408,39 @@ function syncGuidedTimerButtons(){
     reset.disabled=false;
   }
 }
+
+// V51.17 — WOD timer autofit.
+// But : garder le gros timer lisible, utiliser presque toute la largeur disponible,
+// sans déborder à droite sur iPhone. Ciblé seulement sur la carte WOD en mode séance.
+function fitGuidedWodTimer(){
+  var d=$("guidedTimerDisplay");
+  if(!d) return;
+  var card=d.closest && d.closest(".guided-card.kind-wod");
+  if(!card) return;
+  var box=d.closest(".guided-wod-timer");
+  if(!box) return;
+
+  // Ne pas reflow pendant un pinch zoom Safari : on garde le zoom natif.
+  if(guidedViewportScale && guidedViewportScale()>1.02) return;
+
+  var available=Math.max(160, Math.floor(box.clientWidth - 18));
+  var isCountdown=d.classList.contains("countdown");
+  var maxSize=isCountdown ? 188 : 168;
+  var minSize=isCountdown ? 92 : 82;
+
+  // Point de départ volontairement trop grand; on descend jusqu'à ce que ça rentre.
+  d.style.fontSize=maxSize+"px";
+  d.style.letterSpacing="-0.045em";
+
+  var size=maxSize;
+  while(size>minSize && d.scrollWidth>available){
+    size-=2;
+    d.style.fontSize=size+"px";
+  }
+
+  // Si la largeur permet plus grand, le maxSize ci-dessus limite quand même la hauteur
+  // pour ne pas repousser les boutons du timer hors écran.
+}
 function updateGuidedTimerDisplay(){
   var d=$("guidedTimerDisplay"); if(!d)return;
   if(guidedTimer.countdownActive){
@@ -418,6 +452,7 @@ function updateGuidedTimerDisplay(){
   }
   updateGuidedEmomVisualWarning();
   syncGuidedTimerButtons();
+  requestAnimationFrame(fitGuidedWodTimer);
 }
 function stopGuidedTimer(){
   if(guidedTimer.interval){clearInterval(guidedTimer.interval);guidedTimer.interval=null;}
