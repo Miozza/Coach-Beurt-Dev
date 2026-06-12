@@ -6,6 +6,14 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
+## V51.12 — Ajustement bas de vue séance et boutons timer
+
+- Réduit la réserve excessive en bas de la vue séance iPhone.
+- Corrige l’accessibilité des boutons des timers dans les blocs WOD/AMRAP/EMOM/For Time.
+- Rend la carte WOD scrollable seulement quand la hauteur réelle manque.
+- Compacte légèrement l’affichage timer sans toucher au programme ni aux données.
+- Aucun nouveau fichier de release/audit versionné : historique maintenu uniquement ici.
+
 ## V51.11 — Stabilisation vue séance iPhone + témoin GitHub discret
 
 ### Changements

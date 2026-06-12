@@ -1,5 +1,5 @@
-// Coach Bertin V51.11
-var APP_VERSION = "V51.11";
+// Coach Bertin V51.12
+var APP_VERSION = "V51.12";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";

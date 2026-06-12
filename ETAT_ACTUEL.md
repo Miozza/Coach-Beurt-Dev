@@ -10,7 +10,7 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle du ZIP : `V51.11`.
+- Version actuelle du ZIP : `V51.12`.
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -19,10 +19,10 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.11"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.11`.
-- `manifest.json` : `Coach Bertin V51.11`.
-- `service-worker.js` : `coach-bertin-v51-11-no-cache`.
+- `app.js` : `APP_VERSION = "V51.12"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.12`.
+- `manifest.json` : `Coach Bertin V51.12`.
+- `service-worker.js` : `coach-bertin-v51-12-no-cache`.
 
 ---
 
@@ -125,7 +125,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.11 sur DEV après import.
+1. Tester V51.12 sur DEV après import.
 2. Valider la vue séance sur iPhone : bloc 1 mouvement, bloc 3 mouvements, WOD timer, boutons bas accessibles.
 3. Valider que le résumé de séance est scrollable et que `Passer à Sx` / `Fermer` restent accessibles.
 4. Valider que la pastille GitHub est discrète et cliquable.
@@ -133,3 +133,9 @@ Priorités à garder séparées :
 6. Garder un œil sur `app.js`, qui reste monolithique et sensible.
 7. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
 8. Améliorer plus tard l’export IA prévu/suggéré/réel/RPE/alertes/historique.
+
+### V51.12 — Correctif UI séance
+
+- La vue séance garde les boutons de navigation accessibles sans réserver une zone morte excessive au bas de l’écran.
+- Les boutons des timers WOD/AMRAP/EMOM/For Time sont compactés et restent accessibles; la carte WOD peut scroller si nécessaire.
+- Correction limitée à l’interface séance : aucun programme, aucune séance, aucun moteur de charges et aucune donnée durable modifiés.
