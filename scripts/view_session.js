@@ -409,10 +409,41 @@ function syncGuidedTimerButtons(){
   }
 }
 
-// V51.19 — WOD timer autofit strict.
-// But : prendre presque toute la largeur disponible sans jamais dépasser.
-// Important : les règles CSS précédentes utilisent !important, donc le JS doit
-// écrire font-size/letter-spacing avec la même priorité.
+// V51.21 — WOD timer auto-fit 95 % largeur + hauteur utile.
+// But : utiliser presque toute la boîte du timer sans couper les chiffres.
+// Correction clé : mesure DOM réelle, pas canvas/scrollWidth, pour matcher Safari iPhone.
+var guidedTimerMeasureEl = null;
+function guidedGetTimerMeasureEl(){
+  if(guidedTimerMeasureEl && guidedTimerMeasureEl.parentNode) return guidedTimerMeasureEl;
+  guidedTimerMeasureEl = document.createElement("span");
+  guidedTimerMeasureEl.setAttribute("aria-hidden","true");
+  guidedTimerMeasureEl.style.position="fixed";
+  guidedTimerMeasureEl.style.left="-9999px";
+  guidedTimerMeasureEl.style.top="-9999px";
+  guidedTimerMeasureEl.style.visibility="hidden";
+  guidedTimerMeasureEl.style.whiteSpace="nowrap";
+  guidedTimerMeasureEl.style.pointerEvents="none";
+  document.body.appendChild(guidedTimerMeasureEl);
+  return guidedTimerMeasureEl;
+}
+function guidedMeasureTimerTextDom(text, size, sourceStyle, letterSpacingEm){
+  try{
+    var m=guidedGetTimerMeasureEl();
+    m.textContent=String(text || "00:00");
+    m.style.fontFamily=sourceStyle ? sourceStyle.fontFamily : "Orbitron, monospace";
+    m.style.fontWeight=sourceStyle ? sourceStyle.fontWeight : "900";
+    m.style.fontStyle=sourceStyle ? sourceStyle.fontStyle : "normal";
+    m.style.fontStretch=sourceStyle ? sourceStyle.fontStretch : "normal";
+    m.style.fontVariantNumeric="tabular-nums";
+    m.style.fontSize=String(size)+"px";
+    m.style.lineHeight="0.82";
+    m.style.letterSpacing=String(letterSpacingEm)+"em";
+    var r=m.getBoundingClientRect();
+    return {width:r.width || 0, height:r.height || (Number(size)*0.82)};
+  }catch(e){
+    return {width:String(text || "00:00").length * Number(size || 100) * 0.62, height:Number(size || 100)*0.82};
+  }
+}
 function fitGuidedWodTimer(){
   var d=$("guidedTimerDisplay");
   if(!d) return;
@@ -424,42 +455,74 @@ function fitGuidedWodTimer(){
   // Ne pas reflow pendant un pinch zoom Safari : on garde le zoom natif.
   if(guidedViewportScale && guidedViewportScale()>1.02) return;
 
-  var cs=window.getComputedStyle ? window.getComputedStyle(box) : null;
-  var padLeft=cs ? parseFloat(cs.paddingLeft)||0 : 0;
-  var padRight=cs ? parseFloat(cs.paddingRight)||0 : 0;
-  // Marge de sécurité réelle : évite le clipping à droite sur iPhone/Safari.
-  var available=Math.max(120, Math.floor(box.clientWidth - padLeft - padRight - 16));
+  var boxStyle=window.getComputedStyle ? window.getComputedStyle(box) : null;
+  var displayStyle=window.getComputedStyle ? window.getComputedStyle(d) : null;
+  var padLeft=boxStyle ? parseFloat(boxStyle.paddingLeft)||0 : 0;
+  var padRight=boxStyle ? parseFloat(boxStyle.paddingRight)||0 : 0;
+  var boxRect=box.getBoundingClientRect ? box.getBoundingClientRect() : {width:box.clientWidth||0,height:box.clientHeight||0,top:0};
+  var widthBase=Math.max(180, Math.floor((boxRect.width || box.clientWidth || 0) - padLeft - padRight));
+  var targetWidth=Math.max(170, Math.floor(widthBase * 0.95));
+
+  // Hauteur utilisable : on autorise le timer à manger l'espace vide au-dessus de sa boîte,
+  // sans empiéter sur les boutons internes. C'est ce qui manquait aux versions précédentes.
+  var label=box.querySelector ? box.querySelector(".guided-timer-label") : null;
+  var buttons=box.querySelector ? box.querySelector(".guided-timer-buttons") : null;
+  var prev=box.previousElementSibling;
+  var labelH=label && label.getBoundingClientRect ? label.getBoundingClientRect().height : 0;
+  var buttonsH=buttons && buttons.getBoundingClientRect ? buttons.getBoundingClientRect().height : 0;
+  var gapAbove=0;
+  try{
+    if(prev && prev.getBoundingClientRect){
+      gapAbove=Math.max(0, boxRect.top - prev.getBoundingClientRect().bottom);
+    }
+  }catch(e){}
+  var currentDisplayH=d.getBoundingClientRect ? d.getBoundingClientRect().height : 0;
+  var targetHeight=Math.max(72, Math.floor((currentDisplayH + gapAbove*0.86) * 0.95));
+  // Plafond doux basé sur la carte pour éviter que le timer avale le WOD complet sur petit écran.
+  var cardRect=card.getBoundingClientRect ? card.getBoundingClientRect() : {height:0};
+  if(cardRect && cardRect.height){
+    targetHeight=Math.min(targetHeight, Math.floor(cardRect.height * 0.34));
+  }
+
   var isCountdown=d.classList.contains("countdown");
+  var text=String(d.textContent || (isCountdown ? "10" : "00:00"));
+  var letterSpacingEm=-0.055;
+  var minSize=isCountdown ? 84 : 78;
+  var maxSize=isCountdown ? 260 : 240;
+  var low=minSize;
+  var high=maxSize;
+  var i, mid, measured;
 
-  // Le timer part volontairement trop grand, puis descend jusqu'à rentrer.
-  var maxSize=isCountdown ? 196 : 178;
-  var minSize=isCountdown ? 82 : 72;
-  var size=maxSize;
+  for(i=0;i<18;i++){
+    mid=(low+high)/2;
+    measured=guidedMeasureTimerTextDom(text, mid, displayStyle, letterSpacingEm);
+    if(measured.width<=targetWidth && measured.height<=targetHeight) low=mid; else high=mid;
+  }
 
+  var size=Math.floor(low);
   d.style.setProperty("box-sizing","border-box","important");
   d.style.setProperty("display","block","important");
   d.style.setProperty("width","100%","important");
   d.style.setProperty("max-width","100%","important");
-  d.style.setProperty("overflow","hidden","important");
+  d.style.setProperty("overflow","visible","important");
   d.style.setProperty("white-space","nowrap","important");
   d.style.setProperty("text-align","center","important");
-  d.style.setProperty("letter-spacing","-0.055em","important");
+  d.style.setProperty("letter-spacing",(letterSpacingEm)+"em","important");
   d.style.setProperty("font-size",size+"px","important");
-
-  // Force une mesure, puis réduit tant que le texte dépasse.
-  while(size>minSize && d.scrollWidth>available){
-    size-=2;
-    d.style.setProperty("font-size",size+"px","important");
-  }
-
-  // Dernier garde-fou : si Safari mesure mal scrollWidth, on compare la boîte réelle.
-  var rect=d.getBoundingClientRect ? d.getBoundingClientRect() : null;
-  var guard=0;
-  while(rect && rect.width>available && size>minSize && guard<40){
-    size-=2;
-    d.style.setProperty("font-size",size+"px","important");
-    rect=d.getBoundingClientRect();
-    guard++;
+  d.style.setProperty("line-height","0.82","important");
+}
+function refitGuidedWodTimerSoon(){
+  requestAnimationFrame(function(){
+    fitGuidedWodTimer();
+    setTimeout(fitGuidedWodTimer,80);
+    setTimeout(fitGuidedWodTimer,260);
+  });
+}
+if(typeof window!=="undefined"){
+  window.addEventListener("resize", refitGuidedWodTimerSoon);
+  window.addEventListener("orientationchange", refitGuidedWodTimerSoon);
+  if(document && document.fonts && document.fonts.ready){
+    document.fonts.ready.then(refitGuidedWodTimerSoon).catch(function(){});
   }
 }
 function updateGuidedTimerDisplay(){
@@ -473,7 +536,7 @@ function updateGuidedTimerDisplay(){
   }
   updateGuidedEmomVisualWarning();
   syncGuidedTimerButtons();
-  requestAnimationFrame(fitGuidedWodTimer);
+  refitGuidedWodTimerSoon();
 }
 function stopGuidedTimer(){
   if(guidedTimer.interval){clearInterval(guidedTimer.interval);guidedTimer.interval=null;}

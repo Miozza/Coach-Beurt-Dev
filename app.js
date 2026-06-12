@@ -1,5 +1,5 @@
-// Coach Bertin V51.19
-var APP_VERSION = "V51.19";
+// Coach Bertin V51.21
+var APP_VERSION = "V51.21";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -1048,7 +1048,7 @@ function parseCapSeconds(text, fallbackMin){
   return Math.max(60, Math.round(min * 60));
 }
 function buildTimeOptions(expectedSec){
-  // V51.19 : For Time = liste complète 00:00 → 60:00, à la seconde.
+  // V51.21 : For Time = liste complète 00:00 → 60:00, à la seconde.
   // L’objectif/cap détecté reste présélectionné, sans réduire la plage disponible.
   var arr = [];
   for(var sec = 0; sec <= 3600; sec += 1) arr.push(sec);

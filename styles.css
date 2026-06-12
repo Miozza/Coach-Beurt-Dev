@@ -5544,7 +5544,7 @@ body.guided-session-active{
 
 
 /* ═══════════════════════════════════════════
-   V51.19 — Vue séance WOD : timer auto-fit strict
+   V51.21 — Vue séance WOD : timer auto-fit strict
    - Le JS contrôle la taille réelle avec priorité !important.
    - La boîte coupe tout débordement et réserve une marge droite iPhone.
    - Ciblé uniquement sur le timer WOD de la vue séance.
@@ -5571,4 +5571,67 @@ body.guided-session-active{
 }
 .guided-card.kind-wod .guided-timer-display.countdown{
   font-size:clamp(96px, 31vw, 168px) !important;
+}
+
+
+/* ═══════════════════════════════════════════
+   V51.21 — Timer WOD mesuré pleine largeur
+   - Le JS calcule la police selon la largeur réelle disponible.
+   - Le CSS ne clippe plus les chiffres : si le JS échoue, on garde un fallback lisible.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-wod-timer{
+  overflow:visible !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+  padding-left:7px !important;
+  padding-right:7px !important;
+}
+.guided-card.kind-wod .guided-timer-display{
+  box-sizing:border-box !important;
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  overflow:visible !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+  letter-spacing:-.055em !important;
+  line-height:.82 !important;
+  font-size:clamp(92px, 29vw, 168px) !important;
+  margin:2px auto 8px !important;
+  transform:none !important;
+  font-variant-numeric:tabular-nums;
+}
+.guided-card.kind-wod .guided-timer-display.countdown{
+  font-size:clamp(108px, 36vw, 190px) !important;
+}
+
+
+/* ═══════════════════════════════════════════
+   V51.21 — Timer WOD : 95 % largeur + hauteur utile
+   - Le JS mesure le texte réel dans le navigateur.
+   - Le timer vise 95 % de la largeur interne disponible.
+   - L'espace vertical libre au-dessus du timer peut être utilisé.
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-wod-timer{
+  overflow:visible !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+  padding:8px 7px !important;
+}
+.guided-card.kind-wod .guided-timer-display{
+  box-sizing:border-box !important;
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  overflow:visible !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+  letter-spacing:-.055em !important;
+  line-height:.82 !important;
+  margin:2px auto 8px !important;
+  font-variant-numeric:tabular-nums;
+  font-size:clamp(96px, 31vw, 190px) !important;
+}
+.guided-card.kind-wod .guided-timer-display.countdown{
+  font-size:clamp(116px, 38vw, 220px) !important;
 }

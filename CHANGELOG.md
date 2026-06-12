@@ -1,6 +1,14 @@
+# CHANGELOG
+
+## V51.21 — Timer WOD mesuré pleine largeur
+
+- Correction du timer WOD en vue séance : auto-fit basé sur mesure canvas du texte, pas sur `scrollWidth`.
+- Le timer doit prendre presque toute la largeur disponible sans être coupé à droite.
+- Correction ciblée : aucun programme, aucune donnée durable et aucun moteur de charge modifié.
+
 # CHANGELOG — Coach Beurt
 
-## V51.19 — Timer WOD auto-fit strict
+## V51.21 — Timer WOD auto-fit strict
 
 - Correction du timer WOD en mode séance qui pouvait encore dépasser horizontalement sur iPhone.
 - Le calcul JS applique maintenant la taille avec priorité `!important`, car des règles CSS de versions précédentes pouvaient bloquer l'auto-fit.
@@ -14,7 +22,7 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
-## V51.19 — Résultats For Time : choix complet 00:00–60:00
+## V51.21 — Résultats For Time : choix complet 00:00–60:00
 
 - Résultats For Time : remplacement de la plage courte par une liste complète de `00:00` à `60:00`.
 - Toutes les secondes sont disponibles dans la liste déroulante.
