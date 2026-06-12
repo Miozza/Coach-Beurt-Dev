@@ -1,28 +1,22 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.21
-### V51.21 — Correction ciblée
+## Dernière modification — V51.23
+### V51.23 — Sécurisation timer WOD et vue séance
 
-- Timer WOD en mode séance : auto-fit strict pour empêcher le débordement horizontal sur iPhone.
-- Le JS applique `font-size` et `letter-spacing` avec priorité `!important` pour battre les anciennes règles CSS.
-- Aucun programme ni donnée durable modifié.
-
-
-- Résultats For Time : la liste déroulante couvre maintenant `00:00` à `60:00` avec toutes les secondes possibles.
-- L’objectif/cap détecté est présélectionné automatiquement.
-- Aucun programme, aucune séance, aucun fichier durable et aucun réglage `data/charges.js` modifié.
-
-Ce document est la source courte de vérité du projet. Il doit être mis à jour à chaque release.
-
-Les modifications de version sont maintenant consignées uniquement dans `CHANGELOG.md`.
-
----
+- Le timer WOD en mode séance est maintenant une règle verrouillée.
+- Format obligatoire : `9:12`, `8:00`, `0:45`, `10:00`, `60:00`.
+- Interdit : `09:12`, `08:00`, `00:45`.
+- Les secondes restent toujours à deux chiffres.
+- La taille doit viser environ 95 % de la largeur interne utile, sans débordement.
+- La taille doit rester stable par format grâce à un gabarit (`8:88` ou `88:88`), pas selon la forme exacte des chiffres.
+- Les boutons Play / Pause / Reset, `Précédent` et `Bloc suivant` doivent toujours rester accessibles en portrait iPhone.
+- Aucun programme, aucune séance, aucune charge et aucune donnée durable n’ont été modifiés.
 
 ## 1. Identité
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.21
+- Version actuelle : V51.23
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -31,10 +25,10 @@ Les modifications de version sont maintenant consignées uniquement dans `CHANGE
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.21"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.19`.
-- `manifest.json` : `Coach Bertin V51.21`.
-- `service-worker.js` : `coach-bertin-v51-21-no-cache`.
+- `app.js` : `APP_VERSION = "V51.23"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.23`.
+- `manifest.json` : `Coach Bertin V51.23`.
+- `service-worker.js` : `coach-bertin-v51-23-no-cache`.
 
 ---
 
@@ -114,8 +108,6 @@ Dossiers :
 - `tools/` : outils complémentaires hors UI.
 - `docs/` : documentation stable non versionnée.
 
-`diagnostics/` et les vieux documents versionnés ne font plus partie de la base propre.
-
 ---
 
 ## 6. Décisions en vigueur
@@ -123,7 +115,7 @@ Dossiers :
 - Service worker volontairement sans cache applicatif durable.
 - `theme-color` uniforme : `#04060f`.
 - WOD+ est la vue mobile-first principale.
-- Séance guidée est la vue terrain iPhone.
+- Séance guidée est la vue terrain iPhone prioritaire.
 - Résultats est séparé de PC.
 - PC reste une vue d’inspection/logistique, pas un Builder.
 - La section PC `Route` calcule la feuille de route vers janvier 2027.
@@ -133,25 +125,34 @@ Dossiers :
 
 ---
 
-## 7. Chantiers ouverts
+## 7. Règles UI verrouillées — vue séance
+
+### Timer WOD
+
+- Format obligatoire : `9:12`, `8:00`, `0:45`, `10:00`, `60:00`.
+- Interdit : `09:12`, `08:00`, `00:45`.
+- Secondes toujours à deux chiffres.
+- Taille non fixe.
+- Viser environ 95 % de la largeur interne utile.
+- Mesure stable par gabarit (`8:88` ou `88:88`) pour éviter que la taille change selon la forme des chiffres.
+- Aucun dépassement horizontal.
+- Boutons Play / Pause / Reset accessibles.
+
+### Vue séance iPhone
+
+- Boutons `Précédent` et `Bloc suivant` toujours accessibles en portrait iPhone.
+- Les blocs longs doivent scroller sans pousser les actions hors écran.
+- La vue séance est prioritaire sur les autres vues mobiles.
+
+---
+
+## 8. Chantiers ouverts
 
 Priorités à garder séparées :
 
-1. Tester V51.21 sur DEV après import.
-2. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
-3. Revalider la vue séance sur iPhone : WOD timer, boutons timer, boutons bas accessibles.
+1. Tester V51.23 sur DEV après import.
+2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
+3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
 5. Garder un œil sur `app.js`, qui reste monolithique et sensible.
 6. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
-
-### V51.21 — Résultats For Time
-
-- Priorité : saisie des résultats For Time.
-- Liste déroulante complète de `00:00` à `60:00`, seconde par seconde.
-- Objectif/cap présélectionné automatiquement quand détecté.
-- Programmes, séances, données durables et `data/charges.js` protégés.
-
-
-## Note V51.21
-
-Correction ciblée : le timer WOD en mode séance vise 95 % de la largeur interne disponible et exploite mieux la hauteur libre, sans modifier les programmes ni les données durables.

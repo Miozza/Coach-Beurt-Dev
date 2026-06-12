@@ -1,20 +1,4 @@
-# CHANGELOG
-
-## V51.21 — Timer WOD mesuré pleine largeur
-
-- Correction du timer WOD en vue séance : auto-fit basé sur mesure canvas du texte, pas sur `scrollWidth`.
-- Le timer doit prendre presque toute la largeur disponible sans être coupé à droite.
-- Correction ciblée : aucun programme, aucune donnée durable et aucun moteur de charge modifié.
-
 # CHANGELOG — Coach Beurt
-
-## V51.21 — Timer WOD auto-fit strict
-
-- Correction du timer WOD en mode séance qui pouvait encore dépasser horizontalement sur iPhone.
-- Le calcul JS applique maintenant la taille avec priorité `!important`, car des règles CSS de versions précédentes pouvaient bloquer l'auto-fit.
-- La correction est ciblée sur le timer WOD de la vue séance seulement.
-- Aucun programme, aucune séance et aucune donnée durable modifiés.
-
 
 Toutes les modifications de version doivent être inscrites ici.
 
@@ -22,9 +6,42 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
-## V51.21 — Résultats For Time : choix complet 00:00–60:00
+## V51.23 — Sécurisation timer WOD et vue séance
 
-- Résultats For Time : remplacement de la plage courte par une liste complète de `00:00` à `60:00`.
+- Verrouille officiellement le format du timer WOD en vue séance : `9:12`, `8:00`, `0:45`, `10:00`, sans zéro inutile devant les minutes.
+- Documente la règle de taille : viser 95 % de la largeur interne utile, avec mesure stable par gabarit (`8:88` ou `88:88`).
+- Ajoute la validation obligatoire dans `RELEASE_CHECKLIST.md` pour éviter les régressions sur les boutons du timer et les boutons `Précédent` / `Bloc suivant`.
+- Ajoute les règles dans `docs/UI_CONSTRAINTS.md`.
+- Aucun changement de programme, de séance, de charges ou de données durables.
+
+## V51.22 — Timer WOD sans zéro inutile
+
+- Le timer WOD en mode séance n’affiche plus de zéro devant les minutes sous 10.
+- Exemple : `9:12` au lieu de `09:12`; `10:00` reste `10:00`.
+- L’auto-fit mesure un gabarit stable (`8:88` ou `88:88`) pour éviter que la taille change selon la forme des chiffres.
+- Correction limitée au timer WOD en vue séance.
+
+## V51.21 — Timer WOD 95 % largeur + hauteur utile
+
+- Le timer WOD vise environ 95 % de la largeur interne disponible.
+- Le calcul tient compte de la hauteur utile de la boîte timer.
+- Correction limitée au timer WOD en mode séance.
+
+## V51.20 — Timer WOD mesuré pleine largeur
+
+- Correction du timer WOD en vue séance : auto-fit basé sur mesure du texte, pas sur `scrollWidth`.
+- Le timer doit prendre presque toute la largeur disponible sans être coupé à droite.
+- Correction ciblée : aucun programme, aucune donnée durable et aucun moteur de charge modifié.
+
+## V51.19 — Timer WOD auto-fit strict
+
+- Correction du timer WOD en mode séance qui pouvait encore dépasser horizontalement sur iPhone.
+- Le calcul JS applique la taille avec priorité suffisante pour battre les anciennes règles CSS.
+- Correction ciblée sur le timer WOD de la vue séance seulement.
+
+## V51.18 — Résultats For Time : choix complet 00:00–60:00
+
+- Résultats For Time : liste complète de `00:00` à `60:00`.
 - Toutes les secondes sont disponibles dans la liste déroulante.
 - L’objectif/cap détecté reste présélectionné automatiquement.
 - Aucun changement aux programmes, aux séances, au moteur de charges ou aux données durables.
@@ -34,184 +51,43 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 - Ajoute un ajustement automatique de la taille du timer WOD en mode séance.
 - Le timer essaie d'occuper presque toute la largeur disponible sans déborder.
 - Correction ciblée à la vue séance WOD; les autres timers ne sont pas modifiés.
-- Aucun programme, aucune séance et aucune donnée durable modifiés.
 
 ## V51.16 — Timer WOD sans débordement + résultats plus lisibles
 
 - Correction du timer WOD en mode séance : retour à un gabarit large, mais sans débordement horizontal.
 - Maintien de l’accessibilité des boutons du timer.
 - Agrandissement du texte des noms de mouvements dans la vue Résultats.
-- Aucun changement aux programmes, séances, données durables ou charges.
 
 ## V51.15 — Vue séance WOD : noms propres + timer prioritaire
 
 - Nettoie les noms de mouvements WOD en mode séance/résultats : une charge comme `14 lb` n’est plus intégrée au titre du mouvement.
 - Retire les pastilles de charge sous le timer WOD en mode séance.
 - Redonne l’espace libéré au timer WOD sans modifier les autres timers de l’app.
-- Aucun changement aux programmes, aux séances, à `data/charges.js` ou aux données durables.
 
 ## V51.14 — Résultats avec contrôles compacts
 
 - La vue Résultats adopte la même logique de saisie que la vue Séance : `− valeur +` pour poids, reps et RPE.
-- Les anciennes pastilles de reps/RPE sont retirées de la saisie standard des résultats pour éviter deux interfaces différentes.
+- Les anciennes pastilles de reps/RPE sont retirées de la saisie standard des résultats.
 - Les valeurs restent synchronisées avec le cache guidé et la sauvegarde existante.
-- Aucun programme, aucune séance et aucune donnée durable modifiés.
 
 ## V51.13 — Timer séance restauré
 
 - Restaure la taille lisible du timer en mode séance.
 - Conserve les protections V51.12 : carte WOD scrollable, boutons de navigation accessibles, bas d’écran moins gaspillé.
-- Ne modifie aucun programme, aucune séance et aucune donnée durable.
 
 ## V51.12 — Ajustement bas de vue séance et boutons timer
 
 - Réduit la réserve excessive en bas de la vue séance iPhone.
 - Corrige l’accessibilité des boutons des timers dans les blocs WOD/AMRAP/EMOM/For Time.
 - Rend la carte WOD scrollable seulement quand la hauteur réelle manque.
-- Compacte légèrement l’affichage timer sans toucher au programme ni aux données.
-- Aucun nouveau fichier de release/audit versionné : historique maintenu uniquement ici.
 
 ## V51.11 — Stabilisation vue séance iPhone + témoin GitHub discret
 
-### Changements
-
-- Stabilisation ciblée de la vue séance guidée sur iPhone.
-- La vue séance utilise mieux la hauteur réelle disponible avec `--guided-vh` / `100dvh`.
-- Les cartes d’exercices deviennent scrollables à l’intérieur du bloc quand un giant set contient plusieurs mouvements.
-- Les boutons `Précédent` et `Bloc suivant` restent hors de la zone scrollable pour rester accessibles.
-- Le résumé de séance devient scrollable avec une hauteur maximale compatible iPhone et safe-area.
-- Le témoin GitHub de la topnav devient une petite pastille discrète au lieu d’un gros badge texte.
-- Mise à jour de version : `APP_VERSION`, `index.html`, cache-bust, `manifest.json`, `service-worker.js`, `ETAT_ACTUEL.md`.
-
-### Non modifié
-
-- Aucun programme d’entraînement protégé n’a été réécrit.
-- Aucune séance n’a été changée.
-- Aucun changement au moteur de charges.
-- Aucun changement à `data/charges.js`.
-- Aucune donnée durable modifiée.
-
-### Données durables exclues du ZIP update
-
-- `data/resultats.json`
-- `data/athlete_state.json`
-- `data/cycle_state.json`
-
----
+- Stabilise la vue séance guidée sur iPhone.
+- Rend le témoin GitHub plus discret dans la topnav.
 
 ## V51.10 — Nettoyage documentaire et structure fixe
 
-### Changements
-
-- Création de `CHANGELOG.md` comme seul endroit officiel pour l’historique des modifications.
-- Suppression des release notes individuelles et documents historiques versionnés à la racine.
-- Suppression des vieux documents d’audit/diagnostic non nécessaires à l’exécution de l’app.
-- Création d’une structure documentaire stable :
-  - `README.md`
-  - `CHANGELOG.md`
-  - `ETAT_ACTUEL.md`
-  - `RELEASE_CHECKLIST.md`
-  - `docs/ARCHITECTURE.md`
-  - `docs/CHARGE_ENGINE.md`
-  - `docs/UI_CONSTRAINTS.md`
-- Suppression de `programs/test.js`.
-- Retrait du programme `Test` de `programs/index.js`.
-- Retrait du script `programs/test.js` de `index.html`.
-- Suppression du dossier `diagnostics/`, qui contenait des traces d’audit anciennes non nécessaires à l’app.
-- Suppression du dossier `icons/`, doublon non référencé par `index.html` ni `manifest.json`.
-- Mise à jour de version : `APP_VERSION`, `index.html`, cache-bust, `manifest.json`, `service-worker.js`, `ETAT_ACTUEL.md`.
-
-### Non modifié
-
-- Aucun programme d’entraînement protégé n’a été réécrit.
-- Aucune séance n’a été changée.
-- Aucun changement au moteur de charges.
-- Aucun changement à `data/charges.js`.
-- Aucune donnée durable modifiée.
-
-### Données durables exclues
-
-- `data/resultats.json`
-- `data/athlete_state.json`
-- `data/cycle_state.json`
-
----
-
-## V51.09 — Héritage 225 sélectionnable
-
-- Héritage 225 devient visible dans la sélection de cycle.
-- Le programme conserve son statut narratif : `Disponible — projet futur`.
-- La sélection accepte les phases futures au-delà de Phase 4.
-- Aucun changement aux séances, au moteur de charges ou aux données durables.
-
----
-
-## V51.08 — Reps/RPE compacts avec +/-
-
-- Remplacement des pastilles Reps/RPE en séance guidée par deux contrôles compacts `− valeur +` sur une même ligne.
-- Reps augmente/diminue par 1.
-- RPE augmente/diminue par 0.5, ce qui donne accès à 7.5 et 8.5 sans débordement.
-- Aucun changement aux programmes, au moteur de charges ou aux données durables.
-
----
-
-## V51.07 — Reps/RPE iPhone lisibles
-
-- Limitation des choix Reps à 5 pastilles maximum.
-- Ajout des demi-paliers RPE utiles `7.5` et `8.5`.
-- Conservation de `RPE 6`.
-- Empilement de la saisie pour réduire les débordements horizontaux sur iPhone.
-- Aucun changement aux programmes, au moteur de charges ou aux données durables.
-
----
-
-## V51.06 — Déduplication helpers programmes
-
-- `programs/epaules_3d.js` utilise des helpers dédiés `shouldersEx()` et `shouldersExFixed()`.
-- `programs/workouts.js` garde les helpers génériques `ex()` et `exFixed()`.
-- Correction du doublon silencieux entre Épaules 3D et workouts.
-- Aucun changement volontaire aux séances, blocs, charges ou moteur de suggestion.
-
----
-
-## V51.05 — `ETAT_ACTUEL.md` source de vérité
-
-- Ajout de `ETAT_ACTUEL.md` à la racine du ZIP.
-- Le document devient la référence courte du projet et doit être mis à jour à chaque release.
-- Aucun changement de séance, de moteur de charges ou de données durables.
-
----
-
-## V51.04 — Roadmap macro + statut sync GitHub
-
-- Ajout d’un onglet PC `Route`.
-- Calcul des phases restantes depuis le cycle actif jusqu’à l’objectif macro de janvier 2027.
-- Utilisation des durées de programmes plutôt que les vieux `phaseEnd` statiques.
-- Ajout d’un indicateur discret de sync GitHub dans la topnav.
-- Aucun changement de séance, de moteur de charges ou de données durables.
-
----
-
-## V51.03 — Moteur de charges corrigé
-
-- Correction de la sous-suggestion Barbell Row quand l’historique réel contrôlé est supérieur.
-- Séparation des contextes Overhead Rope Extension lourd/rappel.
-- Limitation des gros sauts Bulgarian Split Squat et Hip Thrust.
-- Nettoyage du mapping Épaules 3D.
-- Alertes moins agressives quand une baisse peut être volontaire.
-- Maintien de la règle de prudence : RPE réel `>= 9` bloque toute hausse automatique.
-- Aucun changement aux données durables.
-
----
-
-## V51.02 — Programmes restaurés
-
-- Restauration des cycles travaillés le 2026-06-09.
-- Programmes restaurés/protégés :
-  - `programs/epaules_3d.js`
-  - `programs/hypertrophy_base.js`
-  - `programs/force_performance.js`
-  - `programs/competition_peak.js`
-  - `programs/heritage_225.js`
-- Conservation du moteur de charges sécurisé.
-- Aucun changement aux données durables.
+- Nettoie les release notes/audits versionnés.
+- `CHANGELOG.md` devient le seul endroit officiel pour l’historique.
+- Retire `programs/test.js`.

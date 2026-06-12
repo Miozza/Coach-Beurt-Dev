@@ -1,4 +1,4 @@
-// Coach Beurt V51.17 — guided session view + compact reps/RPE steppers + WOD timer autofit
+// Coach Beurt V51.23 — guided session view + compact reps/RPE steppers + WOD timer rules locked
 // Vue PC pleine largeur : 1 bloc = 1 page. Le WOD a son gros timer dédié.
 
 var guidedSessionState = { blocks: [], index: 0 };
@@ -391,6 +391,19 @@ function updateGuidedEmomVisualWarning(){
   box.setAttribute("data-emom-warning", st.label);
 }
 
+
+function formatGuidedTimerClock(sec){
+  sec=Math.max(0,Math.floor(sec||0));
+  return String(Math.floor(sec/60))+":"+String(sec%60).padStart(2,"0");
+}
+function guidedTimerFitSample(text,isCountdown){
+  text=String(text||"");
+  if(isCountdown) return text.length>=2 ? "88" : "8";
+  var parts=text.split(":");
+  var minuteDigits=(parts[0]||"0").length;
+  return minuteDigits>=2 ? "88:88" : "8:88";
+}
+
 function syncGuidedTimerButtons(){
   var start=$("guidedTimerStart");
   var pause=$("guidedTimerPause");
@@ -409,9 +422,11 @@ function syncGuidedTimerButtons(){
   }
 }
 
-// V51.21 — WOD timer auto-fit 95 % largeur + hauteur utile.
-// But : utiliser presque toute la boîte du timer sans couper les chiffres.
-// Correction clé : mesure DOM réelle, pas canvas/scrollWidth, pour matcher Safari iPhone.
+// RÈGLE VERROUILLÉE — Timer WOD en vue séance.
+// Format obligatoire : minutes sans zéro inutile (9:12, 8:00, 0:45, 10:00, 60:00).
+// Secondes toujours à 2 chiffres.
+// Taille : mesurer un gabarit stable par format (8:88 / 88:88) et viser 95 % de la largeur utile.
+// Ne pas revenir à 09:12 / 08:00 / 00:45. Ne pas utiliser une taille fixe.
 var guidedTimerMeasureEl = null;
 function guidedGetTimerMeasureEl(){
   if(guidedTimerMeasureEl && guidedTimerMeasureEl.parentNode) return guidedTimerMeasureEl;
@@ -485,7 +500,8 @@ function fitGuidedWodTimer(){
   }
 
   var isCountdown=d.classList.contains("countdown");
-  var text=String(d.textContent || (isCountdown ? "10" : "00:00"));
+  var text=String(d.textContent || (isCountdown ? "10" : "0:00"));
+  var measureText=guidedTimerFitSample(text,isCountdown);
   var letterSpacingEm=-0.055;
   var minSize=isCountdown ? 84 : 78;
   var maxSize=isCountdown ? 260 : 240;
@@ -495,7 +511,7 @@ function fitGuidedWodTimer(){
 
   for(i=0;i<18;i++){
     mid=(low+high)/2;
-    measured=guidedMeasureTimerTextDom(text, mid, displayStyle, letterSpacingEm);
+    measured=guidedMeasureTimerTextDom(measureText, mid, displayStyle, letterSpacingEm);
     if(measured.width<=targetWidth && measured.height<=targetHeight) low=mid; else high=mid;
   }
 
@@ -531,7 +547,7 @@ function updateGuidedTimerDisplay(){
     d.textContent=String(guidedTimer.countdownRemaining);
     d.classList.add("countdown");
   } else {
-    d.textContent=formatClock(guidedTimerCurrentValue());
+    d.textContent=formatGuidedTimerClock(guidedTimerCurrentValue());
     d.classList.remove("countdown");
   }
   updateGuidedEmomVisualWarning();
@@ -748,7 +764,7 @@ function renderGuidedSession(){
     html+=renderGuidedWodMoves(st.moves);
     html+="<div class='guided-wod-timer' data-duration='"+(cfg?cfg.seconds:0)+"' data-mode='"+(cfg?cfg.mode:"down")+"'>"+
           "<div class='guided-timer-label'>"+escHtml((cfg&&cfg.label)||"Timer")+(cfg&&cfg.isEmom?" · bip/min":"")+"</div>"+
-          "<div class='guided-timer-display' id='guidedTimerDisplay'>"+formatClock(cfg&&cfg.mode==="up"?0:(cfg?cfg.seconds:0))+"</div>"+
+          "<div class='guided-timer-display' id='guidedTimerDisplay'>"+formatGuidedTimerClock(cfg&&cfg.mode==="up"?0:(cfg?cfg.seconds:0))+"</div>"+
           "<div class='guided-timer-buttons'>"+
             "<button class='guided-tbtn start' id='guidedTimerStart'>▶</button>"+
             "<button class='guided-tbtn' id='guidedTimerPause'>Ⅱ</button>"+

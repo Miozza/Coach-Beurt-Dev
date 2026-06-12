@@ -55,3 +55,15 @@ Doit exclure :
 - `data/resultats.json`
 - `data/athlete_state.json`
 - `data/cycle_state.json`
+
+
+## Validation vue séance verrouillée
+
+Avant de livrer une version qui touche à `styles.css`, `scripts/view_session.js`, `app.js` ou `index.html`, vérifier :
+
+- Le timer WOD affiche `9:12`, `8:00`, `0:45`, `10:00`, jamais `09:12`, `08:00`, `00:45`.
+- Le timer WOD utilise presque toute la largeur disponible sans dépasser.
+- La taille du timer reste stable pendant le décompte et ne change pas selon la forme des chiffres.
+- Les boutons Play / Pause / Reset du timer sont accessibles.
+- Les boutons `Précédent` et `Bloc suivant` sont accessibles en portrait iPhone.
+- Un WOD court, un AMRAP/CAP et un bloc long avec plusieurs mouvements restent utilisables sans bouton caché.

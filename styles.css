@@ -5635,3 +5635,14 @@ body.guided-session-active{
 .guided-card.kind-wod .guided-timer-display.countdown{
   font-size:clamp(116px, 38vw, 220px) !important;
 }
+
+
+/* ═══════════════════════════════════════════
+   V51.22 — Timer WOD : minutes sans zéro inutile
+   - Le JS affiche 9:12 au lieu de 09:12.
+   - Le fit mesure un gabarit stable par format (8:88 ou 88:88).
+   ═══════════════════════════════════════════ */
+.guided-card.kind-wod .guided-timer-display{
+  font-variant-numeric:tabular-nums !important;
+  font-feature-settings:"tnum" 1, "kern" 0 !important;
+}
