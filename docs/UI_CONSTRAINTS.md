@@ -58,3 +58,20 @@ Ces règles sont obligatoires à partir de V51.24.
 - Les boutons internes du timer doivent toujours rester accessibles.
 - Le contenu d’un bloc long doit scroller à l’intérieur de la vue au lieu de pousser les actions hors écran.
 - La vue séance est prioritaire sur les autres vues mobiles : ne pas casser son layout pour corriger PC, Historique ou WOD+.
+
+## Socle anti-régression — règles courtes
+
+Ces règles ne doivent pas devenir une longue liste. Elles protègent seulement les acquis sensibles.
+
+1. **Vue séance iPhone** : tout élément d’action doit rester accessible en portrait.
+2. **Timer WOD** : minutes sans zéro inutile, secondes à deux chiffres, viser environ 95 % de la largeur utile, jamais coupé.
+3. **Résultats** : poids, reps et RPE utilisent les contrôles compacts `− valeur +`.
+4. **Charges haltères** : aucune vue ne doit recréer sa propre liste; utiliser les helpers d’équipement communs.
+5. **Historique** : `CHANGELOG.md` reste le seul historique de version.
+
+Les règles de format timer, de charges disponibles, de RPE et de résultats doivent vivre dans des helpers communs lorsque possible. Une vue ne doit pas recopier une logique déjà existante dans une autre vue.
+
+## Contrat charge / avertissement séance
+
+- Le bouton jaune `!` / `⚠` de la vue séance doit afficher l’historique des poids utilisés quand une charge est suggérée ou surveillée.
+- La source ne doit pas dépendre uniquement de `athlete_state`; `state.history` doit servir de fallback.

@@ -1,22 +1,21 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.24
-### V51.24 — Sécurisation timer WOD et vue séance
+## Dernière modification — V51.26
+### V51.26 — Socle anti-régression
 
-- Le timer WOD en mode séance est maintenant une règle verrouillée.
-- Format obligatoire : `9:12`, `8:00`, `0:45`, `10:00`, `60:00`.
-- Interdit : `09:12`, `08:00`, `00:45`.
-- Les secondes restent toujours à deux chiffres.
-- La taille doit viser environ 95 % de la largeur interne utile, sans débordement.
-- La taille doit rester stable par format grâce à un gabarit (`8:88` ou `88:88`), pas selon la forme exacte des chiffres.
-- Les boutons Play / Pause / Reset, `Précédent` et `Bloc suivant` doivent toujours rester accessibles en portrait iPhone.
-- Aucun programme, aucune séance, aucune charge et aucune donnée durable n’ont été modifiés.
+- Ajout de `tools/regression_checks.js` comme fichier fixe de validation anti-régression.
+- Le script vérifie les garanties sensibles : version cohérente, pas d’artefacts versionnés, données durables protégées, programmes protégés présents, `heritage_225` visible, timer WOD verrouillé, contrôles Résultats compacts et charges haltères du gym.
+- `scripts/app_helpers.js` expose maintenant le helper commun `formatTimerDisplay(sec)` pour le timer WOD.
+- `scripts/view_session.js` utilise ce helper au lieu de maintenir sa propre logique isolée.
+- `RELEASE_CHECKLIST.md` et `docs/UI_CONSTRAINTS.md` documentent les contrats courts à protéger.
+- Aucun fichier de release/audit versionné ajouté.
+- Aucun programme, aucune séance, aucune charge et aucune donnée durable modifiés.
 
 ## 1. Identité
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.24
+- Version actuelle : V51.26
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -25,10 +24,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.24"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.24`.
-- `manifest.json` : `Coach Bertin V51.24`.
-- `service-worker.js` : `coach-bertin-v51-24-no-cache`.
+- `app.js` : `APP_VERSION = "V51.26"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.26`.
+- `manifest.json` : `Coach Bertin V51.26`.
+- `service-worker.js` : `coach-bertin-v51-26-no-cache`.
 
 ---
 
@@ -150,7 +149,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.24 sur DEV après import.
+1. Tester V51.26 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.

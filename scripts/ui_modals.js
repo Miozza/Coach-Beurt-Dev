@@ -24,21 +24,96 @@ function isAmbiguousLoad(load){
   if(!l||l==="—"||l==="-")return true;
   return /\b(léger|leger|modéré|modere|rpe|facile|difficile|selon|au choix|optionnel)\b/.test(l);
 }
-function loadHistoryRowsForExercise(exercise){
-  if(!exercise)return [];
-  var label=(typeof canonicalMovementLabel==="function")?canonicalMovementLabel(exercise.name||""):movementLabelFromKeyOrName(exercise.name||"");
-  var ast=ensureAthleteState ? ensureAthleteState() : {movements:{}};
-  var mv=ast.movements&&ast.movements[label];
-  var rows=(mv&&Array.isArray(mv.history))?mv.history.slice(-5).reverse():[];
+function loadHistoryLookupName(s){
+  s=String(s||"");
+  if(typeof chargeKeyFromName==="function")s=chargeKeyFromName(s);
+  s=s.normalize? s.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : s;
+  return s.toLowerCase()
+    .replace(/\b(db|dumbbell|dumbbells)\b/g,"haltere")
+    .replace(/\bbarbell\b/g,"barre")
+    .replace(/[’']/g," ")
+    .replace(/\s*\/\s*/g," / ")
+    .replace(/[^a-z0-9\/]+/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function loadHistoryNameCandidates(exercise){
+  var raw=(exercise&&exercise.name)||"";
+  var names=[];
+  function add(x){x=String(x||"").trim();if(x&&names.indexOf(x)<0)names.push(x);}
+  add(raw);
+  if(typeof chargeKeyFromName==="function")add(chargeKeyFromName(raw));
+  if(typeof canonicalMovementLabel==="function")add(canonicalMovementLabel(raw));
+  if(typeof movementLabelFromKeyOrName==="function")add(movementLabelFromKeyOrName(raw));
+  return names;
+}
+function loadHistoryRowFromResult(session, movementName, result){
+  result=result||{};
+  return {
+    date:session.date||session.actualDate||"—",
+    load:result.load||result.actualLoad||result.capacityLoad||"—",
+    reps:result.reps||result.actualReps||result.currentReps||"—",
+    rpe:result.rpe||"—",
+    status:result.status||"",
+    source:"historique"
+  };
+}
+function loadHistoryRowsFromAthleteState(exercise){
+  var ast=(typeof ensureAthleteState==="function")?ensureAthleteState():{movements:{}};
+  var moves=(ast&&ast.movements)||{};
+  var candidates=loadHistoryNameCandidates(exercise);
+  var wanted=candidates.map(loadHistoryLookupName);
+  var mv=null;
+  for(var i=0;i<candidates.length;i++){
+    if(moves[candidates[i]]){mv=moves[candidates[i]];break;}
+  }
+  if(!mv){
+    Object.keys(moves).some(function(k){
+      if(wanted.indexOf(loadHistoryLookupName(k))>=0){mv=moves[k];return true;}
+      return false;
+    });
+  }
+  var rows=(mv&&Array.isArray(mv.history))?mv.history.slice(-8).reverse():[];
   return rows.map(function(r){
     return {
       date:r.date||"—",
       load:r.load||r.actualLoad||r.capacityLoad||"—",
       reps:r.reps||r.actualReps||r.currentReps||"—",
       rpe:r.rpe||"—",
-      status:r.status||""
+      status:r.status||"",
+      source:"athlete_state"
     };
   });
+}
+function loadHistoryRowsFromSessionHistory(exercise){
+  var hist=[];
+  try{hist=(state&&Array.isArray(state.history))?state.history:[];}catch(e){hist=[];}
+  if(!hist.length)return [];
+  var wanted=loadHistoryNameCandidates(exercise).map(loadHistoryLookupName);
+  var rows=[];
+  hist.forEach(function(session){
+    var results=session&&(session.results||session.resultats)||{};
+    Object.keys(results||{}).forEach(function(k){
+      if(String(k).indexOf("wod_")===0)return;
+      if(wanted.indexOf(loadHistoryLookupName(k))>=0){
+        var r=results[k];
+        if(r&&(r.load!==undefined||r.actualLoad!==undefined||r.capacityLoad!==undefined))rows.push(loadHistoryRowFromResult(session,k,r));
+      }
+    });
+  });
+  return rows.reverse();
+}
+function loadHistoryRowsForExercise(exercise){
+  if(!exercise)return [];
+  var rows=loadHistoryRowsFromAthleteState(exercise).concat(loadHistoryRowsFromSessionHistory(exercise));
+  var seen={};
+  rows=rows.filter(function(r){
+    var key=[r.date,r.load,r.reps,r.rpe,r.status].join("|");
+    if(seen[key])return false;
+    seen[key]=true;
+    return true;
+  });
+  return rows.slice(0,5);
 }
 function loadReasonForExercise(exercise, shownLoad, rows){
   var raw=String((exercise&&exercise.load)||"").trim();
@@ -119,7 +194,7 @@ function renderLoadInfoModalBody(msg){
       diagHtml+
       (hint.equipment?'<div class="tuto-section"><div class="tuto-section-title">Matériel</div><p>'+escapeHtml(hint.equipment)+'</p></div>':'')+
       '<div class="tuto-section"><div class="tuto-section-title">Raison</div><p>'+escapeHtml(hint.reason||"—")+'</p></div>'+
-      '<div class="tuto-section"><div class="tuto-section-title">Petite historique</div><ul>'+lis+'</ul></div>';
+      '<div class="tuto-section"><div class="tuto-section-title">Historique des poids utilisés</div><ul>'+lis+'</ul></div>';
   }
   return '<div class="tuto-topline">EXPLICATION DE CHARGE</div>'+
     '<div class="tuto-title">Pourquoi cette charge?</div>'+

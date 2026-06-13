@@ -393,10 +393,12 @@ function updateGuidedEmomVisualWarning(){
 
 
 function formatGuidedTimerClock(sec){
+  if(typeof formatTimerDisplay === "function") return formatTimerDisplay(sec);
   sec=Math.max(0,Math.floor(sec||0));
   return String(Math.floor(sec/60))+":"+String(sec%60).padStart(2,"0");
 }
 function guidedTimerFitSample(text,isCountdown){
+  if(typeof timerMeasureSampleForDisplay === "function") return timerMeasureSampleForDisplay(text,isCountdown);
   text=String(text||"");
   if(isCountdown) return text.length>=2 ? "88" : "8";
   var parts=text.split(":");

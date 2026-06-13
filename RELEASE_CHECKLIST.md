@@ -70,3 +70,36 @@ Avant de livrer une version qui touche à `styles.css`, `scripts/view_session.js
 
 ## Validation Résultats
 - [ ] Vue Résultats : les mouvements haltères suivent la liste disponible du gym, pas des incréments génériques.
+
+## Socle anti-régression fixe
+
+Avant chaque ZIP, exécuter :
+
+```bash
+node tools/regression_checks.js
+```
+
+Pour vérifier un dossier `update-files-no-durable-data`, exécuter depuis ce dossier :
+
+```bash
+node tools/regression_checks.js --update-package
+```
+
+Le script doit rester un garde-fou court. Ne pas créer de rapport versionné dans le repo; le résultat du test va dans la réponse de livraison.
+
+Garanties minimales vérifiées :
+
+- pas de fichiers `RELEASE_NOTES_V*`, audit ou rapport versionné;
+- `programs/test.js` absent;
+- données durables exclues des ZIP update;
+- programmes protégés présents;
+- `heritage_225` présent dans `programs/index.js`;
+- version cohérente dans app/index/manifest/service-worker/docs;
+- timer WOD sans zéro inutile devant les minutes;
+- contrôles Résultats compacts et DB selon la liste du gym;
+- For Time disponible de `00:00` à `60:00`.
+
+## Garde-fou séance / charges
+
+- [ ] Le bouton jaune `!` / `⚠` en vue séance ouvre une modale avec la section `Historique des poids utilisés`.
+- [ ] L’historique de charge doit pouvoir venir de `athlete_state` et de `state.history`.
