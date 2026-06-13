@@ -1,6 +1,15 @@
 # CHANGELOG — Coach Beurt
 
-## V51.29 — Suggestions de charges accessoires robustes
+## V51.30 — Mapping charges par équipement + noms propres
+
+- Sépare les alias de mouvements par équipement : haltères, câble, machine, barre et poids du corps ne partagent plus automatiquement leurs historiques de charge.
+- Empêche `Lateral Raise haltères` de reprendre l’historique de `Lateral Raise câble`, et même règle pour `Rear Delt Fly`.
+- Sépare les contextes `DB Shoulder Press`, `Landmine Press`, `Weighted Pull-up`, `Ring Row`, `Power Clean technique`, `Power Clean WOD` et `Power Clean`.
+- Nettoie l’affichage des suffixes internes comme `— rappel vendredi` sans modifier les fichiers de programme.
+- Renforce `dev/regression_checks.js` pour empêcher le retour des alias trop larges.
+
+
+## V51.30 — Suggestions de charges accessoires robustes
 
 - Corrige les suggestions de poids manquantes sur le vendredi du cycle Épaules 3D.
 - Les charges non numériques comme `léger` ou `modéré` utilisent maintenant l’historique, les alias de mouvement ou un repère interne prudent.
@@ -15,7 +24,7 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
-## V51.29 — Bouton ! séance simplifié + historique robuste
+## V51.30 — Bouton ! séance simplifié + historique robuste
 
 - Simplifie la modale du bouton jaune `!` / `⚠` en vue séance : priorité à l’historique de charge, avec moins d’informations secondaires.
 - Corrige la recherche d’historique quand la vue séance fournit le mouvement sous `title` plutôt que `name`.

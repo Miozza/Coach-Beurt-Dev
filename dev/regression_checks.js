@@ -126,9 +126,17 @@ assert(appSrc.includes('normalizeForTimeGoalSeconds'), 'For Time doit garder la 
 assert(appSrc.includes('function coachMovementLookupLabels'), 'Les alias de mouvements doivent rester centralisés pour éviter les suggestions manquantes.');
 assert(appSrc.includes('function coachDefaultLoadSeedForMovement'), 'Les charges textuelles léger/modéré doivent garder un repère numérique prudent.');
 assert(appSrc.includes('DB Shoulder Press / Landmine Press'), 'Alias DB Shoulder Press / Landmine Press requis pour le vendredi Épaules 3D.');
-assert(appSrc.includes('Overhead Rope Extension — rappel vendredi'), 'Alias Overhead Rope Extension rappel vendredi requis.');
+assert(appSrc.includes('Overhead Rope Extension — rappel vendredi'), 'Ancien alias Overhead Rope Extension rappel vendredi conservé seulement pour lecture historique.');
 assert(appSrc.includes('Wide-Grip Cable Upright Row'), 'Alias Wide-Grip Cable Upright Row requis pour les suggestions du vendredi.');
 assert(appSrc.includes('storeLoadDecisionHint(label,originalText'), 'Les charges non numériques sans repère doivent encore alimenter le bouton !.');
+assert(appSrc.includes('DB ≠ câble ≠ machine ≠ barre ≠ poids du corps'), 'Le contrat d’alias par équipement doit rester documenté dans le code.');
+assert(appSrc.includes('Lateral Raise câble bas') && appSrc.includes('Lateral Raise haltères'), 'Les variantes Lateral Raise câble/haltères doivent rester distinctes.');
+assert(appSrc.includes('Rear Delt Fly câble bas') && appSrc.includes('Rear Delt Fly haltères'), 'Les variantes Rear Delt Fly câble/haltères doivent rester distinctes.');
+assert(!/if\(\/lateral raise\/\.test\(n\)\)\{[\s\S]{0,240}add\("Lateral Raise haltères"\)[\s\S]{0,240}add\("Lateral Raise câble bas"\)/.test(appSrc), 'Lateral Raise ne doit pas fusionner haltères et câble dans le même alias large.');
+assert(!/if\(\/rear delt fly\/\.test\(n\)\)\{[\s\S]{0,240}add\("Rear Delt Fly haltères"\)[\s\S]{0,240}add\("Rear Delt Fly câble bas"\)/.test(appSrc), 'Rear Delt Fly ne doit pas fusionner haltères et câble dans le même alias large.');
+assert(helperSrc.includes('function displayMovementName'), 'displayMovementName doit nettoyer les suffixes internes sans modifier les programmes.');
+assert(sessionSrc.includes('displayMovementName(e.title)'), 'La vue séance doit afficher les noms nettoyés.');
+
 
 // 7. UI critique.
 const html = read('index.html');
@@ -141,6 +149,11 @@ assert(html.includes('scripts/app_helpers.js'), 'app_helpers.js doit être charg
 
 // 8. Bouton jaune de charge / historique en séance.
 const modalSrc = read('scripts/ui_modals.js');
+
+assert(appSrc.includes('function coachMovementEquipmentFamily'), 'Le mapping de charge doit identifier la famille d’équipement.');
+assert(appSrc.includes('coachEquipmentCompatibleForAlias'), 'Le mapping de charge doit refuser les alias entre équipements incompatibles.');
+assert(modalSrc.includes('function loadHistoryEquipmentFamily'), 'La modale ! doit protéger l’historique contre les conflits DB/câble/machine/barre.');
+assert(modalSrc.includes('loadHistoryEquipmentCompatible'), 'La modale ! doit vérifier la compatibilité d’équipement avant un match partiel.');
 assert(modalSrc.includes('function loadHistoryRowsForExercise'), 'Le bouton ! charge doit conserver loadHistoryRowsForExercise.');
 assert(modalSrc.includes('loadHistoryRowsFromSessionHistory'), 'Le bouton ! charge doit utiliser state.history comme fallback.');
 assert(modalSrc.includes('athlete_state') || modalSrc.includes('athleteState'), 'Le bouton ! charge doit conserver athlete_state comme source.');

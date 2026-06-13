@@ -1,5 +1,5 @@
-// Coach Bertin V51.29
-var APP_VERSION = "V51.29";
+// Coach Bertin V51.30
+var APP_VERSION = "V51.30";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -263,6 +263,22 @@ function epley1RM(load,reps){load=Number(load)||0;reps=Number(reps)||0;if(!load|
 function estimateLoadForRepsFrom1RM(oneRm,reps){oneRm=Number(oneRm)||0;reps=Number(reps)||1;if(!oneRm)return 0;return oneRm/(1+reps/30);}
 function simpleStrengthIndexFromLoad(load){load=Number(load)||0;return Math.max(1,Math.round(load/12.5));}
 function coachNormalizeMoveText(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();}
+
+function coachMovementEquipmentFamily(nameOrKey){
+  var n=coachNormalizeMoveText(chargeKeyFromName(nameOrKey||''));
+  if(!n)return '';
+  if(/cable|poulie|rope|face pull|pushdown/.test(n))return 'cable';
+  if(/machine/.test(n))return 'machine';
+  if(/haltere|halteres|dumbbell|db/.test(n))return 'db';
+  if(/landmine/.test(n))return 'landmine';
+  if(/ring row|pull up|pullup|poids du corps|bodyweight/.test(n))return 'bodyweight';
+  if(/barbell|barre|bench|squat|strict press|push press|deadlift|power clean|clean/.test(n))return 'barbell';
+  return '';
+}
+function coachEquipmentCompatibleForAlias(a,b){
+  var fa=coachMovementEquipmentFamily(a), fb=coachMovementEquipmentFamily(b);
+  return !fa||!fb||fa===fb;
+}
 function canonicalMovementLabel(nameOrKey){
   var raw=chargeKeyFromName(nameOrKey||"");
   var n=coachNormalizeMoveText(raw);
@@ -278,7 +294,7 @@ function canonicalMovementLabel(nameOrKey){
   if(n.indexOf("power clean technique")>=0 || n.indexOf("clean technique")>=0)return "Power Clean technique";
   if(n.indexOf("power clean wod")>=0)return "Power Clean WOD";
   if(n.indexOf("power clean")>=0)return "Power Clean";
-  if(n.indexOf("overhead rope extension rappel vendredi")>=0)return "Overhead Rope Extension — rappel vendredi";
+  if(n.indexOf("overhead rope extension rappel vendredi")>=0)return "Overhead Rope Extension";
   if(n.indexOf("overhead rope extension")>=0)return "Overhead Rope Extension";
   if(n.indexOf("strict press")>=0)return "Strict Press";
   if(n.indexOf("barbell row")>=0)return "Barbell Row";
@@ -311,28 +327,43 @@ function coachMovementLookupLabels(nameOrKey){
   function add(x){x=String(x||"").trim();if(x&&list.indexOf(x)===-1)list.push(x);}
   add(canonical);add(raw);
 
-  // Aliases officiels anti-régression : les vues ne doivent pas perdre l'historique
-  // parce qu'un programme précise une variante ou un contexte de rappel.
-  if(/db shoulder press|landmine press/.test(n)){
-    add("DB Shoulder Press");
+  // Aliases officiels anti-régression : prudents par équipement.
+  // Règle V51.30 : DB ≠ câble ≠ machine ≠ barre ≠ poids du corps.
+  // Un alias peut rapprocher des noms seulement si la logique de charge est compatible.
+  if(/db shoulder press landmine press/.test(n)){
     add("DB Shoulder Press / Landmine Press");
+  }else if(/db shoulder press/.test(n)){
+    add("DB Shoulder Press");
+  }else if(/landmine press/.test(n)){
     add("Landmine Press");
   }
   if(/overhead rope extension/.test(n)){
     add("Overhead Rope Extension");
-    add("Overhead Rope Extension — rappel vendredi");
+    add("Overhead Rope Extension — rappel vendredi"); // ancien nom possible dans historique, jamais affiché.
   }
   if(/lateral raise/.test(n)){
-    add("Lateral Raise");
-    add("Lateral Raise haltères");
-    add("Lateral Raise câble bas");
-    add("Lateral Raise machine");
+    if(/cable|cable bas|poulie/.test(n)){
+      add("Lateral Raise câble bas");
+      add("Lateral Raise câble");
+    }else if(/haltere|halteres|dumbbell|db/.test(n)){
+      add("Lateral Raise haltères");
+    }else if(/machine/.test(n)){
+      add("Lateral Raise machine");
+    }else{
+      add("Lateral Raise");
+    }
   }
   if(/rear delt fly/.test(n)){
-    add("Rear Delt Fly");
-    add("Rear Delt Fly haltères");
-    add("Rear Delt Fly câble bas");
-    add("Rear Delt Fly machine");
+    if(/cable|cable bas|poulie/.test(n)){
+      add("Rear Delt Fly câble bas");
+      add("Rear Delt Fly câble");
+    }else if(/haltere|halteres|dumbbell|db/.test(n)){
+      add("Rear Delt Fly haltères");
+    }else if(/machine/.test(n)){
+      add("Rear Delt Fly machine");
+    }else{
+      add("Rear Delt Fly");
+    }
   }
   if(/wide grip cable upright row|upright row/.test(n)){
     add("Wide-Grip Cable Upright Row");
@@ -343,6 +374,9 @@ function coachMovementLookupLabels(nameOrKey){
   if(/cable curl/.test(n))add("Cable Curl");
   if(/power clean technique|clean technique/.test(n)){
     add("Power Clean technique");
+  }else if(/power clean wod/.test(n)){
+    add("Power Clean WOD");
+  }else if(/power clean/.test(n)){
     add("Power Clean");
   }
   return list;
@@ -360,7 +394,7 @@ function athleteMovementRecord(label){
     var kn=coachNormalizeMoveText(keys[i]);
     for(var j=0;j<wantedList.length;j++){
       var wanted=wantedList[j];
-      if(kn===wanted)return map[keys[i]];
+      if(kn===wanted&&coachEquipmentCompatibleForAlias(label,keys[i]))return map[keys[i]];
     }
   }
   // Match tolérant mais prudent pour les noms combinés du vendredi Épaules 3D.
@@ -369,6 +403,7 @@ function athleteMovementRecord(label){
     for(var w=0;w<wantedList.length;w++){
       var want=wantedList[w];
       if(want.length<8)continue;
+      if(!coachEquipmentCompatibleForAlias(label,keys[k]))continue;
       if(keyNorm.indexOf(want)>=0 || want.indexOf(keyNorm)>=0)return map[keys[k]];
     }
   }
@@ -387,7 +422,11 @@ function coachDefaultLoadSeedForMovement(label, targetReps){
   // Fallbacks internes : ne modifient pas data/charges.js. Ils empêchent seulement
   // les mouvements de vendredi avec "léger/modéré" de rester sans suggestion numérique.
   if(/db shoulder press/.test(n))return 35;
+  if(/lateral raise.*(cable|poulie)/.test(n))return 30;
+  if(/lateral raise.*(haltere|dumbbell|db)/.test(n))return 20;
   if(/lateral raise/.test(n))return 20;
+  if(/rear delt fly.*(cable|poulie)/.test(n))return 30;
+  if(/rear delt fly.*(haltere|dumbbell|db)/.test(n))return 20;
   if(/rear delt fly/.test(n))return 20;
   if(/wide grip cable upright row|upright row/.test(n))return 50;
   if(/overhead rope extension/.test(n))return 50;
@@ -1411,7 +1450,7 @@ function renderSessionEntry(){
 
       card.innerHTML=
         '<div class="sf-header">'+
-          '<div class="sf-name">'+item.name+'</div>'+
+          '<div class="sf-name">'+escHtml(typeof displayMovementName==='function'?displayMovementName(item.name):item.name)+'</div>'+
           (suggestedNum?'<div class="sf-badge">'+suggestedNum+' lb · '+repLabel+'</div>':'')+
         '</div>'+
         '<div class="results-step-control results-load-step">'+

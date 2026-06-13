@@ -610,7 +610,7 @@ function renderGuidedWodMoves(moves){
     moves.slice(0,4).forEach(function(mv){
       html+="<div class='guided-wod-move "+escHtml(mv.color)+"'>"+
             "<div class='guided-wod-reps'>"+escHtml(mv.reps)+"</div>"+
-            "<div class='guided-wod-name'>"+escHtml(mv.name)+"</div>"+
+            "<div class='guided-wod-name'>"+escHtml(typeof displayMovementName==='function'?displayMovementName(mv.name):mv.name)+"</div>"+
             "</div>";
     });
     html+="</div>";
@@ -661,7 +661,7 @@ function renderGuidedExerciseList(exercises){
     var restSec=parseRestToSeconds(e.rest);
     html+="<div class='guided-ex-card'>"+
           "<div class='guided-ex-main'>"+
-            "<div class='guided-ex-title'><span>"+escHtml(e.title)+"</span>"+tutorialButtonHtml(e.title)+"</div>"+
+            "<div class='guided-ex-title'><span>"+escHtml(typeof displayMovementName==='function'?displayMovementName(e.title):e.title)+"</span>"+tutorialButtonHtml(e.title)+"</div>"+
             "<div class='guided-ex-grid'>";
     if(e.format)html+="<div><span>Format</span><strong>"+escHtml(e.format)+"</strong></div>";
     if(e.load){

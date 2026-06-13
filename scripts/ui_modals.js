@@ -40,6 +40,22 @@ function loadHistoryLookupName(s){
 function loadHistoryExerciseName(exercise){
   return String((exercise&&(exercise.name||exercise.title||exercise.label||exercise.movement))||"").trim();
 }
+
+function loadHistoryEquipmentFamily(name){
+  var n=loadHistoryLookupName(name);
+  if(!n)return '';
+  if(/cable|poulie|rope|face pull|pushdown/.test(n))return 'cable';
+  if(/machine/.test(n))return 'machine';
+  if(/haltere|dumbbell|db/.test(n))return 'db';
+  if(/landmine/.test(n))return 'landmine';
+  if(/ring row|pull up|pullup|bodyweight|poids du corps/.test(n))return 'bodyweight';
+  if(/barbell|barre|bench|squat|strict press|push press|deadlift|power clean|clean/.test(n))return 'barbell';
+  return '';
+}
+function loadHistoryEquipmentCompatible(a,b){
+  var fa=loadHistoryEquipmentFamily(a), fb=loadHistoryEquipmentFamily(b);
+  return !fa||!fb||fa===fb;
+}
 function loadHistoryNameCandidates(exercise){
   var raw=loadHistoryExerciseName(exercise);
   var names=[];
@@ -59,6 +75,7 @@ function loadHistoryNameCandidates(exercise){
 function loadHistoryNamesMatch(a,b){
   var aa=loadHistoryLookupName(a), bb=loadHistoryLookupName(b);
   if(!aa||!bb)return false;
+  if(!loadHistoryEquipmentCompatible(a,b))return false;
   if(aa===bb)return true;
   if(aa.length>=5&&bb.indexOf(aa)>=0)return true;
   if(bb.length>=5&&aa.indexOf(bb)>=0)return true;

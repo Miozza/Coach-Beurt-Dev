@@ -139,6 +139,16 @@ function parseRestToSeconds(s){
 }
 function cleanLine(s){return String(s||"").replace(/\s+/g," ").trim();}
 
+// Affichage seulement : nettoie les suffixes internes/contextuels sans modifier les programmes sources.
+function displayMovementName(name){
+  var raw=String(name||'').trim();
+  if(!raw)return raw;
+  raw=raw.replace(/\s*[—-]\s*rappel\s+vendredi/ig,'');
+  raw=raw.replace(/\s*\(\s*rappel\s+vendredi\s*\)/ig,'');
+  return raw.replace(/\s+/g,' ').trim();
+}
+
+
 function vibrate(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
 
 function parseTimeToSeconds(t){var m=String(t||"").match(/(\d+)\s*min/);return m?Number(m[1])*60:0;}

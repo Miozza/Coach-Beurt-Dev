@@ -89,3 +89,12 @@ Correspondance obligatoire : le mouvement peut arriver sous `name`, `title`, `la
 - Les vues Séance / Résultats / PC ne doivent pas perdre une suggestion parce que le programme écrit `léger`, `modéré` ou une variante de nom.
 - Les alias de mouvements doivent passer par les helpers communs : `DB Shoulder Press`, `DB Shoulder Press / Landmine Press`, `Lateral Raise haltères`, `Rear Delt Fly haltères`, `Overhead Rope Extension — rappel vendredi`, `Wide-Grip Cable Upright Row`.
 - Le vendredi Épaules 3D est un cas de validation obligatoire : press DB, giant set épaules, upright row câble, overhead rope extension et power clean technique doivent afficher une charge utile si historique ou repère existe.
+
+
+### Contrat mapping charges par équipement
+
+- Les alias de charge ne doivent pas fusionner deux équipements différents : DB ≠ câble ≠ machine ≠ barre ≠ poids du corps.
+- `Lateral Raise haltères`, `Lateral Raise câble bas` et `Lateral Raise machine` sont des historiques distincts.
+- `Rear Delt Fly haltères`, `Rear Delt Fly câble bas` et `Rear Delt Fly machine` sont des historiques distincts.
+- `DB Shoulder Press` et `Landmine Press` sont distincts; le nom combiné reste un contexte séparé s’il existe.
+- Les suffixes internes comme `— rappel vendredi` peuvent exister dans un programme, mais ne doivent pas apparaître dans l’interface utilisateur.
