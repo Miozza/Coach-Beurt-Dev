@@ -123,6 +123,12 @@ assert(appSrc.includes('data-results-step="rpe"'), 'Résultats doit garder le co
 assert(appSrc.includes('step="0.5"') && appSrc.includes('data-max="10"'), 'RPE résultats doit garder les pas de 0.5 jusqu’à 10.');
 assert(appSrc.includes('for(var sec = 0; sec <= 3600; sec += 1)'), 'For Time doit garder les choix 00:00 à 60:00 à la seconde.');
 assert(appSrc.includes('normalizeForTimeGoalSeconds'), 'For Time doit garder la présélection de l’objectif/cap.');
+assert(appSrc.includes('function coachMovementLookupLabels'), 'Les alias de mouvements doivent rester centralisés pour éviter les suggestions manquantes.');
+assert(appSrc.includes('function coachDefaultLoadSeedForMovement'), 'Les charges textuelles léger/modéré doivent garder un repère numérique prudent.');
+assert(appSrc.includes('DB Shoulder Press / Landmine Press'), 'Alias DB Shoulder Press / Landmine Press requis pour le vendredi Épaules 3D.');
+assert(appSrc.includes('Overhead Rope Extension — rappel vendredi'), 'Alias Overhead Rope Extension rappel vendredi requis.');
+assert(appSrc.includes('Wide-Grip Cable Upright Row'), 'Alias Wide-Grip Cable Upright Row requis pour les suggestions du vendredi.');
+assert(appSrc.includes('storeLoadDecisionHint(label,originalText'), 'Les charges non numériques sans repère doivent encore alimenter le bouton !.');
 
 // 7. UI critique.
 const html = read('index.html');

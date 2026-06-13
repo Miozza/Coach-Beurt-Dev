@@ -1,12 +1,21 @@
 # CHANGELOG — Coach Beurt
 
+## V51.29 — Suggestions de charges accessoires robustes
+
+- Corrige les suggestions de poids manquantes sur le vendredi du cycle Épaules 3D.
+- Les charges non numériques comme `léger` ou `modéré` utilisent maintenant l’historique, les alias de mouvement ou un repère interne prudent.
+- Les variantes `DB Shoulder Press`, `DB Shoulder Press / Landmine Press`, `Lateral Raise haltères`, `Rear Delt Fly haltères`, `Overhead Rope Extension — rappel vendredi` et `Wide-Grip Cable Upright Row` sont mieux reliées à leurs historiques.
+- Le bouton jaune `!` indexe aussi les alias de mouvement pour afficher le bon contexte.
+- Aucun programme, aucune donnée durable et aucun fichier `data/charges.js` modifiés.
+
+
 Toutes les modifications de version doivent être inscrites ici.
 
 Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUDIT_*`, `*_Vxx.xx.md/json/txt` ou autre document historique portant une version dans son nom. Les bilans de version vont dans ce fichier seulement.
 
 ---
 
-## V51.28 — Bouton ! séance simplifié + historique robuste
+## V51.29 — Bouton ! séance simplifié + historique robuste
 
 - Simplifie la modale du bouton jaune `!` / `⚠` en vue séance : priorité à l’historique de charge, avec moins d’informations secondaires.
 - Corrige la recherche d’historique quand la vue séance fournit le mouvement sous `title` plutôt que `name`.

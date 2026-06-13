@@ -1,7 +1,7 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.28
-### V51.28 — Bouton ! séance simplifié + historique robuste
+## Dernière modification — V51.29
+### V51.29 — Bouton ! séance simplifié + historique robuste
 
 - La modale du bouton jaune `!` / `⚠` en vue séance est simplifiée : priorité à l’historique des poids utilisés.
 - La recherche d’historique accepte maintenant les mouvements fournis sous `name`, `title`, `label` ou `movement`.
@@ -15,7 +15,7 @@
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.28
+- Version actuelle : V51.29
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -24,10 +24,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.28"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.28`.
-- `manifest.json` : `Coach Bertin V51.28`.
-- `service-worker.js` : `coach-bertin-v51-28-no-cache`.
+- `app.js` : `APP_VERSION = "V51.29"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.29`.
+- `manifest.json` : `Coach Bertin V51.29`.
+- `service-worker.js` : `coach-bertin-v51-29-no-cache`.
 
 ---
 
@@ -150,7 +150,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.28 sur DEV après import.
+1. Tester V51.29 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
@@ -163,3 +163,10 @@ Priorités à garder séparées :
 - `scripts/` contient le code runtime chargé par l’app, incluant `scripts/tms_session.js`.
 - `dev/` contient les scripts de validation/développement, incluant `dev/regression_checks.js`.
 - `tools/` est supprimé et ne doit pas revenir.
+
+
+## V51.29 — État actuel
+
+- Le moteur de suggestion utilise maintenant les alias officiels de mouvements pour éviter de perdre les charges sur les accessoires du vendredi Épaules 3D.
+- Les charges textuelles `léger` / `modéré` peuvent être converties en suggestion numérique si l’historique ou un repère fiable existe.
+- Le dossier `tools/` reste supprimé; validation dans `dev/regression_checks.js`.

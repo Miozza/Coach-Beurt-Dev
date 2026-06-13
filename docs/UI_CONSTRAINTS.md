@@ -83,3 +83,9 @@ Contrat court : la modale doit rester utile et courte. Elle doit afficher d’ab
 Sources obligatoires : `athlete_state` et `state.history`.
 
 Correspondance obligatoire : le mouvement peut arriver sous `name`, `title`, `label` ou `movement`; les noms alternatifs/partiels doivent matcher, par exemple `DB Shoulder Press` avec `DB Shoulder Press / Landmine Press`.
+
+## Contrat suggestions de charges accessoires
+
+- Les vues Séance / Résultats / PC ne doivent pas perdre une suggestion parce que le programme écrit `léger`, `modéré` ou une variante de nom.
+- Les alias de mouvements doivent passer par les helpers communs : `DB Shoulder Press`, `DB Shoulder Press / Landmine Press`, `Lateral Raise haltères`, `Rear Delt Fly haltères`, `Overhead Rope Extension — rappel vendredi`, `Wide-Grip Cable Upright Row`.
+- Le vendredi Épaules 3D est un cas de validation obligatoire : press DB, giant set épaules, upright row câble, overhead rope extension et power clean technique doivent afficher une charge utile si historique ou repère existe.

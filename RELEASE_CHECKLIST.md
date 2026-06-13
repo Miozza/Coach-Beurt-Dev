@@ -112,3 +112,8 @@ Garanties minimales vérifiées :
 - `dev/` = scripts de validation/développement hors application.
 - `programs/` = programmes d’entraînement seulement.
 - `tools/` ne doit pas revenir.
+
+## Vérification charges accessoires
+
+- Vérifier le vendredi Épaules 3D : les accessoires avec `léger` / `modéré` doivent afficher une suggestion numérique si historique ou repère existe.
+- Le bouton `!` doit rester cohérent avec cette suggestion.

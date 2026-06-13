@@ -1,5 +1,5 @@
-// Coach Bertin V51.28
-var APP_VERSION = "V51.28";
+// Coach Bertin V51.29
+var APP_VERSION = "V51.29";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -303,15 +303,97 @@ function canonicalMovementLabel(nameOrKey){
 }
 function athleteMoveId(nameOrKey){return canonicalMovementLabel(nameOrKey);}
 function movementLabelFromKeyOrName(key){return canonicalMovementLabel(key);}
+function coachMovementLookupLabels(nameOrKey){
+  var raw=chargeKeyFromName(nameOrKey||"");
+  var canonical=canonicalMovementLabel(raw);
+  var n=coachNormalizeMoveText(raw+" "+canonical);
+  var list=[];
+  function add(x){x=String(x||"").trim();if(x&&list.indexOf(x)===-1)list.push(x);}
+  add(canonical);add(raw);
+
+  // Aliases officiels anti-régression : les vues ne doivent pas perdre l'historique
+  // parce qu'un programme précise une variante ou un contexte de rappel.
+  if(/db shoulder press|landmine press/.test(n)){
+    add("DB Shoulder Press");
+    add("DB Shoulder Press / Landmine Press");
+    add("Landmine Press");
+  }
+  if(/overhead rope extension/.test(n)){
+    add("Overhead Rope Extension");
+    add("Overhead Rope Extension — rappel vendredi");
+  }
+  if(/lateral raise/.test(n)){
+    add("Lateral Raise");
+    add("Lateral Raise haltères");
+    add("Lateral Raise câble bas");
+    add("Lateral Raise machine");
+  }
+  if(/rear delt fly/.test(n)){
+    add("Rear Delt Fly");
+    add("Rear Delt Fly haltères");
+    add("Rear Delt Fly câble bas");
+    add("Rear Delt Fly machine");
+  }
+  if(/wide grip cable upright row|upright row/.test(n)){
+    add("Wide-Grip Cable Upright Row");
+    add("Cable Upright Row");
+    add("Upright Row");
+  }
+  if(/face pull/.test(n))add("Face Pull");
+  if(/cable curl/.test(n))add("Cable Curl");
+  if(/power clean technique|clean technique/.test(n)){
+    add("Power Clean technique");
+    add("Power Clean");
+  }
+  return list;
+}
 function athleteMovementRecord(label){
   var ast=ensureAthleteState();
   var map=ast&&ast.movements?ast.movements:{};
-  if(map[label])return map[label];
-  var wanted=coachNormalizeMoveText(label);
+  var labels=coachMovementLookupLabels(label);
+  for(var a=0;a<labels.length;a++){
+    if(map[labels[a]])return map[labels[a]];
+  }
+  var wantedList=labels.map(coachNormalizeMoveText).filter(Boolean);
   var keys=Object.keys(map||{});
   for(var i=0;i<keys.length;i++){
-    if(coachNormalizeMoveText(keys[i])===wanted)return map[keys[i]];
+    var kn=coachNormalizeMoveText(keys[i]);
+    for(var j=0;j<wantedList.length;j++){
+      var wanted=wantedList[j];
+      if(kn===wanted)return map[keys[i]];
+    }
   }
+  // Match tolérant mais prudent pour les noms combinés du vendredi Épaules 3D.
+  for(var k=0;k<keys.length;k++){
+    var keyNorm=coachNormalizeMoveText(keys[k]);
+    for(var w=0;w<wantedList.length;w++){
+      var want=wantedList[w];
+      if(want.length<8)continue;
+      if(keyNorm.indexOf(want)>=0 || want.indexOf(keyNorm)>=0)return map[keys[k]];
+    }
+  }
+  return null;
+}
+function coachDefaultLoadSeedForMovement(label, targetReps){
+  var labels=coachMovementLookupLabels(label);
+  var defaults=(typeof officialCharges==='function')?officialCharges():(window.DEFAULT_CHARGES||{});
+  for(var i=0;i<labels.length;i++){
+    if(defaults&&defaults[labels[i]]){
+      var n=parseLoad(defaults[labels[i]]);
+      if(n)return n;
+    }
+  }
+  var n=coachNormalizeMoveText(labels.join(' '));
+  // Fallbacks internes : ne modifient pas data/charges.js. Ils empêchent seulement
+  // les mouvements de vendredi avec "léger/modéré" de rester sans suggestion numérique.
+  if(/db shoulder press/.test(n))return 35;
+  if(/lateral raise/.test(n))return 20;
+  if(/rear delt fly/.test(n))return 20;
+  if(/wide grip cable upright row|upright row/.test(n))return 50;
+  if(/overhead rope extension/.test(n))return 50;
+  if(/face pull/.test(n))return 60;
+  if(/cable curl/.test(n))return 40;
+  if(/power clean technique|power clean/.test(n))return 115;
   return null;
 }
 function latestMovementHistory(label){
@@ -366,15 +448,14 @@ function storeLoadDecisionHint(name,loadText,reason,severity,history){
   window.__coachLoadHints=window.__coachLoadHints||{};
   var label=canonicalMovementLabel(name);
   var rows=(history||[]).slice(-5).reverse().map(function(x){return{date:x.date||"?",load:x.load||x.actualLoad||x.capacityLoad||"?",reps:x.reps||x.actualReps||x.currentReps||"?",rpe:x.rpe||"?",status:x.status||""};});
-  window.__coachLoadHints[coachNormalizeMoveText(label)]={name:label,load:loadText,reason:reason||"Charge prévue par le programme.",severity:severity||"ok",rows:rows};
+  var payload={name:label,load:loadText,reason:reason||"Charge prévue par le programme.",severity:severity||"ok",rows:rows};
+  var aliases=(typeof coachMovementLookupLabels==='function')?coachMovementLookupLabels(label):[label];
+  aliases.forEach(function(a){ window.__coachLoadHints[coachNormalizeMoveText(a)]=payload; });
 }
 function guardedSuggestedLoadDecision(nameOrKey,currentLoad,targetReps){
   var label=canonicalMovementLabel(nameOrKey);
-  var programNum=parseLoad(currentLoad);
-  var originalText=displayLoadForEquipment(label,currentLoad);
-  if(!programNum)return{label:label,loadText:originalText,loadNum:null,severity:"ok",reason:"Charge non numérique : aucune progression automatique."};
-  var mv=athleteMovementRecord(label);
   var target=Number(targetReps)||8;
+  var mv=athleteMovementRecord(label);
   var range=repRange(target);
   var cap=mv&&mv.ranges?(mv.ranges[range]||null):null;
   var hist=(mv&&Array.isArray(mv.history))?mv.history:[];
@@ -382,9 +463,26 @@ function guardedSuggestedLoadDecision(nameOrKey,currentLoad,targetReps){
   var lastLoad=coachHistoryLoadNumber(last);
   var lastRpe=last?Number(last.rpe||0):0;
   var bestControlled=coachRecentBestControlledLoad(hist,8.5);
+  var programNum=parseLoad(currentLoad);
+  var originalText=displayLoadForEquipment(label,currentLoad);
+  var seedReason="Charge du programme, arrondie selon l’équipement.";
+  if(!programNum){
+    var seed=(lastLoad||((bestControlled&&bestControlled.load)||0)||coachDefaultLoadSeedForMovement(label,target));
+    if(seed){
+      programNum=seed;
+      seedReason=lastLoad
+        ? "Charge de programme non numérique : suggestion basée sur la dernière charge historique."
+        : ((bestControlled&&bestControlled.load)
+          ? "Charge de programme non numérique : suggestion basée sur l'historique contrôlé."
+          : "Charge de programme non numérique : suggestion basée sur les repères d'équipement.");
+    }else{
+      storeLoadDecisionHint(label,originalText,"Charge non numérique et aucun historique/repère fiable trouvé.","watch",hist);
+      return{label:label,loadText:originalText,loadNum:null,severity:"watch",reason:"Charge non numérique et aucun historique/repère fiable trouvé.",last:last,cap:cap};
+    }
+  }
   var suggested=programNum;
   var severity="ok";
-  var reason="Charge du programme, arrondie selon l’équipement.";
+  var reason=seedReason;
   var mode="nearest";
 
   if(state&&Number(state.week)===6){
@@ -429,7 +527,7 @@ function guardedSuggestedLoadDecision(nameOrKey,currentLoad,targetReps){
       suggested=lastRpe>=9.5?Math.max(0,lastLoad-coachLoadStepForExercise(label,currentLoad)):lastLoad;mode="down";severity="warning";
       reason="Isolation prudente : dernier RPE "+lastRpe+". Maintenir ou réduire légèrement, pas augmenter.";
     }
-    if(label==="Overhead Rope Extension"){
+    if(/overhead rope extension/.test(coachNormalizeMoveText(label))){
       var friday=coachIsFridayContext();
       var easyBest=coachRecentBestControlledLoad(hist,8);
       var maxAllowed=(lastRpe<=8)?lastLoad+5:lastLoad;
@@ -454,7 +552,7 @@ function guardedSuggestedLoadDecision(nameOrKey,currentLoad,targetReps){
     else if(ignoreLowCap){severity=severity==="ok"?"watch":severity;reason="Cap athlete_state ignoré : historique réel contrôlé plus récent/plus fiable que le cap faible.";}
   }
   var rounded=roundLoadForExercise(label,suggested,mode,currentLoad);
-  if(label==="Overhead Rope Extension"&&last&&lastLoad){
+  if(/overhead rope extension/.test(coachNormalizeMoveText(label))&&last&&lastLoad){
     var allowed=(lastRpe<=8)?lastLoad+5:lastLoad;
     if(coachIsFridayContext()){
       var eb=coachRecentBestControlledLoad(hist,8);
@@ -462,7 +560,7 @@ function guardedSuggestedLoadDecision(nameOrKey,currentLoad,targetReps){
     }
     if(rounded>allowed)rounded=roundLoadForExercise(label,allowed,"down",currentLoad)||lastLoad;
   }
-  if(last&&lastRpe>=9&&rounded>lastLoad&&!(label==="Overhead Rope Extension"&&coachIsFridayContext()))rounded=roundLoadForExercise(label,lastLoad,"down",currentLoad)||lastLoad;
+  if(last&&lastRpe>=9&&rounded>lastLoad&&!(/overhead rope extension/.test(coachNormalizeMoveText(label))&&coachIsFridayContext()))rounded=roundLoadForExercise(label,lastLoad,"down",currentLoad)||lastLoad;
   var text=(rounded===0||rounded)?rounded+" lb":originalText;
   if(severity==="warning"||severity==="critical")text += " ⚠";
   storeLoadDecisionHint(label,text,reason,severity,hist);
