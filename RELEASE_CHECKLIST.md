@@ -101,8 +101,10 @@ Garanties minimales vérifiées :
 
 ## Garde-fou séance / charges
 
-- [ ] Le bouton jaune `!` / `⚠` en vue séance ouvre une modale avec la section `Historique des poids utilisés`.
+- [ ] Le bouton jaune `!` / `⚠` en vue séance ouvre une modale courte avec la section `Historique des poids utilisés` visible sans fouillis.
 - [ ] L’historique de charge doit pouvoir venir de `athlete_state` et de `state.history`.
+- [ ] La recherche d’historique accepte les mouvements sous `name`, `title`, `label` ou `movement`.
+- [ ] Les noms partiels/alternatifs doivent matcher, ex. `DB Shoulder Press` ↔ `DB Shoulder Press / Landmine Press`.
 
 ## Structure dossiers
 

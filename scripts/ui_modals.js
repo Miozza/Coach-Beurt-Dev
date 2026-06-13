@@ -37,15 +37,32 @@ function loadHistoryLookupName(s){
     .replace(/\s+/g," ")
     .trim();
 }
+function loadHistoryExerciseName(exercise){
+  return String((exercise&&(exercise.name||exercise.title||exercise.label||exercise.movement))||"").trim();
+}
 function loadHistoryNameCandidates(exercise){
-  var raw=(exercise&&exercise.name)||"";
+  var raw=loadHistoryExerciseName(exercise);
   var names=[];
-  function add(x){x=String(x||"").trim();if(x&&names.indexOf(x)<0)names.push(x);}
+  function add(x){
+    x=String(x||"").trim();
+    if(x&&names.indexOf(x)<0)names.push(x);
+  }
   add(raw);
   if(typeof chargeKeyFromName==="function")add(chargeKeyFromName(raw));
   if(typeof canonicalMovementLabel==="function")add(canonicalMovementLabel(raw));
   if(typeof movementLabelFromKeyOrName==="function")add(movementLabelFromKeyOrName(raw));
+  // Les mouvements alternatifs sont parfois sauvegardés comme "DB Shoulder Press / Landmine Press".
+  // Le bouton ! doit retrouver l'historique même si la séance affiche seulement une moitié du nom.
+  raw.split(/\s*\/\s*|\s+ou\s+|\s+or\s+/i).forEach(add);
   return names;
+}
+function loadHistoryNamesMatch(a,b){
+  var aa=loadHistoryLookupName(a), bb=loadHistoryLookupName(b);
+  if(!aa||!bb)return false;
+  if(aa===bb)return true;
+  if(aa.length>=5&&bb.indexOf(aa)>=0)return true;
+  if(bb.length>=5&&aa.indexOf(bb)>=0)return true;
+  return false;
 }
 function loadHistoryRowFromResult(session, movementName, result){
   result=result||{};
@@ -62,14 +79,15 @@ function loadHistoryRowsFromAthleteState(exercise){
   var ast=(typeof ensureAthleteState==="function")?ensureAthleteState():{movements:{}};
   var moves=(ast&&ast.movements)||{};
   var candidates=loadHistoryNameCandidates(exercise);
-  var wanted=candidates.map(loadHistoryLookupName);
   var mv=null;
   for(var i=0;i<candidates.length;i++){
     if(moves[candidates[i]]){mv=moves[candidates[i]];break;}
   }
   if(!mv){
     Object.keys(moves).some(function(k){
-      if(wanted.indexOf(loadHistoryLookupName(k))>=0){mv=moves[k];return true;}
+      for(var i=0;i<candidates.length;i++){
+        if(loadHistoryNamesMatch(candidates[i],k)){mv=moves[k];return true;}
+      }
       return false;
     });
   }
@@ -89,13 +107,17 @@ function loadHistoryRowsFromSessionHistory(exercise){
   var hist=[];
   try{hist=(state&&Array.isArray(state.history))?state.history:[];}catch(e){hist=[];}
   if(!hist.length)return [];
-  var wanted=loadHistoryNameCandidates(exercise).map(loadHistoryLookupName);
+  var candidates=loadHistoryNameCandidates(exercise);
   var rows=[];
   hist.forEach(function(session){
     var results=session&&(session.results||session.resultats)||{};
     Object.keys(results||{}).forEach(function(k){
       if(String(k).indexOf("wod_")===0)return;
-      if(wanted.indexOf(loadHistoryLookupName(k))>=0){
+      var match=false;
+      for(var i=0;i<candidates.length;i++){
+        if(loadHistoryNamesMatch(candidates[i],k)){match=true;break;}
+      }
+      if(match){
         var r=results[k];
         if(r&&(r.load!==undefined||r.actualLoad!==undefined||r.capacityLoad!==undefined))rows.push(loadHistoryRowFromResult(session,k,r));
       }
@@ -152,7 +174,7 @@ function loadInfoPayload(exercise, shownLoad){
   var diagnostic=(typeof buildChargeDiagnosticForExercise==="function")?buildChargeDiagnosticForExercise(exercise, shown):null;
   var equipment=(typeof equipmentStepLabelForExercise==="function")?equipmentStepLabelForExercise(exercise.name||"", exercise.load||shown):"";
   return {
-    name:(typeof canonicalMovementLabel==="function")?canonicalMovementLabel(exercise.name||"Mouvement"):chargeKeyFromName(exercise.name||"Mouvement"),
+    name:(typeof canonicalMovementLabel==="function")?canonicalMovementLabel(loadHistoryExerciseName(exercise)||"Mouvement"):chargeKeyFromName(loadHistoryExerciseName(exercise)||"Mouvement"),
     load:shown,
     equipment:equipment,
     reason:loadReasonForExercise(exercise, shown, rows),
@@ -178,23 +200,21 @@ function renderLoadInfoModalBody(msg){
   }
   if(hint){
     var rows=(hint.rows&&hint.rows.length)?hint.rows:[];
-    var lis=rows.length ? rows.map(function(r){
-      return "<li>"+escapeHtml((r.date||"?")+" — "+(r.load||"?")+" lb × "+(r.reps||"?")+" — RPE "+(r.rpe||"?"))+(r.status?" <small>"+escapeHtml(r.status)+"</small>":"")+"</li>";
-    }).join("") : "<li>Aucune séance précédente enregistrée pour ce mouvement.</li>";
-    var diag=hint.diagnostic||null;
-    var diagHtml="";
-    if(diag){
-      var alerts=(diag.alerts&&diag.alerts.length)?diag.alerts:[];
-      var alertHtml=alerts.length?'<ul>'+alerts.map(function(a){return '<li><strong>'+escapeHtml(a.title||a.code||'Alerte')+'</strong> — '+escapeHtml(a.detail||'')+'</li>';}).join('')+'</ul>':'<p>Aucune alerte précise.</p>';
-      diagHtml='<div class="tuto-section"><div class="tuto-section-title">Diagnostic</div><p><strong>'+escapeHtml(diag.summary||'')+'</strong></p><p>'+escapeHtml(diag.cycleComment||'')+'</p>'+alertHtml+'</div>';
+    function loadText(v){
+      var t=String(v==null?"":v).trim();
+      if(!t||t==="—")return "—";
+      return /^\d+(?:\.\d+)?$/.test(t) ? t+" lb" : t;
     }
+    var lis=rows.length ? rows.map(function(r){
+      return "<li><strong>"+escapeHtml(r.date||"?")+"</strong> — "+
+        escapeHtml(loadText(r.load))+" × "+escapeHtml(r.reps||"?")+
+        " — RPE "+escapeHtml(r.rpe||"?")+(r.status?" <small>"+escapeHtml(r.status)+"</small>":"")+"</li>";
+    }).join("") : "<li>Aucun historique retrouvé pour ce mouvement. Lance une sync GitHub si tu sais l’avoir déjà fait.</li>";
     return '<div class="tuto-topline">HISTORIQUE DE CHARGE</div>'+
       '<div class="tuto-title">'+escapeHtml(hint.name||"Mouvement")+'</div>'+
       '<div class="tuto-goal"><strong>Charge suggérée : '+escapeHtml(hint.load||"—")+'</strong></div>'+
-      diagHtml+
-      (hint.equipment?'<div class="tuto-section"><div class="tuto-section-title">Matériel</div><p>'+escapeHtml(hint.equipment)+'</p></div>':'')+
-      '<div class="tuto-section"><div class="tuto-section-title">Raison</div><p>'+escapeHtml(hint.reason||"—")+'</p></div>'+
-      '<div class="tuto-section"><div class="tuto-section-title">Historique des poids utilisés</div><ul>'+lis+'</ul></div>';
+      '<div class="tuto-section"><div class="tuto-section-title">Historique des poids utilisés</div><ul>'+lis+'</ul></div>'+
+      '<div class="tuto-section compact"><div class="tuto-section-title">Pourquoi</div><p>'+escapeHtml(hint.reason||"—")+'</p></div>';
   }
   return '<div class="tuto-topline">EXPLICATION DE CHARGE</div>'+
     '<div class="tuto-title">Pourquoi cette charge?</div>'+

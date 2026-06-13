@@ -75,3 +75,11 @@ Les règles de format timer, de charges disponibles, de RPE et de résultats doi
 
 - Le bouton jaune `!` / `⚠` de la vue séance doit afficher l’historique des poids utilisés quand une charge est suggérée ou surveillée.
 - La source ne doit pas dépendre uniquement de `athlete_state`; `state.history` doit servir de fallback.
+
+## Bouton jaune `!` / `⚠` — historique de charge
+
+Contrat court : la modale doit rester utile et courte. Elle doit afficher d’abord `Historique des poids utilisés`, puis seulement une raison courte.
+
+Sources obligatoires : `athlete_state` et `state.history`.
+
+Correspondance obligatoire : le mouvement peut arriver sous `name`, `title`, `label` ou `movement`; les noms alternatifs/partiels doivent matcher, par exemple `DB Shoulder Press` avec `DB Shoulder Press / Landmine Press`.

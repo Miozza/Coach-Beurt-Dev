@@ -139,6 +139,9 @@ assert(modalSrc.includes('function loadHistoryRowsForExercise'), 'Le bouton ! ch
 assert(modalSrc.includes('loadHistoryRowsFromSessionHistory'), 'Le bouton ! charge doit utiliser state.history comme fallback.');
 assert(modalSrc.includes('athlete_state') || modalSrc.includes('athleteState'), 'Le bouton ! charge doit conserver athlete_state comme source.');
 assert(modalSrc.includes('Historique des poids utilisés'), 'La modale ! charge doit afficher la section Historique des poids utilisés.');
+assert(modalSrc.includes('function loadHistoryExerciseName') && modalSrc.includes('exercise.name||exercise.title'), 'Le bouton ! charge doit accepter exercise.title quand exercise.name est absent.');
+assert(modalSrc.includes('function loadHistoryNamesMatch'), 'Le bouton ! charge doit matcher les noms partiels/alternatifs.');
+assert(!modalSrc.includes('<div class="tuto-section"><div class="tuto-section-title">Diagnostic'), 'La modale ! charge ne doit pas redevenir trop chargée avec un bloc Diagnostic complet.');
 
 
 if(errors.length){

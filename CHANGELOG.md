@@ -6,6 +6,15 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
+## V51.28 — Bouton ! séance simplifié + historique robuste
+
+- Simplifie la modale du bouton jaune `!` / `⚠` en vue séance : priorité à l’historique de charge, avec moins d’informations secondaires.
+- Corrige la recherche d’historique quand la vue séance fournit le mouvement sous `title` plutôt que `name`.
+- Ajoute une correspondance plus robuste pour les noms partiels ou alternatifs, par exemple `DB Shoulder Press` versus `DB Shoulder Press / Landmine Press`.
+- Conserve le fallback `athlete_state` + `state.history`.
+- Renforce le garde-fou anti-régression associé.
+- Aucun programme, aucune charge officielle et aucune donnée durable modifiés.
+
 ## V51.27 — Historique de charge dans le ! séance
 
 - Correction du bouton jaune `!` / `⚠` en vue séance : la modale affiche maintenant l’historique des poids utilisés même si l’information vient de `state.history` plutôt que seulement de `athlete_state`.
