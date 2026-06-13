@@ -4,7 +4,7 @@ Coach Beurt est une PWA personnelle d’entraînement en JavaScript vanilla, san
 
 ## État courant
 
-- Version : `V51.26`
+- Version : `V51.27`
 - Source courte de vérité : `ETAT_ACTUEL.md`
 - Historique des changements : `CHANGELOG.md`
 - Checklist de livraison : `RELEASE_CHECKLIST.md`
@@ -33,10 +33,10 @@ Ne jamais écraser sans demande explicite :
 - `manifest.json` : configuration PWA.
 - `service-worker.js` : service worker sans cache applicatif durable.
 - `programs/` : programmes d’entraînement.
-- `scripts/` : vues et modules UI.
-- `tools/` : outils complémentaires hors UI.
+- `scripts/` : vues et modules runtime utilisés par l’app, incluant TMS.
+- `dev/` : scripts de validation/développement hors application.
 - `docs/` : documentation stable non versionnée.
 - `data/` : données/configuration. Les trois fichiers durables ne doivent pas être inclus dans les ZIP update.
 
 
-Note V51.26 : ajout du socle anti-régression fixe (`tools/regression_checks.js`) et centralisation du format timer WOD.
+Note V51.27 : ajout du socle anti-régression fixe (`dev/regression_checks.js`) et centralisation du format timer WOD.

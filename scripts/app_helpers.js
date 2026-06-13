@@ -144,7 +144,7 @@ function vibrate(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
 function parseTimeToSeconds(t){var m=String(t||"").match(/(\d+)\s*min/);return m?Number(m[1])*60:0;}
 function formatClock(sec){sec=Math.max(0,Math.floor(sec||0));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
 
-// CONTRAT TIMER WOD — ne pas modifier sans mettre à jour tools/regression_checks.js.
+// CONTRAT TIMER WOD — ne pas modifier sans mettre à jour dev/regression_checks.js.
 // Minutes sans zéro inutile : 9:12, 0:45, 10:00. Secondes toujours à 2 chiffres.
 function formatTimerDisplay(sec){
   sec=Math.max(0,Math.floor(Number(sec)||0));

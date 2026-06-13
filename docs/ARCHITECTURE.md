@@ -15,8 +15,8 @@ PWA personnelle d’entraînement en JavaScript vanilla, sans framework.
 ## Dossiers
 
 - `programs/` : programmes prévus.
-- `scripts/` : vues et modules extraits du noyau.
-- `tools/` : outils complémentaires hors UI.
+- `scripts/` : vues et modules runtime extraits du noyau, incluant TMS.
+- `dev/` : scripts de validation/développement hors application.
 - `docs/` : documentation stable, non versionnée.
 - `data/` : données/configuration.
 

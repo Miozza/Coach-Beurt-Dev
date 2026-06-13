@@ -33,7 +33,7 @@ Exécuter :
 
 ```bash
 node --check app.js
-find programs scripts tools data -name '*.js' -print0 | xargs -0 -n1 node --check
+find programs scripts dev data -name '*.js' -print0 | xargs -0 -n1 node --check
 node --check service-worker.js
 ```
 
@@ -76,13 +76,13 @@ Avant de livrer une version qui touche à `styles.css`, `scripts/view_session.js
 Avant chaque ZIP, exécuter :
 
 ```bash
-node tools/regression_checks.js
+node dev/regression_checks.js
 ```
 
 Pour vérifier un dossier `update-files-no-durable-data`, exécuter depuis ce dossier :
 
 ```bash
-node tools/regression_checks.js --update-package
+node dev/regression_checks.js --update-package
 ```
 
 Le script doit rester un garde-fou court. Ne pas créer de rapport versionné dans le repo; le résultat du test va dans la réponse de livraison.
@@ -103,3 +103,10 @@ Garanties minimales vérifiées :
 
 - [ ] Le bouton jaune `!` / `⚠` en vue séance ouvre une modale avec la section `Historique des poids utilisés`.
 - [ ] L’historique de charge doit pouvoir venir de `athlete_state` et de `state.history`.
+
+## Structure dossiers
+
+- `scripts/` = code runtime chargé par l’app.
+- `dev/` = scripts de validation/développement hors application.
+- `programs/` = programmes d’entraînement seulement.
+- `tools/` ne doit pas revenir.

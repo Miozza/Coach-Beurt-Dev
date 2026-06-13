@@ -6,16 +6,16 @@ Règle fixe depuis `V51.10` : ne plus créer de fichiers `RELEASE_NOTES_*`, `AUD
 
 ---
 
-## V51.26 — Historique de charge dans le ! séance
+## V51.27 — Historique de charge dans le ! séance
 
 - Correction du bouton jaune `!` / `⚠` en vue séance : la modale affiche maintenant l’historique des poids utilisés même si l’information vient de `state.history` plutôt que seulement de `athlete_state`.
 - Recherche de mouvement renforcée : noms canoniques, noms nettoyés et résultats locaux sont comparés pour éviter les trous d’historique.
 - Ajout d’un garde-fou anti-régression pour conserver la section `Historique des poids utilisés`.
 - Aucun programme, aucune charge officielle et aucune donnée durable modifiés.
 
-## V51.26 — Socle anti-régression
+## V51.27 — Socle anti-régression
 
-- Ajoute `tools/regression_checks.js`, fichier fixe de garde-fous techniques.
+- Ajoute `dev/regression_checks.js`, fichier fixe de garde-fous techniques.
 - Vérifie les règles critiques : données durables exclues des ZIP update, absence d’artefacts versionnés, présence des programmes protégés, cohérence des versions et présence de `heritage_225`.
 - Verrouille par test le format du timer WOD : `9:12`, `0:45`, `10:00`, `60:00`, sans zéro inutile devant les minutes.
 - Vérifie les contrôles Résultats : poids/reps/RPE en `− valeur +`, RPE par pas de 0.5, For Time `00:00` à `60:00`, charges haltères selon la liste du gym.

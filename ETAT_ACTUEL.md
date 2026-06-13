@@ -1,9 +1,9 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.26
-### V51.26 — Socle anti-régression
+## Dernière modification — V51.27
+### V51.27 — Socle anti-régression
 
-- Ajout de `tools/regression_checks.js` comme fichier fixe de validation anti-régression.
+- Ajout de `dev/regression_checks.js` comme fichier fixe de validation anti-régression.
 - Le script vérifie les garanties sensibles : version cohérente, pas d’artefacts versionnés, données durables protégées, programmes protégés présents, `heritage_225` visible, timer WOD verrouillé, contrôles Résultats compacts et charges haltères du gym.
 - `scripts/app_helpers.js` expose maintenant le helper commun `formatTimerDisplay(sec)` pour le timer WOD.
 - `scripts/view_session.js` utilise ce helper au lieu de maintenir sa propre logique isolée.
@@ -15,7 +15,7 @@
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.26
+- Version actuelle : V51.27
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -24,10 +24,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.26"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.26`.
-- `manifest.json` : `Coach Bertin V51.26`.
-- `service-worker.js` : `coach-bertin-v51-26-no-cache`.
+- `app.js` : `APP_VERSION = "V51.27"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.27`.
+- `manifest.json` : `Coach Bertin V51.27`.
+- `service-worker.js` : `coach-bertin-v51-27-no-cache`.
 
 ---
 
@@ -104,7 +104,8 @@ Dossiers :
 - `programs/` : programmes d’entraînement.
 - `scripts/` : vues et modules UI.
 - `data/` : données/configuration.
-- `tools/` : outils complémentaires hors UI.
+- `dev/` : scripts de validation/développement hors application.
+- `scripts/` : code runtime utilisé par l’app, incluant TMS.
 - `docs/` : documentation stable non versionnée.
 
 ---
@@ -149,9 +150,16 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.26 sur DEV après import.
+1. Tester V51.27 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
 5. Garder un œil sur `app.js`, qui reste monolithique et sensible.
 6. Future migration possible de `data/charges.js`, mais seulement dans une version dédiée.
+
+
+## Structure clarifiée V51.27
+
+- `scripts/` contient le code runtime chargé par l’app, incluant `scripts/tms_session.js`.
+- `dev/` contient les scripts de validation/développement, incluant `dev/regression_checks.js`.
+- `tools/` est supprimé et ne doit pas revenir.
