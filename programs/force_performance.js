@@ -175,7 +175,7 @@ function forcePerformanceBlocks(day,week){
      text:"Retour du deadlift en Phase 3 : lourd propre, jamais max, jamais grind.",
      exercises:[
        fpEx("B1. Deadlift",p.deadlift,p.deadliftLoad,"0:45 avant B2","Charnière propre, tension avant de tirer. Stop si le bas du dos prend le dessus."),
-       fpEx("B2. Dead Bug / Hollow Hold",deload?"2 séries faciles":"3 séries","poids du corps","1:15 après B2","Côtes basses, gainage avant de recharger la colonne.")
+       fpEx("B2. Dead Bug",deload?"2 séries faciles":"3 séries","poids du corps","1:15 après B2","Côtes basses, gainage avant de recharger la colonne.")
      ]},
 
     {time:"10 min",title:"C. Chaîne postérieure / legs",tag:"Accessoire",kind:"accessory",
@@ -206,7 +206,7 @@ function forcePerformanceBlocks(day,week){
      text:"Qualité stricte. Ce bloc prépare les muscle-ups sans détruire les coudes.",
      exercises:[
        fpEx("C1. Ring Dip strict",p.dip,p.dipLoad,"0:45 avant C2","Épaules basses. Amplitude propre."),
-       fpEx("C2. Chest-to-Bar Pull-Up / Pull-Up strict",p.ctb,"poids du corps","1:15 après C2","Tirage haut. Stop avant la perte de forme.")
+       fpEx("C2. Chest-to-Bar Pull-Up",p.ctb,"poids du corps","1:15 après C2","Tirage haut. Stop avant la perte de forme.")
      ]},
 
     {time:deload?"6 min":"10 min",title:"D. Conditioning technique",tag:"Conditioning",kind:"wod",

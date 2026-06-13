@@ -102,7 +102,7 @@ function hypertrophyBlocks(day,week){
      text:"Push strict : haut de pec + deltoïde latéral. Aucun tirage dans la journée push.",
      exercises:[
        hbEx("B1. Incline DB Press",p.incline,p.inclineLoad,"0:30 avant B2","Contrôle complet. Pas d'échec."),
-       hbEx("B2. Lateral Raise",p.lat,"20-25 lb","1:15 après B2","Épaules maintenues, pas de trapèzes.")
+       hbEx("B2. Lateral Raise DB",p.lat,"20-25 lb","1:15 après B2","Épaules maintenues, pas de trapèzes.")
      ]},
 
     {time:"10 min",title:"C. Triceps",tag:"Hypertrophie",kind:"hypertrophy",
@@ -135,7 +135,7 @@ function hypertrophyBlocks(day,week){
 
     {time:"10 min",title:"C. Rear delts / posture",tag:"Arrière épaule",kind:"accessory",
      exercises:[
-       hbEx("C1. Rear Delt Fly",p.rear,"20-25 lb","0:30 avant C2","Arrière d'épaule, trapèzes calmes."),
+       hbEx("C1. Rear Delt Fly DB",p.rear,"20-25 lb","0:30 avant C2","Arrière d'épaule, trapèzes calmes."),
        hbEx("C2. Face Pull",p.face,"60-70 lb","1:00 après C2","Rotation externe en fin. Cou relâché.")
      ]},
 
@@ -158,7 +158,7 @@ function hypertrophyBlocks(day,week){
      text:"Structure terrain : Bulgarian + core pour récupérer les jambes sans courir entre deux stations lourdes.",
      exercises:[
        hbEx("B1. Bulgarian Split Squat",p.bulgarian,deload?"35 lb / main":"45-55 lb / main","0:45 avant B2","Stable, amplitude propre."),
-       hbEx("B2. Dead Bug / Hollow Hold",deload?"2 séries faciles":"3 séries","poids du corps","0:45 après B2","Côtes basses, respiration contrôlée.")
+       hbEx("B2. Dead Bug",deload?"2 séries faciles":"3 séries","poids du corps","0:45 après B2","Côtes basses, respiration contrôlée.")
      ]},
 
     {time:"11 min",title:"C. Chaîne postérieure",tag:"Fessiers / Ischios",kind:"accessory",

@@ -144,6 +144,39 @@ assert(!read('programs/epaules_3d.js').includes('Overhead Rope Extension — rap
 assert(appSrc.includes('DB Shoulder Press / Landmine Press') && appSrc.includes('transition historique'), 'Ancien nom DB Shoulder Press / Landmine Press doit rester en alias de transition.');
 assert(appSrc.includes('Lateral Raise haltères') && appSrc.includes('Rear Delt Fly haltères'), 'Anciens noms haltères doivent rester comme alias de transition historique.');
 
+// V51.32 : les programmes non actifs ne doivent plus utiliser de noms de mouvements combinés qui mélangent les charges.
+const programFilesForCleanNames = [
+  'programs/force.js',
+  'programs/force_performance.js',
+  'programs/competition_peak.js',
+  'programs/hypertrophy_base.js',
+  'programs/hypertrophie_fesse.js',
+  'programs/hypertrophie_fesse_stephanie.js',
+  'programs/posture_cyphose.js',
+  'programs/heritage_225.js'
+];
+const forbiddenMovementNamePatterns = [
+  /ex\(\s*["'][^"']*(\s\/\s|\sou\s|Cable\/Band|rappel vendredi|haltères|câble bas)[^"']*["']/i,
+  /\bname\s*:\s*["'][^"']*(\s\/\s|\sou\s|Cable\/Band|rappel vendredi|haltères|câble bas)[^"']*["']/i
+];
+programFilesForCleanNames.forEach(function(file){
+  const src = read(file);
+  forbiddenMovementNamePatterns.forEach(function(rx){
+    assert(!rx.test(src), file + ' contient encore un nom de mouvement combiné ou sale.');
+  });
+});
+assert(read('programs/heritage_225.js').includes('Lateral Raise DB'), 'Heritage 225 doit préciser Lateral Raise DB pour éviter conflit câble/DB.');
+assert(read('programs/hypertrophy_base.js').includes('Rear Delt Fly DB'), 'Hypertrophy Base doit préciser Rear Delt Fly DB.');
+assert(read('programs/hypertrophie_fesse_stephanie.js').includes('Cable Hip Abduction'), 'Programme Stéphanie doit utiliser Cable Hip Abduction plutôt que Cable/Band.');
+
+// V51.33 : les noms de mouvements doivent rester simples; les intentions vont dans les notes/blocs, pas dans le nom.
+const competitionPeakSrc = read('programs/competition_peak.js');
+assert(competitionPeakSrc.includes('cpEx("Pull-Up"'), 'Competition Peak doit utiliser Pull-Up comme nom simple.');
+assert(competitionPeakSrc.includes('cpEx("Knee Raise"'), 'Competition Peak doit utiliser Knee Raise comme nom simple.');
+assert(!competitionPeakSrc.includes('Pull-Up technique'), 'Pull-Up technique ne doit plus être un nom de mouvement dans le programme.');
+assert(!competitionPeakSrc.includes('Hanging Knee Raise progression'), 'Hanging Knee Raise progression ne doit plus être un nom de mouvement dans le programme.');
+assert(appSrc.includes('Pull-Up technique') && appSrc.includes('Hanging Knee Raise progression'), 'Les anciens noms Pull-Up technique / Hanging Knee Raise progression doivent rester en alias de transition historique.');
+
 
 // 7. UI critique.
 const html = read('index.html');

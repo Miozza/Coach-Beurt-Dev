@@ -226,7 +226,7 @@ window.COACH_BERTIN_PROGRAMS = window.COACH_BERTIN_PROGRAMS || {};
           exercises:[{name:"Speed Push Press", format:sp.format, load:sp.load, rest:sp.rest, note:sp.note}]},
         {time:"10 min", title:"C. Épaules santé / puissance", tag:"Épaules", kind:"accessory",
           exercises:[
-            {name:"C1. Lateral Raise", format:deload?"2×15":"3×12-20", load:"léger/modéré", rest:"0:30 avant C2", note:"Deltoïdes sans voler la récupération."},
+            {name:"C1. Lateral Raise DB", format:deload?"2×15":"3×12-20", load:"léger/modéré", rest:"0:30 avant C2", note:"Deltoïdes sans voler la récupération."},
             {name:"C2. Face Pull", format:deload?"2×15":"3×15-20", load:"60-70 lb", rest:"0:45 après C2", note:"Épaules solides, posture, rotation externe."}
           ]},
         {time:"5 min", title:"D. Mobilité", tag:"Mobilité", kind:"mobility",

@@ -1,5 +1,5 @@
-// Coach Bertin V51.31
-var APP_VERSION = "V51.31";
+// Coach Bertin V51.33
+var APP_VERSION = "V51.33";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -287,6 +287,10 @@ function canonicalMovementLabel(nameOrKey){
   if(n.indexOf("weighted pull up ring row lourd")>=0 || n.indexOf("weighted pull up ring row")>=0)return "Weighted Pull-up / Ring Row lourd";
   if(n.indexOf("ring row lourd")>=0)return "Ring Row lourd";
   if(n.indexOf("ring row strict")>=0 || n.indexOf("ring rows strict")>=0)return "Ring Row Strict";
+  if(n.indexOf("pull up technique")>=0)return "Pull-Up";
+  if(n.indexOf("pull up")>=0 && n.indexOf("weighted")<0 && n.indexOf("chest to bar")<0)return "Pull-Up";
+  if(n.indexOf("hanging knee raise progression")>=0 || n.indexOf("hanging knee raise")>=0 || n.indexOf("knee raise progression")>=0)return "Knee Raise";
+  if(n.indexOf("knee raise")>=0)return "Knee Raise";
   if(n.indexOf("weighted pull up")>=0)return "Weighted Pull-up";
   if(n.indexOf("db shoulder press landmine press")>=0)return "DB Shoulder Press";
   if(n.indexOf("landmine press")>=0)return "Landmine Press";
@@ -309,10 +313,13 @@ function canonicalMovementLabel(nameOrKey){
   if(n.indexOf("lateral raise machine")>=0)return "Lateral Raise machine";
   if(n.indexOf("lateral raise")>=0)return "Lateral Raise";
   if(n.indexOf("trap 3 raise")>=0)return "Trap-3 Raise";
+  if(n.indexOf("cable band hip abduction")>=0 || n.indexOf("cable band abduction")>=0 || n.indexOf("cable ou band hip abduction")>=0 || n.indexOf("cable hip abduction")>=0)return "Cable Hip Abduction";
+  if(n.indexOf("db reverse lunge ou step up")>=0 || n.indexOf("db reverse lunge")>=0)return "DB Reverse Lunge";
+  if(n.indexOf("db rdl ou barbell rdl")>=0 || n.indexOf("db rdl")>=0)return "DB RDL";
   if(n.indexOf("bulgarian split squat")>=0)return "Bulgarian Split Squat";
+  if(n.indexOf("hip thrust leger")>=0 || n.indexOf("hip thrust pump")>=0)return "Hip Thrust Pump";
   if(n.indexOf("hip thrust")>=0)return "Hip Thrust";
   if(n.indexOf("front squat")>=0)return "Front Squat";
-  if(n.indexOf("db rdl")>=0)return "DB RDL";
   var mvKey=(typeof resolveMovementKey==='function')?resolveMovementKey(raw):null;
   if(mvKey&&movements[mvKey])return movements[mvKey].name;
   return raw;
@@ -341,6 +348,15 @@ function coachMovementLookupLabels(nameOrKey){
   if(/overhead rope extension/.test(n)){
     add("Overhead Rope Extension");
     add("Overhead Rope Extension — rappel vendredi"); // ancien nom possible dans historique, jamais affiché.
+  }
+  if(/pull up/.test(n) && !/weighted/.test(n) && !/chest to bar/.test(n)){
+    add("Pull-Up");
+    add("Pull-Up technique"); // ancien nom possible dans historique, jamais affiché.
+  }
+  if(/knee raise/.test(n)){
+    add("Knee Raise");
+    add("Hanging Knee Raise progression"); // ancien nom possible dans historique, jamais affiché.
+    add("Hanging Knee Raise");
   }
   if(/lateral raise/.test(n)){
     if(/cable|cable bas|poulie/.test(n)){
@@ -375,6 +391,24 @@ function coachMovementLookupLabels(nameOrKey){
   }
   if(/face pull/.test(n))add("Face Pull");
   if(/cable curl/.test(n))add("Cable Curl");
+  if(/cable hip abduction|cable band hip abduction|cable band abduction|cable ou band hip abduction/.test(n)){
+    add("Cable Hip Abduction");
+    add("Cable/Band Hip Abduction");
+    add("Cable/Band Abduction");
+    add("Cable ou Band Hip Abduction");
+  }
+  if(/db reverse lunge/.test(n)){
+    add("DB Reverse Lunge");
+    add("DB Reverse Lunge ou Step-up");
+  }
+  if(/db rdl/.test(n)){
+    add("DB RDL");
+    add("DB RDL ou Barbell RDL");
+  }
+  if(/hip thrust pump|hip thrust leger/.test(n)){
+    add("Hip Thrust Pump");
+    add("Hip Thrust léger");
+  }
   if(/power clean technique|clean technique/.test(n)){
     add("Power Clean technique");
   }else if(/power clean wod/.test(n)){

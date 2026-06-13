@@ -1,20 +1,19 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.31
-### V51.31 — Nettoyage noms Épaules 3D + transition historique
+## Dernière modification — V51.33
+### V51.33 — Noms mouvements encore plus simples
 
-- Les noms de mouvements ambigus dans Épaules 3D sont nettoyés sans modifier la programmation.
-- `Lateral Raise DB` et `Lateral Raise câble` restent distincts pour les charges et l’historique.
-- `Rear Delt Fly DB` et `Rear Delt Fly câble` restent distincts pour les charges et l’historique.
-- `Overhead Rope Extension — rappel vendredi` ne doit plus apparaître dans le programme ni l’interface; l’ancien nom reste seulement comme alias de lecture historique.
-- Les anciens noms `haltères`, `câble bas` et `DB Shoulder Press / Landmine Press` restent reconnus pour protéger la progression des poids déjà enregistrée.
-- Aucun changement aux séries, reps, journées, charges officielles ou données durables.
+- Simplifie les noms de mouvements restés trop descriptifs dans `programs/competition_peak.js`.
+- `Pull-Up technique` devient `Pull-Up`.
+- `Hanging Knee Raise progression` devient `Knee Raise`.
+- Les anciens noms restent en alias de transition dans le moteur pour protéger l’historique déjà enregistré.
+- Aucun changement volontaire aux séries, reps, journées, intentions de programmation, données durables ou `data/charges.js`.
 
 ## 1. Identité
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.31
+- Version actuelle : V51.33
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -23,10 +22,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.31"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.31`.
-- `manifest.json` : `Coach Bertin V51.31`.
-- `service-worker.js` : `coach-bertin-v51-31-no-cache`.
+- `app.js` : `APP_VERSION = "V51.33"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.33`.
+- `manifest.json` : `Coach Bertin V51.33`.
+- `service-worker.js` : `coach-bertin-v51-33-no-cache`.
 
 ---
 
@@ -149,7 +148,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.31 sur DEV après import.
+1. Tester V51.33 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
@@ -164,8 +163,17 @@ Priorités à garder séparées :
 - `tools/` est supprimé et ne doit pas revenir.
 
 
-## V51.31 — État actuel
+## V51.33 — État actuel
 
-- Le moteur de suggestion utilise maintenant les alias officiels de mouvements pour éviter de perdre les charges sur les accessoires du vendredi Épaules 3D.
-- Les charges textuelles `léger` / `modéré` peuvent être converties en suggestion numérique si l’historique ou un repère fiable existe.
+- Les noms de mouvements doivent rester simples.
+- Les intentions comme `technique`, `progression`, `rappel`, `léger` doivent vivre dans les notes/blocs, pas dans le nom du mouvement.
+- Les anciens noms restent en alias de transition pour protéger l’historique.
 - Le dossier `tools/` reste supprimé; validation dans `dev/regression_checks.js`.
+
+
+## V51.32 — Nettoyage noms mouvements programmes non actifs
+
+- Programmes non actifs nettoyés côté noms de mouvements.
+- Les noms ambigus du type `ou`, `/`, `Cable/Band`, `léger` dans le nom ont été remplacés par des noms stables.
+- Le programme actif Épaules 3D reste dans son état V51.31.
+- Données durables et `data/charges.js` inchangés.

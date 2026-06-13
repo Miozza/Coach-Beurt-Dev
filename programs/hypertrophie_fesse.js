@@ -67,7 +67,7 @@ function gfBlocks(day, week){
       ] },
 
     { time:"7 min", title:"C. Moyen fessier / stabilité", tag:"Accessoire", kind:"accessory",
-      exercises:[gfEx("Cable ou Band Hip Abduction", p.pumpSets + "×" + p.repPump + "/côté", "léger", "0:30-0:45", "Brûlure locale OK. Échec inutile.")] },
+      exercises:[gfEx("Cable Hip Abduction", p.pumpSets + "×" + p.repPump + "/côté", "léger", "0:30-0:45", "Brûlure locale OK. Échec inutile.")] },
 
     { time:"6-8 min", title:"D. Conditioning bas impact", tag:"Conditioning", kind:"wod",
       text:(deload ? "Bike 6 min facile." : "EMOM 8 : min 1 = 10-12 cal bike modéré ; min 2 = 8 KB deadlifts légers.") + " RPE 6-7 max. Le WOD ne doit pas devenir une deuxième séance de jambes." },
@@ -81,7 +81,7 @@ function gfBlocks(day, week){
       text:"Row facile 3 min + band pull-apart 2×15 + scap push-up 2×10 + dead bug 2×8/côté + activation fessiers légère 1×20." },
 
     { time:"16 min", title:"A. Haut du corps — maintien force", tag:"Principal", kind:"main",
-      exercises:[gfEx("Bench Press ou DB Incline Press", deload ? "3×8" : "4×6-8", "RPE 7, pas d'échec", "2:00", "Garder le haut du corps actif sans ajouter de fatigue aux hanches.")] },
+      exercises:[gfEx("Bench Press", deload ? "3×8" : "4×6-8", "RPE 7, pas d'échec", "2:00", "Garder le haut du corps actif sans ajouter de fatigue aux hanches.")] },
 
     { time:"14 min", title:"B. Dos / posture", tag:"Secondaire", kind:"accessory",
       exercises:[
@@ -90,7 +90,7 @@ function gfBlocks(day, week){
       ] },
 
     { time:"8 min", title:"C. Activation fessiers optionnelle", tag:"Préhab", kind:"accessory",
-      exercises:[gfEx("Mini-Band Lateral Walk + Glute Bridge", "2 tours faciles", "bande légère", "0:45", "Seulement activation. Pas une séance fessiers cachée.")] },
+      exercises:[gfEx("Mini-Band Lateral Walk", "2 tours faciles", "bande légère", "0:45", "Seulement activation. Pas une séance fessiers cachée.")] },
 
     { time:"8-10 min", title:"D. Core et cardio léger", tag:"Core", kind:"wod",
       text:(deload ? "2 tours faciles : 30 sec dead bug + 30 sec side plank/côté." : "AMRAP 9 contrôlé : 8 dead bug/côté + 10 ring rows + 30 sec farmer carry.") + " RPE 6-7. Zéro congestion fessiers recherchée." },
@@ -113,7 +113,7 @@ function gfBlocks(day, week){
       ] },
 
     { time:"7 min", title:"C. Pump local court", tag:"Pump", kind:"accessory",
-      exercises:[gfEx("Frog Pumps ou Seated Band Abduction", p.pumpSets + "×" + p.repPump, "léger", "0:45", "Sensation locale, pas d'échec obligatoire.")] },
+      exercises:[gfEx("Frog Pumps", p.pumpSets + "×" + p.repPump, "léger", "0:45", "Sensation locale, pas d'échec obligatoire.")] },
 
     { time:"7-9 min", title:"D. Conditioning sans impact", tag:"Conditioning", kind:"wod",
       text:(deload ? "SkiErg 6 min facile." : "9 min contrôlé : 8 cal SkiErg + 8 push-ups + 10 anchored sit-ups.") + " On évite les sauts et les lunges ici pour ne pas cumuler." },
@@ -127,7 +127,7 @@ function gfBlocks(day, week){
       text:"Bike ou row facile 4 min + mobilité hanches 2 min + band walk léger 1×12/côté + respiration 90/90 1 min." },
 
     { time:"14 min", title:"A. Pump fessiers léger", tag:"Accessoire", kind:"main",
-      exercises:[gfEx("Hip Thrust tempo léger", p.pumpSets + "×" + p.repPump, "léger à modéré, RPE 6", "1:00", "Tempo 2-1-2. Aucun grind. Si les hanches sont lourdes, remplacer par glute bridge au sol.")] },
+      exercises:[gfEx("Hip Thrust Tempo", p.pumpSets + "×" + p.repPump, "léger à modéré, RPE 6", "1:00", "Tempo 2-1-2. Aucun grind. Si les hanches sont lourdes, remplacer par glute bridge au sol.")] },
 
     { time:"14 min", title:"B. Carries + tronc", tag:"Core", kind:"accessory",
       exercises:[
@@ -136,7 +136,7 @@ function gfBlocks(day, week){
       ] },
 
     { time:"8 min", title:"C. Mobilité active hanches", tag:"Préhab", kind:"accessory",
-      exercises:[gfEx("90/90 Hip Switch + Couch Stretch dynamique", "2-3 tours", "poids du corps", "0:30", "Qualité d'amplitude. Ce bloc sert à récupérer.")] },
+      exercises:[gfEx("90/90 Hip Switch", "2-3 tours", "poids du corps", "0:30", "Qualité d'amplitude. Ce bloc sert à récupérer.")] },
 
     { time:"8-10 min", title:"D. WOD court non destructeur", tag:"Conditioning", kind:"wod",
       text:(deload ? "Bike 6 min facile + marche légère." : "AMRAP 10 : 10 cal row + 8 DB push press légers + 10 sit-ups.") + " Pas de lunges, pas de deadlift lourd, pas de box jump. RPE 7 max." },

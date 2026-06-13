@@ -28,7 +28,7 @@
           {title:"Activation fessiers", time:"8 min", text:"2 rondes : 15 glute bridge + 12 side-lying hip abduction/côté + 12 bodyweight reverse lunge/jambe."},
           {title:"A. Hip Thrust lourd", time:"18 min", exercises:[ex("Barbell Hip Thrust", "5×6-8", "RPE 7–8", "Pause 1 sec en haut, bassin stable. Monter seulement si la technique reste propre.")]},
           {title:"B. Split Squat", time:"12 min", exercises:[ex("DB Bulgarian Split Squat", "3×8/jambe", "RPE 7", "Amplitude contrôlée, buste stable, pas d’échec.")]},
-          {title:"C. Abduction", time:"8 min", exercises:[ex("Cable/Band Hip Abduction", "3×15-20/côté", "RPE 8", "Brûlure locale. Éviter de compenser avec le bas du dos.")]},
+          {title:"C. Abduction", time:"8 min", exercises:[ex("Cable Hip Abduction", "3×15-20/côté", "RPE 8", "Brûlure locale. Éviter de compenser avec le bas du dos.")]},
           {title:"Finisher", time:"5 min", text:"Glute bridge hold : 5×30 sec, repos 30 sec."},
           {title:"Retour au calme", time:"5 min", text:"Couch Stretch + Figure-4 Stretch + Box Breathing."}
         ]
@@ -62,7 +62,7 @@
           {title:"A. Hip Thrust volume", time:"15 min", exercises:[ex("Hip Thrust", "4×10-12", "RPE 7", "2 reps en réserve. Pause en haut sur chaque rep.")]},
           {title:"B. Goblet Squat", time:"12 min", exercises:[ex("Goblet Squat", "3×12", "RPE 7", "Pieds placés pour sentir fessiers. Mouvement contrôlé.")]},
           {title:"C. Slider Curl", time:"10 min", exercises:[ex("Slider Curl", "3×12-15", "RPE 8", "Ischios actifs, bassin stable.")]},
-          {title:"D. Abduction", time:"8 min", exercises:[ex("Cable/Band Hip Abduction", "3×20/côté", "RPE 8", "Sensation locale, pas de vitesse inutile.")]},
+          {title:"D. Abduction", time:"8 min", exercises:[ex("Cable Hip Abduction", "3×20/côté", "RPE 8", "Sensation locale, pas de vitesse inutile.")]},
           {title:"Finisher", time:"5 min", text:"AMRAP qualité : 12 glute bridge + 12 side-lying hip abduction/côté + 12 air squat tempo."},
           {title:"Retour au calme", time:"5 min", text:"Figure-4 Stretch + Couch Stretch."}
         ]
@@ -76,7 +76,7 @@
         caution: "Dos neutre. Si le bas du dos prend toute la charge, réduire immédiatement.",
         blocks: [
           {title:"Warm-up", time:"8 min", text:"Bike 5 min + good morning PVC + hip hinge drill."},
-          {title:"A. RDL", time:"18 min", exercises:[ex("DB RDL ou Barbell RDL", "4×8", "RPE 7", "Charnière de hanche contrôlée, charge proche des jambes, aucune douleur lombaire.")]},
+          {title:"A. RDL", time:"18 min", exercises:[ex("DB RDL", "4×8", "RPE 7", "Charnière de hanche contrôlée, charge proche des jambes, aucune douleur lombaire.")]},
           {title:"B. Glute Bridge", time:"12 min", exercises:[ex("Glute Bridge", "4×10-12", "RPE 7", "Pause en haut, côtes basses, bassin stable.")]},
           {title:"C. Hamstring", time:"10 min", exercises:[ex("Slider Curl", "3×10-12", "RPE 8", "Contrôle lent, surtout à l’excentrique.")]},
           {title:"D. Core anti-extension", time:"7 min", exercises:[ex("Dead Bug", "3×8/côté", "poids du corps", "Expiration lente, lombaires stables.")]},
@@ -109,8 +109,8 @@
         blocks: [
           {title:"Warm-up", time:"7 min", text:"Bike facile + 90/90 Hip Switch + Hip CARs + side-lying hip abduction."},
           {title:"A. Cable Kickback", time:"14 min", exercises:[ex("Cable Kickback", "4×12-15/côté", "RPE 7–8", "Bassin stable, amplitude contrôlée, pas de dos creux.")]},
-          {title:"B. Cable/Band Abduction", time:"12 min", exercises:[ex("Cable/Band Hip Abduction", "4×15-20/côté", "RPE 8", "Chercher le moyen fessier, pas les lombaires.")]},
-          {title:"C. Hip Thrust léger", time:"10 min", exercises:[ex("Hip Thrust léger", "3×15", "RPE 7", "Pompe musculaire, pas lourd.")]},
+          {title:"B. Cable Hip Abduction", time:"12 min", exercises:[ex("Cable Hip Abduction", "4×15-20/côté", "RPE 8", "Chercher le moyen fessier, pas les lombaires.")]},
+          {title:"C. Hip Thrust Pump", time:"10 min", exercises:[ex("Hip Thrust Pump", "3×15", "RPE 7", "Pompe musculaire, pas lourd.")]},
           {title:"D. Pump circuit", time:"8 min", text:"2 rondes : 20 frog pumps + 20 banded seated hip abductions + 30 sec glute bridge hold."},
           {title:"Retour au calme", time:"4 min", text:"Box Breathing + 90/90 Hip Switch."}
         ]
@@ -172,8 +172,8 @@
         blocks: [
           {title:"Warm-up", time:"6 min", text:"Bike 4 min + glute bridge + Side-Lying Hip Abduction."},
           {title:"A. Mouvement principal", time:"14 min", exercises:[ex("Hip Thrust", "4×8", "RPE 7", "Pause en haut, stable.")]},
-          {title:"B. Unilatéral", time:"10 min", exercises:[ex("DB Reverse Lunge ou Step-up", "3×10/jambe", "RPE 7", "Choisir l’option la plus confortable.")]},
-          {title:"C. Isolation", time:"8 min", exercises:[ex("Cable/Band Abduction", "3×15-20/côté", "RPE 8", "Contrôle et sensation locale.")]},
+          {title:"B. Unilatéral", time:"10 min", exercises:[ex("DB Reverse Lunge", "3×10/jambe", "RPE 7", "Choisir l’option la plus confortable.")]},
+          {title:"C. Isolation", time:"8 min", exercises:[ex("Cable Hip Abduction", "3×15-20/côté", "RPE 8", "Contrôle et sensation locale.")]},
           {title:"D. Finisher", time:"6 min", text:"AMRAP 6 : 12 glute bridge + 10 air squat tempo + 12 side-lying hip abduction/côté."},
           {title:"Retour au calme", time:"4 min", text:"90/90 Hip Switch + Box Breathing."}
         ]

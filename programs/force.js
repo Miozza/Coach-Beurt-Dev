@@ -98,7 +98,7 @@ function strengthBlocks(day,week){
     {time:"8 min",title:"Warm-up force secondaire",tag:"Préparation",kind:"warmup",
      text:"Bike 3 min + air squats 2×10 + ring rows 2×8 + hip hinge drill 2×10 + ramp-up deadlift/RDL."},
     {time:"18 min",title:"A. Deadlift / hinge",tag:"Force",kind:"main",
-     exercises:[stEx("Deadlift / RDL",p.dead,p.deadLoad,heavy?"3:00":"2:30","Choisis deadlift si le dos est parfait, sinon RDL. Aucun ego lift.")]},
+     exercises:[stEx("Deadlift",p.dead,p.deadLoad,heavy?"3:00":"2:30","Choisis deadlift si le dos est parfait, sinon RDL. Aucun ego lift.")]},
     {time:"14 min",title:"B. Front squat technique lourd",tag:"Force",kind:"accessory",
      exercises:[stEx("Front Squat",deload?"3×5 léger":heavy?"5×2 lourd":"4×4",deload?"135 lb":heavy?"195-205 lb":"175-190 lb","2:30","Transfert clean/thruster. Position solide.")]},
     {time:"10 min",title:"C. Carry + core",tag:"Assistance",kind:"accessory",

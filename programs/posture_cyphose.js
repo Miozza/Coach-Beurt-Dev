@@ -111,7 +111,7 @@ function postureBlocks(day, week){
     {time:"10 min", title:"C. Arrière épaule / rotation externe", tag:"Accessoire", kind:"accessory",
      exercises:[
        pstEx("C1. Face Pull", p.accessorySets, w1?"50-60 lb":"60-75 lb", "0:30", "Tirer vers le visage avec rotation externe en fin."),
-       pstEx("C2. Rear Delt Fly", p.accessorySets, w1?"15-20 lb":"20-25 lb", "0:45", "Bras longs, épaules basses, aucun swing.")
+       pstEx("C2. Rear Delt Fly DB", p.accessorySets, w1?"15-20 lb":"20-25 lb", "0:45", "Bras longs, épaules basses, aucun swing.")
      ]},
 
     {time:w3?"10 min":"8 min", title:"D. Conditioning posture", tag:"Conditioning", kind:"wod",

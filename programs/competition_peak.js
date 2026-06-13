@@ -61,7 +61,7 @@ function competitionPeakBlocks(day,week){
     cpWarmup("Row facile 3 min + air squats 2×10 + inchworm 6 reps + wall ball léger 2×8 + burpees step-down 2×5 + montée rythme 2 min."),
 
     {time:"8 min",title:"A. Skill transitions",tag:"Skill",kind:"main",
-     exercises:[cpEx("Transitions wall ball / burpee",taper?"5×30 sec":"6×40 sec","Wall Ball 14 lb","0:40-1:00","Objectif : cycle régulier, respiration, pas de précipitation.")]},
+     exercises:[cpEx("Wall Ball to Burpee Transitions",taper?"5×30 sec":"6×40 sec","Wall Ball 14 lb","0:40-1:00","Objectif : cycle régulier, respiration, pas de précipitation.")]},
 
     {time:taper?"12 min":week>=3?"16 min":"15 min",title:"B. WOD Open court",tag:"Conditioning",kind:"wod",
      text:(week===1?"AMRAP 15 : 12 wall balls 14 lb + 10 cal row + 8 burpees." :
@@ -85,8 +85,8 @@ function competitionPeakBlocks(day,week){
 
     {time:"10 min",title:"A. Gymnastics skill",tag:"Skill",kind:"main",
      exercises:[
-       cpEx("Pull-Up / Chest-to-Bar technique",taper?"4×4 facile":benchmark?"5×4":"5×4-6","poids du corps","0:45","Qualité. Stop avant de perdre le rythme."),
-       cpEx("Toes-to-Bar progression / Hanging Knee Raise",taper?"4×5":"5×6-8","poids du corps","0:45","Garder le tronc serré. Pas de swing incontrôlé.")
+       cpEx("Pull-Up",taper?"4×4 facile":benchmark?"5×4":"5×4-6","poids du corps","0:45","Qualité. Stop avant de perdre le rythme."),
+       cpEx("Knee Raise",taper?"4×5":"5×6-8","poids du corps","0:45","Garder le tronc serré. Pas de swing incontrôlé.")
      ]},
 
     {time:week>=4&&!taper?"18 min":taper?"12 min":"16 min",title:"B. Intervalles engine",tag:"Conditioning",kind:"wod",

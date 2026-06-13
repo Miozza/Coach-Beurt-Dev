@@ -1,5 +1,24 @@
 # CHANGELOG — Coach Beurt
 
+## V51.33 — Noms mouvements encore plus simples
+
+- Simplifie deux noms restés trop descriptifs dans `programs/competition_peak.js` sans changer la programmation.
+- Remplace `Pull-Up technique` par `Pull-Up`.
+- Remplace `Hanging Knee Raise progression` par `Knee Raise`.
+- Conserve les anciens noms comme alias de transition pour protéger l’historique déjà sauvegardé.
+- Renforce `dev/regression_checks.js` pour empêcher le retour de `technique` et `progression` dans les noms de mouvements.
+- Aucune donnée durable et aucun `data/charges.js` modifiés.
+
+
+## V51.32 — Nettoyage noms mouvements programmes non actifs
+
+- Nettoie les noms ambigus dans les programmes non actifs sans changer les séries, reps, journées ni intentions.
+- Remplace les noms combinés ou parasites (`ou`, `/`, `Cable/Band`, `léger` dans le nom) par des noms stables.
+- Clarifie les équipements dans les noms lorsque ça influence la charge : DB, câble, barre, poids du corps.
+- Ajoute des alias de transition pour protéger l’historique déjà sauvegardé.
+- Renforce `dev/regression_checks.js` pour empêcher le retour des noms de mouvements combinés dans les programmes.
+- Aucune donnée durable et aucun `data/charges.js` modifiés.
+
 ## V51.31 — Nettoyage noms Épaules 3D + transition historique
 
 - Nettoie les noms ambigus dans `programs/epaules_3d.js` sans changer les séances, séries, reps ni charges prévues.
