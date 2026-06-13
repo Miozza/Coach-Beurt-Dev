@@ -1,25 +1,20 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.30
-### V51.30 — Mapping charges par équipement + noms propres
-- Les alias de charges sont séparés par équipement : DB ≠ câble ≠ machine ≠ barre ≠ poids du corps.
-- Les suffixes internes de programmation comme `— rappel vendredi` ne doivent pas être affichés dans l’interface.
+## Dernière modification — V51.31
+### V51.31 — Nettoyage noms Épaules 3D + transition historique
 
-### V51.30 — Bouton ! séance simplifié + historique robuste
-
-- La modale du bouton jaune `!` / `⚠` en vue séance est simplifiée : priorité à l’historique des poids utilisés.
-- La recherche d’historique accepte maintenant les mouvements fournis sous `name`, `title`, `label` ou `movement`.
-- La correspondance tolère les noms alternatifs/partiels, par exemple `DB Shoulder Press` versus `DB Shoulder Press / Landmine Press`.
-- Le fallback `athlete_state` + `state.history` reste obligatoire.
-- Le garde-fou anti-régression est renforcé pour protéger ce comportement.
-- Aucun fichier de release/audit versionné ajouté.
-- Aucun programme, aucune séance, aucune charge et aucune donnée durable modifiés.
+- Les noms de mouvements ambigus dans Épaules 3D sont nettoyés sans modifier la programmation.
+- `Lateral Raise DB` et `Lateral Raise câble` restent distincts pour les charges et l’historique.
+- `Rear Delt Fly DB` et `Rear Delt Fly câble` restent distincts pour les charges et l’historique.
+- `Overhead Rope Extension — rappel vendredi` ne doit plus apparaître dans le programme ni l’interface; l’ancien nom reste seulement comme alias de lecture historique.
+- Les anciens noms `haltères`, `câble bas` et `DB Shoulder Press / Landmine Press` restent reconnus pour protéger la progression des poids déjà enregistrée.
+- Aucun changement aux séries, reps, journées, charges officielles ou données durables.
 
 ## 1. Identité
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.30
+- Version actuelle : V51.31
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -28,10 +23,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.30"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.30`.
-- `manifest.json` : `Coach Bertin V51.30`.
-- `service-worker.js` : `coach-bertin-v51-30-no-cache`.
+- `app.js` : `APP_VERSION = "V51.31"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.31`.
+- `manifest.json` : `Coach Bertin V51.31`.
+- `service-worker.js` : `coach-bertin-v51-31-no-cache`.
 
 ---
 
@@ -154,7 +149,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.30 sur DEV après import.
+1. Tester V51.31 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
@@ -169,7 +164,7 @@ Priorités à garder séparées :
 - `tools/` est supprimé et ne doit pas revenir.
 
 
-## V51.30 — État actuel
+## V51.31 — État actuel
 
 - Le moteur de suggestion utilise maintenant les alias officiels de mouvements pour éviter de perdre les charges sur les accessoires du vendredi Épaules 3D.
 - Les charges textuelles `léger` / `modéré` peuvent être converties en suggestion numérique si l’historique ou un repère fiable existe.

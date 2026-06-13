@@ -1,5 +1,5 @@
-// Coach Bertin V51.30
-var APP_VERSION = "V51.30";
+// Coach Bertin V51.31
+var APP_VERSION = "V51.31";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -288,7 +288,7 @@ function canonicalMovementLabel(nameOrKey){
   if(n.indexOf("ring row lourd")>=0)return "Ring Row lourd";
   if(n.indexOf("ring row strict")>=0 || n.indexOf("ring rows strict")>=0)return "Ring Row Strict";
   if(n.indexOf("weighted pull up")>=0)return "Weighted Pull-up";
-  if(n.indexOf("db shoulder press landmine press")>=0)return "DB Shoulder Press / Landmine Press";
+  if(n.indexOf("db shoulder press landmine press")>=0)return "DB Shoulder Press";
   if(n.indexOf("landmine press")>=0)return "Landmine Press";
   if(n.indexOf("db shoulder press")>=0)return "DB Shoulder Press";
   if(n.indexOf("power clean technique")>=0 || n.indexOf("clean technique")>=0)return "Power Clean technique";
@@ -300,12 +300,12 @@ function canonicalMovementLabel(nameOrKey){
   if(n.indexOf("barbell row")>=0)return "Barbell Row";
   if(n.indexOf("face pull")>=0)return "Face Pull";
   if(n.indexOf("cable curl")>=0)return "Cable Curl";
-  if(n.indexOf("rear delt fly cable bas")>=0 || n.indexOf("rear delt fly cable")>=0)return "Rear Delt Fly câble bas";
-  if(n.indexOf("rear delt fly halteres")>=0)return "Rear Delt Fly haltères";
+  if(n.indexOf("rear delt fly cable bas")>=0 || n.indexOf("rear delt fly cable")>=0)return "Rear Delt Fly câble";
+  if(n.indexOf("rear delt fly db")>=0 || n.indexOf("rear delt fly halteres")>=0)return "Rear Delt Fly DB";
   if(n.indexOf("rear delt fly machine")>=0)return "Rear Delt Fly machine";
   if(n.indexOf("rear delt fly")>=0)return "Rear Delt Fly";
-  if(n.indexOf("lateral raise cable bas")>=0 || n.indexOf("lateral raise cable")>=0)return "Lateral Raise câble bas";
-  if(n.indexOf("lateral raise halteres")>=0)return "Lateral Raise haltères";
+  if(n.indexOf("lateral raise cable bas")>=0 || n.indexOf("lateral raise cable")>=0)return "Lateral Raise câble";
+  if(n.indexOf("lateral raise db")>=0 || n.indexOf("lateral raise halteres")>=0)return "Lateral Raise DB";
   if(n.indexOf("lateral raise machine")>=0)return "Lateral Raise machine";
   if(n.indexOf("lateral raise")>=0)return "Lateral Raise";
   if(n.indexOf("trap 3 raise")>=0)return "Trap-3 Raise";
@@ -334,6 +334,7 @@ function coachMovementLookupLabels(nameOrKey){
     add("DB Shoulder Press / Landmine Press");
   }else if(/db shoulder press/.test(n)){
     add("DB Shoulder Press");
+    add("DB Shoulder Press / Landmine Press"); // ancien nom ambigu conservé pour transition historique, pas pour Landmine Press.
   }else if(/landmine press/.test(n)){
     add("Landmine Press");
   }
@@ -343,9 +344,10 @@ function coachMovementLookupLabels(nameOrKey){
   }
   if(/lateral raise/.test(n)){
     if(/cable|cable bas|poulie/.test(n)){
-      add("Lateral Raise câble bas");
       add("Lateral Raise câble");
+      add("Lateral Raise câble bas");
     }else if(/haltere|halteres|dumbbell|db/.test(n)){
+      add("Lateral Raise DB");
       add("Lateral Raise haltères");
     }else if(/machine/.test(n)){
       add("Lateral Raise machine");
@@ -355,9 +357,10 @@ function coachMovementLookupLabels(nameOrKey){
   }
   if(/rear delt fly/.test(n)){
     if(/cable|cable bas|poulie/.test(n)){
-      add("Rear Delt Fly câble bas");
       add("Rear Delt Fly câble");
+      add("Rear Delt Fly câble bas");
     }else if(/haltere|halteres|dumbbell|db/.test(n)){
+      add("Rear Delt Fly DB");
       add("Rear Delt Fly haltères");
     }else if(/machine/.test(n)){
       add("Rear Delt Fly machine");

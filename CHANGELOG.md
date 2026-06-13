@@ -1,5 +1,14 @@
 # CHANGELOG — Coach Beurt
 
+## V51.31 — Nettoyage noms Épaules 3D + transition historique
+
+- Nettoie les noms ambigus dans `programs/epaules_3d.js` sans changer les séances, séries, reps ni charges prévues.
+- Renomme `Lateral Raise haltères` → `Lateral Raise DB`, `Lateral Raise câble bas` → `Lateral Raise câble`, `Rear Delt Fly haltères` → `Rear Delt Fly DB`, `Rear Delt Fly câble bas` → `Rear Delt Fly câble`.
+- Remplace `Overhead Rope Extension — rappel vendredi` par `Overhead Rope Extension` dans le programme source.
+- Conserve les anciens noms comme alias de transition pour ne pas perdre l’historique ni la progression des charges.
+- Renforce `dev/regression_checks.js` pour empêcher le retour des noms parasites dans Épaules 3D.
+- Aucune donnée durable et aucun `data/charges.js` modifiés.
+
 ## V51.30 — Mapping charges par équipement + noms propres
 
 - Sépare les alias de mouvements par équipement : haltères, câble, machine, barre et poids du corps ne partagent plus automatiquement leurs historiques de charge.

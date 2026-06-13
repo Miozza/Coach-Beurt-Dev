@@ -27,7 +27,7 @@ window.COACH_BERTIN_PROGRAMS.shoulders3d = {
   rest: "0:45–2:30",
   tag: "épaules 3D",
   versionDate: "2026-06-09",
-  versionLabel: "2026-06-11 — V51.03 mapping propre + contexte charges"
+  versionLabel: "2026-06-13 — V51.31 noms mouvements propres + mapping transition"
 };
 
 function shouldersWeekPlan(week){
@@ -83,7 +83,7 @@ function shouldersBlocks(day,week){
      text:"Push strict : haut de pec, deltoïde antérieur et deltoïde latéral. Aucun row, aucun band pull-apart, aucun rear delt direct avant le mardi.",
      exercises:[
        shouldersExFixed("B1. Incline DB Press",p.incline,p.inclineLoad,"0:20 avant B2","Accessoire hypertrophie : haut de pec + deltoïde antérieur. Charge réduite parce que le Strict Press est prioritaire aujourd'hui. RPE 7-8, pas d'échec."),
-       shouldersExFixed("B2. Lateral Raise câble bas",p.lat,"15-20 lb","1:15 après B2","Session 1 : câble bas = tension constante. Épaule basse, aucun élan. RPE 8 max, surtout après le press.")
+       shouldersExFixed("B2. Lateral Raise câble",p.lat,"15-20 lb","1:15 après B2","Session 1 : câble bas = tension constante. Épaule basse, aucun élan. RPE 8 max, surtout après le press.")
      ]},
 
     {time:"12 min",title:"C. Triceps push",tag:"Hypertrophie",kind:"hypertrophy",
@@ -116,7 +116,7 @@ function shouldersBlocks(day,week){
 
     {time:"12 min",title:"C. Rear delts / posture",tag:"Arrière épaule",kind:"accessory",
      exercises:[
-       shouldersExFixed("C1. Rear Delt Fly câble bas",p.rear,"15-20 lb","0:30 avant C2","Session 1 arrière d'épaule : câble bas, bras long, épaule basse. Ne pas transformer en rowing."),
+       shouldersExFixed("C1. Rear Delt Fly câble",p.rear,"15-20 lb","0:30 avant C2","Session 1 arrière d'épaule : câble bas, bras long, épaule basse. Ne pas transformer en rowing."),
        shouldersEx("C2. Face Pull",p.face,"60-70 lb","0:30 avant C3","Santé scapulaire. Rotation externe, cou relâché. RPE 7-8."),
        shouldersEx("C3. Trap-3 Raise",p.trap,"léger","1:00 après C3","Trap inférieur. Pouce vers le haut, zéro shrug.")
      ]},
@@ -168,8 +168,8 @@ function shouldersBlocks(day,week){
     {time:"12 min",title:"B. Giant set épaules 3D — angle différent",tag:"Giant set",kind:"accessory",
      text:"Vendredi = angle différent du lundi/mardi. Utiliser haltères ou machine si possible, pas juste refaire câble bas identique.",
      exercises:[
-       shouldersExFixed("B1. Lateral Raise haltères",p.lat2,"modéré","—","Deltoïde latéral. Variante différente du câble bas de lundi. Si machine utilisée, noter Lateral Raise machine."),
-       shouldersExFixed("B2. Rear Delt Fly haltères",p.rear2,"modéré","—","Arrière d'épaule. Variante différente du câble bas de mardi. Si machine utilisée, noter Rear Delt Fly machine."),
+       shouldersExFixed("B1. Lateral Raise DB",p.lat2,"modéré","—","Deltoïde latéral. Variante différente du câble bas de lundi. Si machine utilisée, noter Lateral Raise machine."),
+       shouldersExFixed("B2. Rear Delt Fly DB",p.rear2,"modéré","—","Arrière d'épaule. Variante différente du câble bas de mardi. Si machine utilisée, noter Rear Delt Fly machine."),
        shouldersEx("B3. Face Pull câble",p.face2,"50-70 lb","1:15 après B3","Posture/scapulas. RPE 7-8, cou relâché.")
      ]},
 
@@ -177,7 +177,7 @@ function shouldersBlocks(day,week){
      text:"Remplace le serratus punch : bloc plus cohérent avec l'objectif hypertrophie. Upright row prise large à la poulie = deltoïde latéral/haut d'épaule, sans tirer vers le menton.",
      exercises:[
        shouldersEx("C1. Wide-Grip Cable Upright Row",isDeload?"2×10 léger":"3×10-15","modéré","0:30 avant C2","Prise large, coudes ouverts. Tirer vers bas de poitrine/haut du sternum, pas vers le menton. Stop si pincement d'épaule."),
-       shouldersEx("C2. Overhead Rope Extension — rappel vendredi",p.triFri,"60-70 lb","1:00 après C2","Rappel triceps longue portion. Contexte distinct du lundi après press. RPE 8 max, coudes propres.")
+       shouldersEx("C2. Overhead Rope Extension",p.triFri,"60-70 lb","1:00 après C2","Rappel triceps longue portion. Contexte distinct du lundi après press. RPE 8 max, coudes propres.")
      ]},
 
     {time:"6 min",title:"D. Power Clean technique",tag:"Haltéro",kind:"accessory",

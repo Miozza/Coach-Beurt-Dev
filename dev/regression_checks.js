@@ -136,6 +136,13 @@ assert(!/if\(\/lateral raise\/\.test\(n\)\)\{[\s\S]{0,240}add\("Lateral Raise ha
 assert(!/if\(\/rear delt fly\/\.test\(n\)\)\{[\s\S]{0,240}add\("Rear Delt Fly haltères"\)[\s\S]{0,240}add\("Rear Delt Fly câble bas"\)/.test(appSrc), 'Rear Delt Fly ne doit pas fusionner haltères et câble dans le même alias large.');
 assert(helperSrc.includes('function displayMovementName'), 'displayMovementName doit nettoyer les suffixes internes sans modifier les programmes.');
 assert(sessionSrc.includes('displayMovementName(e.title)'), 'La vue séance doit afficher les noms nettoyés.');
+assert(read('programs/epaules_3d.js').includes('Lateral Raise DB'), 'Épaules 3D doit utiliser le nom propre Lateral Raise DB.');
+assert(read('programs/epaules_3d.js').includes('Lateral Raise câble'), 'Épaules 3D doit utiliser le nom propre Lateral Raise câble.');
+assert(read('programs/epaules_3d.js').includes('Rear Delt Fly DB'), 'Épaules 3D doit utiliser le nom propre Rear Delt Fly DB.');
+assert(read('programs/epaules_3d.js').includes('Rear Delt Fly câble'), 'Épaules 3D doit utiliser le nom propre Rear Delt Fly câble.');
+assert(!read('programs/epaules_3d.js').includes('Overhead Rope Extension — rappel vendredi'), 'Épaules 3D ne doit plus contenir Overhead Rope Extension — rappel vendredi dans le programme source.');
+assert(appSrc.includes('DB Shoulder Press / Landmine Press') && appSrc.includes('transition historique'), 'Ancien nom DB Shoulder Press / Landmine Press doit rester en alias de transition.');
+assert(appSrc.includes('Lateral Raise haltères') && appSrc.includes('Rear Delt Fly haltères'), 'Anciens noms haltères doivent rester comme alias de transition historique.');
 
 
 // 7. UI critique.

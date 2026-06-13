@@ -63,13 +63,17 @@ var wodBanks = {
     if(/weighted pull up.*ring row/.test(x)) return "Weighted Pull-up / Ring Row lourd";
     if(/ring row lourd/.test(x)) return "Ring Row lourd";
     if(/weighted pull up/.test(x)) return "Weighted Pull-up";
-    if(/db shoulder press.*landmine press/.test(x)) return "DB Shoulder Press / Landmine Press";
+    if(/db shoulder press.*landmine press/.test(x)) return "DB Shoulder Press";
     if(/db shoulder press/.test(x)) return "DB Shoulder Press";
     if(/landmine press/.test(x)) return "Landmine Press";
     if(/power clean technique|clean technique/.test(x)) return "Power Clean technique";
     if(/power clean wod/.test(x)) return "Power Clean WOD";
     if(/power clean/.test(x)) return "Power Clean";
     if(/overhead rope extension/.test(x)) return "Overhead Rope Extension";
+    if(/lateral raise.*(cable|cable bas|poulie)/.test(x)) return "Lateral Raise câble";
+    if(/lateral raise.*(haltere|halteres|dumbbell|db)/.test(x)) return "Lateral Raise DB";
+    if(/rear delt fly.*(cable|cable bas|poulie)/.test(x)) return "Rear Delt Fly câble";
+    if(/rear delt fly.*(haltere|halteres|dumbbell|db)/.test(x)) return "Rear Delt Fly DB";
     if(/strict press/.test(x)) return "Strict Press";
     if(/chest[ -]?supported row|chest row/i.test(n)) return "Barbell Row";
     if(/barbell row/i.test(n)) return "Barbell Row";

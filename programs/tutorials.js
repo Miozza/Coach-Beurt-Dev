@@ -39,6 +39,21 @@ window.COACH_BERTIN_TUTORIALS = {
     mistakes: ["Hausser le trapèze.", "Balancer le corps.", "Monter trop haut.", "Plier le bras pour tricher."],
     cue: "Brûlure dans le côté de l’épaule, pas dans le trap."
   },
+
+  "Lateral Raise DB": {
+    goal: "Deltoïde latéral avec haltères, sans tricher avec les trapèzes.",
+    setup: ["Haltères légers à modérés.", "Épaules basses.", "Légère flexion des coudes.", "Tronc stable."],
+    execution: ["Monte dans le plan de l’omoplate.", "Arrête autour de la hauteur d’épaule.", "Descends lentement.", "Garde 1–2 reps en réserve."],
+    mistakes: ["Balancer le corps.", "Hausser les trapèzes.", "Prendre trop lourd.", "Plier les bras pour tricher."],
+    cue: "Côté de l’épaule, pas le cou."
+  },
+  "Rear Delt Fly DB": {
+    goal: "Arrière d’épaule avec haltères, charge contrôlée.",
+    setup: ["Haltères légers.", "Buste penché ou appuyé si possible.", "Cou long.", "Épaules basses."],
+    execution: ["Ouvre les bras sans transformer en rowing.", "Garde les coudes légèrement fléchis.", "Pause courte en haut.", "Retour contrôlé."],
+    mistakes: ["Tirer avec le dos.", "Hausser les épaules.", "Donner de l’élan.", "Aller trop lourd."],
+    cue: "Arrière d’épaule, pas trapèzes."
+  },
   "Face Pull": {
     goal: "Arrière d’épaule, rotateurs externes et posture scapulaire.",
     setup: ["Câble à hauteur des yeux.", "Coudes hauts mais épaules basses.", "Poitrine ouverte, cage contrôlée."],
