@@ -21,9 +21,37 @@ function round5(n){if(n===0)return 0;if(!n||isNaN(n))return null;return Math.rou
 function lb(n){var r=round5(n);return(r===0||r)?r+" lb":"—";}
 function parseLoad(v){if(v===0||v==="0")return 0;if(!v)return null;var m=String(v).replace(",",".").match(/[0-9]+(\.[0-9]+)?/);return m?Number(m[0]):null;}
 
+
+function defaultEquipmentLoadRules(){
+  return {
+    cable: {
+      match:["câble","cable","poulie","rope","face pull","triceps pushdown","triceps rope","lat pulldown","upright row"],
+      step:10
+    },
+    band: {
+      match:["élastique","elastique","band"],
+      available:["petit","moyen","large","très large"]
+    },
+    dumbbell: {
+      match:["haltère","haltères","haltere","halteres","dumbbell","db ","db-","lateral raise","rear delt fly","bulgarian","farmer carry","db rdl","db snatch","shoulder press"],
+      available:[2.5,5,10,12,15,17.5,20,22.5,25,30,35,40,45,50,55,60,65,70,85]
+    },
+    barbell: {
+      match:["barbell","bench","squat","strict press","push press","deadlift","clean","row","hip thrust"],
+      step:5
+    }
+  };
+}
+
+function effectiveEquipmentLoadRules(){
+  var rules=window.EQUIPMENT_LOAD_RULES;
+  if(rules&&Object.keys(rules).length)return rules;
+  return defaultEquipmentLoadRules();
+}
+
 function normalizeChargeText(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
 function equipmentRuleForExercise(nameOrKey, loadText){
-  var rules=window.EQUIPMENT_LOAD_RULES||{};
+  var rules=effectiveEquipmentLoadRules();
   var text=normalizeChargeText((nameOrKey||"")+" "+(loadText||""));
   if(/\bkg\b/.test(text))return null;
   function has(rule){return (rule&&rule.match||[]).some(function(x){return text.indexOf(normalizeChargeText(x))!==-1;});}

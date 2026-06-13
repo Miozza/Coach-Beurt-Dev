@@ -38,7 +38,7 @@ PC sert à inspecter, comprendre et exporter. Il ne doit pas devenir un Builder 
 
 ## Vue séance — règles verrouillées
 
-Ces règles sont obligatoires à partir de V51.23.
+Ces règles sont obligatoires à partir de V51.24.
 
 ### Timer WOD
 

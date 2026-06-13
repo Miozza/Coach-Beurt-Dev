@@ -67,3 +67,6 @@ Avant de livrer une version qui touche à `styles.css`, `scripts/view_session.js
 - Les boutons Play / Pause / Reset du timer sont accessibles.
 - Les boutons `Précédent` et `Bloc suivant` sont accessibles en portrait iPhone.
 - Un WOD court, un AMRAP/CAP et un bloc long avec plusieurs mouvements restent utilisables sans bouton caché.
+
+## Validation Résultats
+- [ ] Vue Résultats : les mouvements haltères suivent la liste disponible du gym, pas des incréments génériques.

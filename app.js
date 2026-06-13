@@ -1,5 +1,5 @@
-// Coach Bertin V51.23
-var APP_VERSION = "V51.23";
+// Coach Bertin V51.24
+var APP_VERSION = "V51.24";
 var GITHUB_OWNER = "Miozza";
 var GITHUB_REPO  = "Coach-Beurt";
 var GITHUB_FILE  = "data/resultats.json";
@@ -1386,7 +1386,17 @@ function renderSessionEntry(){
 
       card.querySelectorAll('.sf-input[data-key][data-field]').forEach(function(inp){
         inp.addEventListener('input',function(){ syncResultField(inp.getAttribute('data-field'), inp.value); });
-        inp.addEventListener('change',function(){ syncResultField(inp.getAttribute('data-field'), inp.value); });
+        inp.addEventListener('change',function(){
+          var field=inp.getAttribute('data-field');
+          if(field==='load'){
+            var n=parseLoad(inp.value);
+            if(n!==null&&n!==undefined){
+              var rounded=roundLoadForExercise(item.name||item.key, n, 'nearest', item.suggested||item.load);
+              if(rounded!==null&&rounded!==undefined) inp.value=guidedNumberText(rounded);
+            }
+          }
+          syncResultField(field, inp.value);
+        });
       });
     }
   });

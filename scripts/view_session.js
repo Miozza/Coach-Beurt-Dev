@@ -1,4 +1,4 @@
-// Coach Beurt V51.23 — guided session view + compact reps/RPE steppers + WOD timer rules locked
+// Coach Beurt V51.24 — guided session view + compact reps/RPE steppers + WOD timer rules locked
 // Vue PC pleine largeur : 1 bloc = 1 page. Le WOD a son gros timer dédié.
 
 var guidedSessionState = { blocks: [], index: 0 };

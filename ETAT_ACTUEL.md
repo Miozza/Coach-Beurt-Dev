@@ -1,7 +1,7 @@
 # ETAT_ACTUEL.md — Coach Beurt
 
-## Dernière modification — V51.23
-### V51.23 — Sécurisation timer WOD et vue séance
+## Dernière modification — V51.24
+### V51.24 — Sécurisation timer WOD et vue séance
 
 - Le timer WOD en mode séance est maintenant une règle verrouillée.
 - Format obligatoire : `9:12`, `8:00`, `0:45`, `10:00`, `60:00`.
@@ -16,7 +16,7 @@
 
 - Application : Coach Beurt / Coach Bertin.
 - Type : PWA d’entraînement personnelle, JavaScript vanilla, sans framework.
-- Version actuelle : V51.23
+- Version actuelle : V51.24
 - Date du document : 2026-06-12.
 - Repo GitHub principal : `Miozza/Coach-Beurt`.
 - Repo GitHub dev : `Miozza/Coach-Beurt-Dev`.
@@ -25,10 +25,10 @@
 
 Détails version :
 
-- `app.js` : `APP_VERSION = "V51.23"`.
-- `index.html` : titre/topnav/footer/cache-bust `51.23`.
-- `manifest.json` : `Coach Bertin V51.23`.
-- `service-worker.js` : `coach-bertin-v51-23-no-cache`.
+- `app.js` : `APP_VERSION = "V51.24"`.
+- `index.html` : titre/topnav/footer/cache-bust `51.24`.
+- `manifest.json` : `Coach Bertin V51.24`.
+- `service-worker.js` : `coach-bertin-v51-24-no-cache`.
 
 ---
 
@@ -150,7 +150,7 @@ Dossiers :
 
 Priorités à garder séparées :
 
-1. Tester V51.23 sur DEV après import.
+1. Tester V51.24 sur DEV après import.
 2. Revalider la vue séance sur iPhone : timer WOD sans zéro inutile, taille stable, boutons timer et boutons bas accessibles.
 3. Valider Résultats For Time : liste `00:00` à `60:00`, objectif présélectionné, sauvegarde correcte.
 4. Vérifier WOD+, PC, Route, Export IA, sync GitHub sans refonte globale.
